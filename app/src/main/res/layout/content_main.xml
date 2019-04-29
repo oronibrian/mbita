@@ -1,0 +1,647 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    android:orientation="vertical">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_border"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/button13"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_color"
+            android:gravity="center"
+            android:text="Remaining Tickets"
+            android:textColor="#ffffff"
+            android:textSize="20sp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:background="@drawable/btn_border"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnupdate"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="4dp"
+            android:background="@drawable/bg_color"
+            android:text="Update"
+            android:textAlignment="center"
+            android:textColor="#ffffff" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnprocess"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginLeft="4dp"
+            android:background="@drawable/bg_color"
+            android:text="Process"
+            android:textColor="#ffffff" />
+
+
+    </LinearLayout>
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fadingEdgeLength="0dp"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none">
+
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="1">
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Adult"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnadult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1.9"
+                    android:gravity="center_horizontal|left"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+                <CheckBox
+                    android:id="@+id/chkAdult"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|left"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_big_animal"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Big Animal"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnBigAnumal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:gravity="center_horizontal|left"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chkBigAnumal"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_bg_truck"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Big Truck"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnBigTruck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:gravity="center_horizontal|left"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chkBigTruck"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+
+                    android:gravity="center_vertical"
+                    android:layoutDirection="rtl"
+
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_viewchild"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|left"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Child"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnchild"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:gravity="center_horizontal|start"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chkChild"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_luggage"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|left"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Luggage"
+                    android:textColor="@color/HeaderText"
+
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnluggage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chkLuggage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_motor_cycle"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Motor Cycle"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnmotor_cycle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chkMotor_cycle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_other"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical|left"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Other"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chkOther"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_btnSalooncar"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1.9"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Saloon Car"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnSalooncar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chkSalooncar"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/txtsmallanimal"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Small Animal"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnSmallAnimal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chkSmallAnimal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_small_truck"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Small Truck"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnsmalltruck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chksmalltruck"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_station_wagon"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Station Wagon"
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btnstaionwagon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chkstaionwagon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dp"
+                android:background="@drawable/btn_border"
+                android:orientation="horizontal">
+
+
+                <TextView
+                    android:id="@+id/text_view_tuktuk"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    android:text="Tuk Tuk "
+                    android:textColor="@color/HeaderText"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
+                    android:id="@+id/btntuktuk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1.9"
+                    android:padding="@dimen/activity_horizontal_margin"
+                    app:backGroundColor="@color/colorPrimary"
+                    app:textSize="14sp" />
+
+
+                <CheckBox
+                    android:id="@+id/chktuktuk"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:layoutDirection="rtl"
+
+                    android:padding="@dimen/activity_horizontal_margin" />
+
+
+            </LinearLayout>
+
+
+        </GridLayout>
+
+    </ScrollView>
+
+</LinearLayout>

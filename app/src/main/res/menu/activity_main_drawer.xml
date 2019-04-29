@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/search_tickets_id"
+            android:icon="@drawable/ic_search_payments"
+            android:title="Search Ticket" />
+        <item
+            android:id="@+id/manifest_id"
+            android:icon="@drawable/ic_manifest"
+            android:title="Manifest" />
+        <item
+            android:id="@+id/payments_id"
+            android:icon="@drawable/ic_payments"
+            android:title="Payments" />
+        <item
+            android:id="@+id/search_payments_id"
+            android:icon="@drawable/ic_search_payments"
+            android:title="Search Payments" />
+
+        <item
+            android:id="@+id/viewlocaldata"
+            android:title="Viw Local" />
+
+    </group>
+
+</menu>
