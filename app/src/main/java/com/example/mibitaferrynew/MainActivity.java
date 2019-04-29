@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity
 
         adult = new Adult("Adult", "", 0);
 
+        app.setOtherprice("0");
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
