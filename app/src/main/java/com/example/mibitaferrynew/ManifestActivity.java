@@ -3,8 +3,10 @@ package com.example.mibitaferrynew;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -67,6 +69,8 @@ public class ManifestActivity extends AppCompatActivity {
     String dbDate, today;
     ArrayList<Manifests> mytripsDetails;
     ManifestListAdapter manifestListAdapter;
+
+
 
     ListView mytripslistView;
 
@@ -516,5 +520,7 @@ public class ManifestActivity extends AppCompatActivity {
 
 
     }
+
+
 
 }

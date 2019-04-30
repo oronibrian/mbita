@@ -821,6 +821,7 @@ public class MainActivity extends AppCompatActivity
 
             ActiveAndroid.setTransactionSuccessful();
             Toast.makeText(getApplicationContext(), "Tickets saved successfully", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this,MainActivity.class));
 
 
         } finally {
