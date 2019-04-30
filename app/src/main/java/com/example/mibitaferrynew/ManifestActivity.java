@@ -1,5 +1,6 @@
 package com.example.mibitaferrynew;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +52,7 @@ import java.util.List;
 public class ManifestActivity extends AppCompatActivity {
 
     //    String ref;
-    Button btnlocal;
+    Button btnlocal, btnsetdate;
     TextView tetxadult, txtbiganimals, textbig_truck, txtchildren;
     TextView txtluggage, txtmotorcycle, txtother, txtsalooncar;
     TextView texttuktuk, txtstationwagon, txtsmalltruck, txtsmallanimals;
@@ -73,6 +75,7 @@ public class ManifestActivity extends AppCompatActivity {
 
 
     ListView mytripslistView;
+
 
 
 
@@ -121,6 +124,23 @@ public class ManifestActivity extends AppCompatActivity {
         online_layout.setVisibility(View.GONE);
 
         radioGroup = findViewById(R.id.radiogroup);
+        btnsetdate = findViewById(R.id.btnmanifestdate);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        btnsetdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar = Calendar.getInstance();
+                int year = calendar.get(Calendar.YEAR);
+                int month = calendar.get(Calendar.MONTH);
+                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePickerDialog = new DatePickerDialog(ManifestActivity.this,
+                        (datePicker, year1, month1, day) -> btnsetdate.setText(day + "-" + month1 + "-" + year1), year, month, dayOfMonth);
+                datePickerDialog.show();
+            }
+        });
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
