@@ -566,7 +566,6 @@
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
-
                 <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
                     android:id="@+id/btnstaionwagon"
                     android:layout_width="wrap_content"
