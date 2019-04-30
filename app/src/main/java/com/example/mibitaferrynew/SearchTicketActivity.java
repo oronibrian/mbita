@@ -3,14 +3,17 @@ package com.example.mibitaferrynew;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -33,12 +36,16 @@ import com.example.mibitaferrynew.Adapters.MyTripsArrayAdapter;
 import com.example.mibitaferrynew.Model.MytripsDetails;
 import com.example.mibitaferrynew.TableModel.Ticket;
 import com.google.android.material.button.MaterialButton;
+import com.nbbse.printapi.Printer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -62,6 +69,11 @@ public class SearchTicketActivity extends AppCompatActivity {
     private ListView Details;
     private ArrayList<String> employeeItems;
     private ArrayAdapter employeeItemsAdapter;
+
+    Date c = Calendar.getInstance().getTime();
+
+    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+    String formattedDate = df.format(c);
 
 
     @Override
@@ -113,6 +125,83 @@ public class SearchTicketActivity extends AppCompatActivity {
                 search_local();
             }
         });
+
+
+
+
+        mytripslistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String Selected_payment_type = String.valueOf(mytripslistView.getSelectedItemPosition());
+
+                TextView textView = (TextView) view.findViewById(R.id.seatsbooked);
+                textView.setVisibility(View.GONE);
+                String ref = textView.getText().toString();
+
+                TextView amounttxt = (TextView) view.findViewById(R.id.textView2);
+                String amoumt = amounttxt.getText().toString();
+
+                amounttxt.setVisibility(View.GONE);
+
+                TextView vehicletxt = (TextView) view.findViewById(R.id.routeTextView);
+                String vehicle = vehicletxt.getText().toString();
+                textView.setVisibility(View.GONE);
+
+
+                TextView tootxt = (TextView) view.findViewById(R.id.too);
+                String too = tootxt.getText().toString();
+                tootxt.setVisibility(View.GONE);
+
+
+                TextView fromtxt = (TextView) view.findViewById(R.id.manifestavilableseats);
+                String from = fromtxt.getText().toString();
+                fromtxt.setVisibility(View.GONE);
+
+                TextView departuretxt = (TextView) view.findViewById(R.id.travel_date);
+                String departure = departuretxt.getText().toString();
+
+
+                TextView passengernametxt = (TextView) view.findViewById(R.id.passengername);
+                String passengername = passengernametxt.getText().toString();
+
+
+                TextView phonetxt = (TextView) view.findViewById(R.id.phonenum);
+                String phonenum = phonetxt.getText().toString();
+
+                TextView issuedtxt = (TextView) view.findViewById(R.id.issuedon);
+                String issuedon = issuedtxt.getText().toString();
+
+                TextView seattxt = (TextView) view.findViewById(R.id.seat);
+                String seat = seattxt.getText().toString();
+
+
+                if (Build.MODEL.equals("MobiPrint")) {
+                    Printer print = Printer.getInstance();
+                    print.printFormattedText();
+                    print.printText("------Mbita Ferry Services------");
+                    print.printText("..........Mbita,KENYA..........");
+                    print.printText("......Passenger Details.........");
+
+                    print.printText("Name: " + departure);
+                    print.printText("Ref No:" + too);
+                    print.printText("Seat:" + seat);
+                    print.printText("Fare: Ksh." + from);
+
+                    print.printText("................................");
+                    print.printText("Route:" + too + " " + from);
+                    print.printText("Travel Date: " + departure);
+                    print.printText("................................");
+                    print.printText("Issued On :" +formattedDate);
+                    print.printText("Issued by :" + app.getLogged_user());
+
+                    print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
+                    print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
+                    print.printEndLine();
+                }
+            }
+        });
+
 
     }
 

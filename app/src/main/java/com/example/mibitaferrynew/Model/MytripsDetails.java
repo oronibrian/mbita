@@ -18,6 +18,9 @@ public class MytripsDetails {
     }
 
 
+
+
+
     public String getTravel_from() {
         return travel_from;
     }
