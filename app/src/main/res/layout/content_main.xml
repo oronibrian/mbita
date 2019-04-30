@@ -409,7 +409,6 @@
 
 
             </LinearLayout>
-
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
@@ -424,7 +423,7 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:layout_centerInParent="true"
-                    android:layout_weight="1.9"
+                    android:layout_weight="1"
                     android:padding="@dimen/activity_horizontal_margin"
                     android:text="Saloon Car"
                     android:textColor="@color/HeaderText"
@@ -441,7 +440,6 @@
                     app:backGroundColor="@color/colorPrimary"
                     app:textSize="14sp" />
 
-
                 <CheckBox
                     android:id="@+id/chkSalooncar"
                     android:layout_width="wrap_content"
@@ -450,11 +448,11 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:layoutDirection="rtl"
-
                     android:padding="@dimen/activity_horizontal_margin" />
 
 
             </LinearLayout>
+
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:app="http://schemas.android.com/apk/res-auto"
