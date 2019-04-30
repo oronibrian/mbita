@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -14,6 +15,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.activeandroid.query.From;
+import com.activeandroid.query.Select;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -28,6 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Adapters.MyTripsArrayAdapter;
 import com.example.mibitaferrynew.Model.MytripsDetails;
+import com.example.mibitaferrynew.TableModel.Ticket;
 import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
@@ -36,6 +40,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class SearchTicketActivity extends AppCompatActivity {
@@ -51,6 +56,13 @@ public class SearchTicketActivity extends AppCompatActivity {
     String searchtext;
     private ProgressDialog mProgress;
     private Context mcontext;
+
+
+
+    private ListView Details;
+    private ArrayList<String> employeeItems;
+    private ArrayAdapter employeeItemsAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +103,14 @@ public class SearchTicketActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 getTickets();
+            }
+        });
+
+
+        btnondevice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_local();
             }
         });
 
@@ -170,6 +190,7 @@ public class SearchTicketActivity extends AppCompatActivity {
                             MyTripsArrayAdapter tripsArrayAdapter = new MyTripsArrayAdapter(SearchTicketActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
+                            tripsArrayAdapter.notifyDataSetChanged();
 
 
                         } catch (JSONException e) {
@@ -203,6 +224,51 @@ public class SearchTicketActivity extends AppCompatActivity {
         };
 
         batchreserve.add(req);
+
+    }
+
+
+
+    public void search_local(){
+
+
+        From from_Ticket = new Select()
+                .from(Ticket.class)
+                .where(" reference= ?", editTextsearch.getText().toString())
+                .orderBy("Ticket_type ASC");
+
+       int count = from_Ticket.count();
+
+        Log.e("Count", String.valueOf(count));
+
+
+        Log.e("Loacal",from_Ticket.toString());
+
+
+        final List<Ticket> list = from_Ticket.execute();
+        for (int i = 0; i < list.size(); i++) {
+            Log.e("Ref", String.valueOf(list.get(i).ref_no));
+            Log.e("type", String.valueOf(list.get(i).ticket_type));
+            Log.e("cost", String.valueOf(list.get(i).cost));
+            Log.e("date", String.valueOf(list.get(i).date ));
+
+            mytripsDetails.add(new MytripsDetails(String.valueOf(list.get(i).ticket_type),
+                    String.valueOf(list.get(i).ref_no),
+                    String.valueOf(list.get(i).cost),
+                    String.valueOf(list.get(i).ticket_type),
+                    String.valueOf(list.get(i).ticket_type)));
+
+
+        }
+
+
+        MyTripsArrayAdapter tripsArrayAdapter = new MyTripsArrayAdapter(SearchTicketActivity.this, mytripsDetails);
+
+        mytripslistView.setAdapter(tripsArrayAdapter);
+        tripsArrayAdapter.notifyDataSetChanged();
+
+
+
 
     }
 
