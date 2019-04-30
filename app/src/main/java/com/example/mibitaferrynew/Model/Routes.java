@@ -1,4 +1,4 @@
-package com.example.mibitaferrynew.ModelPojo;
+package com.example.mibitaferrynew.Model;
 
 public class Routes {
 

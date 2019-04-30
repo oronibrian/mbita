@@ -1,11 +1,13 @@
 package com.example.mibitaferrynew;
 
+import android.app.ProgressDialog;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,12 +16,33 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.mibitaferrynew.API.urls;
+import com.example.mibitaferrynew.Adapters.ManifestListAdapter;
+import com.example.mibitaferrynew.Model.Manifests;
 import com.example.mibitaferrynew.TableModel.Ticket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nbbse.printapi.Printer;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class ManifestActivity extends AppCompatActivity {
@@ -29,7 +52,7 @@ public class ManifestActivity extends AppCompatActivity {
     TextView tetxadult, txtbiganimals, textbig_truck, txtchildren;
     TextView txtluggage, txtmotorcycle, txtother, txtsalooncar;
     TextView texttuktuk, txtstationwagon, txtsmalltruck, txtsmallanimals;
-    LinearLayout linearLayout;
+    LinearLayout linearLayout,online_layout;
     FloatingActionButton btnmanifestprint;
     int manifest_total_cost;
     int cost_1, biganimal_cost, biga_truck_cost, child_cost, luggae_cost, bike_cost, other_cost, saloon_car_cost,
@@ -39,6 +62,15 @@ public class ManifestActivity extends AppCompatActivity {
     private RadioGroup radioGroup;
 
     MyApplication app;
+
+    ProgressDialog progressDialog;
+    String dbDate, today;
+    ArrayList<Manifests> mytripsDetails;
+    ManifestListAdapter manifestListAdapter;
+
+    ListView mytripslistView;
+
+
 
     int  items=0;
     @Override
@@ -64,6 +96,11 @@ public class ManifestActivity extends AppCompatActivity {
 
         btnmanifestprint = findViewById(R.id.btnmanifestprint);
 
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+        today = dateFormat.format(new Date());
+
+        mytripslistView = (ListView) findViewById(R.id.manifest_list_items);
+
 
         texttuktuk = findViewById(R.id.texttuktuk);
         txtstationwagon = findViewById(R.id.txtstationwagon);
@@ -72,7 +109,12 @@ public class ManifestActivity extends AppCompatActivity {
 
 
         linearLayout = findViewById(R.id.linearLayout_local);
+        online_layout = findViewById(R.id.online_layout);
+
+
+
         linearLayout.setVisibility(View.GONE);
+        online_layout.setVisibility(View.GONE);
 
         radioGroup = findViewById(R.id.radiogroup);
 
@@ -84,10 +126,16 @@ public class ManifestActivity extends AppCompatActivity {
 //                        showInventoryList();
                         loadLocalManifest();
                         linearLayout.setVisibility(View.VISIBLE);
+                        online_layout.setVisibility(View.GONE);
 
                         break;
                     case R.id.online:
                         // do operations specific to this selection
+
+                        online_Cloud();
+                        online_layout.setVisibility(View.VISIBLE);
+                        linearLayout.setVisibility(View.GONE);
+
                         break;
 
                 }
@@ -363,6 +411,110 @@ public class ManifestActivity extends AppCompatActivity {
 
 
         }
+    }
+
+
+
+    public  void online_Cloud(){
+
+
+        progressDialog = ProgressDialog.show(this, "Loading Manifest", "Please Wait...", true);
+
+
+        RequestQueue batchreserve = Volley.newRequestQueue(ManifestActivity.this);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", app.getUsername());
+        params.put("api_key", app.getApi_key());
+        params.put("action", "PassengerManifest");
+        params.put("travel_date", today);
+        params.put("route", "Ferry 1: Mbita - Mfangano");
+
+
+
+                JsonObjectRequest req = new JsonObjectRequest(urls.apiUrl, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+                                JSONArray jsonArray = response.getJSONArray("bus");
+                                Log.i("Response:", jsonArray.toString());
+                                progressDialog.dismiss();
+
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String car_name = jsonObject1.getString("route");
+                                    String travel_from = jsonObject1.getString("total_seats");
+                                    String travel_to = jsonObject1.getString("seats_available");
+
+
+                                    mytripsDetails.add(new Manifests(car_name, travel_from, travel_to));
+
+                                }
+
+
+                            } else {
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+
+                            }
+
+                            manifestListAdapter = new ManifestListAdapter(ManifestActivity.this, mytripsDetails);
+
+                            mytripslistView.setAdapter(manifestListAdapter);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
+                }
+
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+        req.setRetryPolicy(new DefaultRetryPolicy(
+                20000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+        batchreserve.add(req);
+
+
+
     }
 
 }

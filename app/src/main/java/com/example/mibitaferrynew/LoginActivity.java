@@ -32,9 +32,8 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Adapters.FerryRouteCardArrayAdapter;
-import com.example.mibitaferrynew.ModelPojo.Routes;
+import com.example.mibitaferrynew.Model.Routes;
 import com.example.mibitaferrynew.TableModel.RefferenceNumber;
-import com.example.mibitaferrynew.TableModel.seats;
 
 import org.json.JSONArray;
 import org.json.JSONException;

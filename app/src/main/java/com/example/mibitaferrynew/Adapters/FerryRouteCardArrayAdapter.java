@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.mibitaferrynew.ModelPojo.Routes;
+import com.example.mibitaferrynew.Model.Routes;
 import com.example.mibitaferrynew.R;
 
 import java.util.ArrayList;

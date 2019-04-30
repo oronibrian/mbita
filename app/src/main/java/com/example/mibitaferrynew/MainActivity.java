@@ -27,10 +27,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
-import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.android.volley.AuthFailureError;
-import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
@@ -44,11 +42,10 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.mibitaferrynew.API.urls;
-import com.example.mibitaferrynew.ModelPojo.Adult;
+import com.example.mibitaferrynew.Model.Adult;
 import com.example.mibitaferrynew.TableModel.RefferenceNumber;
 import com.example.mibitaferrynew.TableModel.Ticket;
 import com.google.android.material.navigation.NavigationView;
-import com.google.gson.Gson;
 import com.nbbse.printapi.Printer;
 
 import org.json.JSONArray;
@@ -56,7 +53,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
