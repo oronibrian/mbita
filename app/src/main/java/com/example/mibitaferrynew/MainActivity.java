@@ -27,6 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -44,6 +45,7 @@ import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Model.Adult;
 import com.example.mibitaferrynew.TableModel.RefferenceNumber;
+import com.example.mibitaferrynew.TableModel.Seat;
 import com.example.mibitaferrynew.TableModel.Ticket;
 import com.google.android.material.navigation.NavigationView;
 import com.nbbse.printapi.Printer;
@@ -85,7 +87,8 @@ public class MainActivity extends AppCompatActivity
     String refno;
 
 
-    int total;
+    int total, all_tickets;
+    TextView txtseats;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,6 +129,7 @@ public class MainActivity extends AppCompatActivity
         txtstationwagon = findViewById(R.id.text_view_station_wagon);
         txttuktuk = findViewById(R.id.text_view_tuktuk);
         btnprocess = findViewById(R.id.btnprocess);
+        txtseats = findViewById(R.id.txtseats);
 
 
         List<RefferenceNumber> items = new Select().from(RefferenceNumber.class).orderBy("name ASC").limit(1).execute();
@@ -135,7 +139,13 @@ public class MainActivity extends AppCompatActivity
         }
 
 
+        From available_tickets = new Select()
+                .from(Seat.class)
+                .orderBy("name ASC");
 
+        all_tickets = available_tickets.count();
+
+        txtseats.setText(String.format("%s Tickets Remaining", String.valueOf(all_tickets)));
 
 
         final List<Ticket> check = new Select().from(Ticket.class).orderBy("date ASC").execute();
@@ -143,18 +153,16 @@ public class MainActivity extends AppCompatActivity
         if (ConnectivityHelper.isConnectedToNetwork(getApplicationContext())) {
             Toast.makeText(getApplicationContext(), "Internet Connected", Toast.LENGTH_SHORT).show();
 
-            if(check.size()>0){
+            if (check.size() > 0) {
                 batch_reserve();
 
-            }else {
+            } else {
 
                 Toast.makeText(getApplicationContext(), "No Tickets Locally", Toast.LENGTH_SHORT).show();
             }
         } else {
             //Show disconnected screen
         }
-
-
 
 
         btnprocess.setOnClickListener(new View.OnClickListener() {
@@ -246,7 +254,7 @@ public class MainActivity extends AppCompatActivity
 
         chkBigTruck = findViewById(R.id.chkBigTruck);
 
-        btnBigTruck=findViewById(R.id.btnBigTruck);
+        btnBigTruck = findViewById(R.id.btnBigTruck);
         btnBigTruck.setOnClickListener((ElegantNumberButton.OnClickListener) view -> {
 
         });
@@ -395,7 +403,6 @@ public class MainActivity extends AppCompatActivity
             }
 
 
-
             // get prompts.xml view
             LayoutInflater li = LayoutInflater.from(this);
             View promptsView = li.inflate(R.layout.otherprompt, null);
@@ -406,10 +413,10 @@ public class MainActivity extends AppCompatActivity
             // set prompts.xml to alertdialog builder
             alertDialogBuilder.setView(promptsView);
 
-            final EditText userInput = (EditText) promptsView
+            final EditText userInput = promptsView
                     .findViewById(R.id.editextotherprice);
 
-            final EditText name = (EditText) promptsView
+            final EditText name = promptsView
                     .findViewById(R.id.editextothername);
 
             // set dialog message
@@ -417,7 +424,7 @@ public class MainActivity extends AppCompatActivity
                     .setCancelable(false)
                     .setPositiveButton("OK",
                             new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog,int id) {
+                                public void onClick(DialogInterface dialog, int id) {
                                     app.setOtherprice(userInput.getText().toString());
                                     app.setOthername(name.getText().toString());
 
@@ -629,127 +636,214 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-
-
     private void processAndSave() {
 
-        total = (adultnum * 150) + (biganimalnum * 300)+(bigtrucknum*2320)+(childnum*50)
-        +(luggagenum*60)+(motorCyclenum*250)+(saloonCarnum*930)+(smallAnimalnum*200)+(smallTrucknum*1740)
-        +(stationWagonnum*1160)+(tuktuknum*500)+(othernum*Integer.valueOf(app.getOtherprice()));
-
+        total = (adultnum * 150) + (biganimalnum * 300) + (bigtrucknum * 2320) + (childnum * 50)
+                + (luggagenum * 60) + (motorCyclenum * 250) + (saloonCarnum * 930) + (smallAnimalnum * 200) + (smallTrucknum * 1740)
+                + (stationWagonnum * 1160) + (tuktuknum * 500) + (othernum * Integer.valueOf(app.getOtherprice()));
 
 
         ActiveAndroid.beginTransaction();
         try {
 
             if (chkAdult.isChecked()) {
+                String seat_no = null;
 
                 for (int x = 0; x < adultnum; x++) {
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Adult";
                     ticket.cost = 150;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
                     ticket.save();
 
                     //Displaying a toast message for successfull insertion
                     Log.d("Saved", String.valueOf(x));
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
 
                 }
             }
 
             if (chkBigAnumal.isChecked()) {
 
+                String seat_no = null;
 
                 for (int x = 0; x < biganimalnum; x++) {
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Big Animal";
                     ticket.cost = 300;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
                     ticket.save();
+
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
             if (chkBigTruck.isChecked()) {
 
 
+                String seat_no = null;
+
+
                 for (int x = 0; x < bigtrucknum; x++) {
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Big Truck";
                     ticket.cost = 2320;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
                     ticket.save();
+
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
 
             if (chkChild.isChecked()) {
 
-
+                String seat_no = null;
                 for (int x = 0; x < childnum; x++) {
+
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Child";
                     ticket.cost = 50;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
                     ticket.save();
+
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
 
             if (chkLuggage.isChecked()) {
+                String seat_no = null;
 
 
                 for (int x = 0; x < luggagenum; x++) {
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
+
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Luggage";
                     ticket.cost = 60;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
+
                     ticket.save();
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
 
             if (chkMotorCycle.isChecked()) {
 
-
+                String seat_no = null;
                 for (int x = 0; x < motorCyclenum; x++) {
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
+
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Motor Cycle";
                     ticket.cost = 250;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
+
                     ticket.save();
+
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
             if (chkOther.isChecked()) {
 
+                String seat_no = null;
 
                 for (int x = 0; x < othernum; x++) {
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
+
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Other";
                     ticket.cost = Integer.valueOf(app.getOtherprice());
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
+
                     ticket.save();
+
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
             if (chkSaloonCar.isChecked()) {
+                String seat_no = null;
 
 
                 for (int x = 0; x < saloonCarnum; x++) {
+
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
+
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Saloon Car";
@@ -757,71 +851,118 @@ public class MainActivity extends AppCompatActivity
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.save();
+
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
             if (chkSmallAnimal.isChecked()) {
 
+                String seat_no = null;
 
                 for (int x = 0; x < smallAnimalnum; x++) {
 
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
                     ticket = new Ticket();
                     ticket.ticket_type = "Small Animal";
                     ticket.cost = 200;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
+
                     ticket.save();
+
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
 
             if (chkSmallTruck.isChecked()) {
 
+                String seat_no = null;
 
                 for (int x = 0; x < smallTrucknum; x++) {
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Small Truck";
                     ticket.cost = 1740;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
+
                     ticket.save();
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
             if (chkStationWagon.isChecked()) {
 
-
+                String seat_no = null;
                 for (int x = 0; x < stationWagonnum; x++) {
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Station Wagon";
                     ticket.cost = 1160;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
+
                     ticket.save();
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
 
             if (chkTuktuk.isChecked()) {
 
+                String seat_no = null;
 
                 for (int x = 0; x < tuktuknum; x++) {
+
+
+                    List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
+                    for (int i = 0; i < items.size(); i++) {
+                        seat_no = items.get(i).name;
+                        Log.e("Seat_no", seat_no);
+                    }
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Tuk Tuk";
                     ticket.cost = 500;
                     ticket.date = date;
                     ticket.ref_no = ref;
+                    ticket.seat_no = seat_no;
+
                     ticket.save();
+                    new Delete().from(Seat.class).where("name = ?", seat_no).execute();
+
                 }
             }
 
 
             ActiveAndroid.setTransactionSuccessful();
             Toast.makeText(getApplicationContext(), "Tickets saved successfully", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this,MainActivity.class));
+            startActivity(new Intent(this, MainActivity.class));
 
 
         } finally {
@@ -843,6 +984,7 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
             Printer print = Printer.getInstance();
             print.printFormattedText();
+            print.printBitmap(getResources().openRawResource(R.raw.ship));
             print.printText("------Mbita Ferry Services-----");
             print.printText("..........Mbita,KENYA..........");
             print.printText(".......Passenger Details........");
@@ -850,6 +992,7 @@ public class MainActivity extends AppCompatActivity
             print.printText("Total: " + total + " ksh");
 
             print.printText("Ticket Ref: " + ref);
+            print.printText("Route: "+app.getFrom() +" "+app.getTo());
 
             print.printText("Item      Quantity    Cost\n");
 
@@ -890,7 +1033,7 @@ public class MainActivity extends AppCompatActivity
 
 
             if (chkOther.isChecked()) {
-                print.printText(app.getOthername()+ "     " + othernum + "     " + othernum *  (Integer.valueOf(app.getOtherprice())));
+                print.printText(app.getOthername() + "     " + othernum + "     " + othernum * (Integer.valueOf(app.getOtherprice())));
 
             }
 
@@ -924,6 +1067,8 @@ public class MainActivity extends AppCompatActivity
 
             }
             print.printText("Issued On :" + currentDateandTime);
+            print.printText("Served By :" + app.getLogged_user());
+
             print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
             print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
             print.printEndLine();
@@ -961,6 +1106,9 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
+        }else if(id==R.id.id_logout){
+            startActivity(new Intent(this,LoginActivity.class));
+            this.finish();
         }
 
         return super.onOptionsItemSelected(item);
@@ -989,23 +1137,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-
-
-    public static class ConnectivityHelper {
-        public  static boolean isConnectedToNetwork(Context context) {
-            ConnectivityManager connectivityManager =
-                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-            boolean isConnected = false;
-            if (connectivityManager != null) {
-                NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
-                isConnected = (activeNetwork != null) && (activeNetwork.isConnectedOrConnecting());
-            }
-
-            return isConnected;
-        }
-    }
-
     private void showRefsList() {
 
         List<RefferenceNumber> items = new Select().from(RefferenceNumber.class).orderBy("name ASC").limit(100).execute();
@@ -1016,61 +1147,127 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-
-
-
-
     private void batch_reserve() {
-
-
 
 
         final List<Ticket> list = new Select().from(Ticket.class).orderBy("date ASC").execute();
 
-        for (int i=0; i < list.size(); i++) {
+        for (int i = 0; i < list.size(); i++) {
 
-            refno=(String.valueOf(list.get(i).ref_no));
+            refno = (String.valueOf(list.get(i).ref_no));
 
             Log.e("Type", String.valueOf(list.get(i).ticket_type));
 
-            }
+        }
 
 
+        final List<Ticket> list2 = new Select().from(Ticket.class).where("reference= ?", refno).orderBy("Ticket_type ASC").execute();
 
-        final List<Ticket> list2 = new Select().from(Ticket.class).where("reference= ?" ,refno).orderBy("Ticket_type ASC").execute();
-
-        Log.e("List",list2.toString());
+        Log.e("List", list2.toString());
 
         JSONObject obj;
         JSONArray ticket_items = new JSONArray();
 
-        for (int i=0; i < list2.size(); i++) {
 
-            obj = new JSONObject();
 
-            try {
-                obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
-                obj.put("phone_number", app.getPhone_num());
-                obj.put("id_number", "31947982");
-                obj.put("from_city", app.getFrom());
-                obj.put("to_city", app.getTo());
-                obj.put("travel_date", app.getTravel_date());
-                obj.put("selected_vehicle", "3");
-                obj.put("seater", "491");
-                obj.put("selected_seat", String.valueOf(i));
-                obj.put("selected_ticket_type", "8");
-                obj.put("payment_method", "1");
-                obj.put("email_address", "brianoroni6@gmail.com");
-                obj.put("insurance_charge", "");
-                obj.put("served_by", app.getLogged_user());
-                obj.put("amount_charged", String.valueOf(list2.get(i).cost));
-                obj.put("reference_number", refno);
-                ticket_items.put(obj);
-            } catch (JSONException e) {
-                throw new RuntimeException(e);
+        // Querying Items from db and create object;
+
+
+        //----------------------------------------Adult--------------------------
+        String adult_keyword="Adult";
+
+        List<Ticket> adults = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, adult_keyword).orderBy("date ASC").execute();
+
+        int count = adults.size();
+        int adult_cost = count * 150;
+
+
+        //----------------------------------------Big Animal--------------------------
+
+        String big_animal_keyword="Big Animal";
+
+        List<Ticket> big_animal = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, big_animal_keyword).orderBy("date ASC").execute();
+
+        int big_animal_count = big_animal.size();
+        int big_animal_cost = big_animal_count * 300;
+
+
+
+        Log.e("Adults",String.valueOf(count));
+        Log.e("adult_cost",String.valueOf(adult_cost));
+
+
+        Log.e("big_animal_count",String.valueOf(big_animal_count));
+        Log.e("big_animal_adult_cost",String.valueOf(big_animal_cost));
+
+        if(adults.size()>0) {
+            for (int i = 0; i < adults.size(); i++) {
+
+                obj = new JSONObject();
+
+                try {
+                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("phone_number", app.getPhone_num());
+                    obj.put("id_number", "31947982");
+                    obj.put("from_city", app.getFrom_id());
+                    obj.put("to_city", app.getTo_id());
+                    obj.put("travel_date", app.getTravel_date());
+                    obj.put("selected_vehicle", "3");
+                    obj.put("seater", "491");
+                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_ticket_type", "8");
+                    obj.put("payment_method", "1");
+                    obj.put("email_address", "brianoroni6@gmail.com");
+                    obj.put("insurance_charge", "");
+                    obj.put("served_by", app.getLogged_user());
+                    obj.put("amount_charged", String.valueOf(adult_cost));
+                    obj.put("reference_number", refno);
+                    obj.put("quantity", count);
+                    obj.put("item_name", "Adult - Standard - 150.00");
+
+                    ticket_items.put(obj);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
             }
 
         }
+
+        if(big_animal.size()>0) {
+            for (int i = 0; i < big_animal.size(); i++) {
+
+                obj = new JSONObject();
+
+                try {
+                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("phone_number", app.getPhone_num());
+                    obj.put("id_number", "31947982");
+                    obj.put("from_city", app.getFrom_id());
+                    obj.put("to_city", app.getTo_id());
+                    obj.put("travel_date", app.getTravel_date());
+                    obj.put("selected_vehicle", "3");
+                    obj.put("seater", "491");
+                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_ticket_type", "8");
+                    obj.put("payment_method", "1");
+                    obj.put("email_address", "brianoroni6@gmail.com");
+                    obj.put("insurance_charge", "");
+                    obj.put("served_by", app.getLogged_user());
+                    obj.put("amount_charged", String.valueOf(big_animal_cost));
+                    obj.put("reference_number", refno);
+                    obj.put("quantity", big_animal_count);
+                    obj.put("item_name", "Big Animal - Standard - 300.00");
+
+                    ticket_items.put(obj);
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+
+        }
+
 
 
         RequestQueue batchreserve = Volley.newRequestQueue(MainActivity.this);
@@ -1080,7 +1277,7 @@ public class MainActivity extends AppCompatActivity
 
         try {
             postparams.put("username", app.getUsername());
-            postparams.put("api_key",  app.getApi_key());
+            postparams.put("api_key", app.getApi_key());
             postparams.put("action", "BatchReserveSeats");
             postparams.put("hash", "1FBEAD9B-D9CD-400D-ADF3-F4D0E639CEE0");
             postparams.put("ticket_items", ticket_items);
@@ -1090,7 +1287,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST,urls.apiUrl, postparams,
+        JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, urls.apiUrl, postparams,
                 response -> {
                     try {
 
@@ -1101,7 +1298,6 @@ public class MainActivity extends AppCompatActivity
                             JSONArray message = response.getJSONArray("ticket_message");
 
                             new Delete().from(Ticket.class).where("ref_no = ?", refno).execute();
-
 
 
                             for (int i = 0; i < message.length(); i++) {
@@ -1168,8 +1364,21 @@ public class MainActivity extends AppCompatActivity
         batchreserve.add(req);
 
 
+    }
 
+    public static class ConnectivityHelper {
+        public static boolean isConnectedToNetwork(Context context) {
+            ConnectivityManager connectivityManager =
+                    (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
+            boolean isConnected = false;
+            if (connectivityManager != null) {
+                NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+                isConnected = (activeNetwork != null) && (activeNetwork.isConnectedOrConnecting());
+            }
+
+            return isConnected;
+        }
     }
 
 

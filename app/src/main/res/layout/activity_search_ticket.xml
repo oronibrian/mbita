@@ -26,7 +26,8 @@
                 android:layout_marginTop="15dp"
                 android:drawableTint="#FF4081"
                 android:hint="Ticket Number/Item Number"
-                android:inputType="text"
+                android:textAllCaps="true"
+                android:inputType="textCapCharacters"
                 android:singleLine="true" />
         </com.google.android.material.textfield.TextInputLayout>
 

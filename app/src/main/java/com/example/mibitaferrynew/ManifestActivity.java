@@ -138,7 +138,14 @@ public class ManifestActivity extends AppCompatActivity {
                 int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
                 DatePickerDialog datePickerDialog = new DatePickerDialog(ManifestActivity.this,
                         (datePicker, year1, month1, day) -> btnsetdate.setText(day + "-" + month1 + "-" + year1), year, month, dayOfMonth);
+
+                today = btnsetdate.getText().toString();
+                online_Cloud();
+
+
                 datePickerDialog.show();
+
+
             }
         });
 
@@ -452,7 +459,7 @@ public class ManifestActivity extends AppCompatActivity {
         params.put("api_key", app.getApi_key());
         params.put("action", "PassengerManifest");
         params.put("travel_date", today);
-        params.put("route", "Ferry 1: Mbita - Mfangano");
+        params.put("route", app.getRoute());
 
 
 
@@ -488,6 +495,9 @@ public class ManifestActivity extends AppCompatActivity {
                             manifestListAdapter = new ManifestListAdapter(ManifestActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(manifestListAdapter);
+
+                            manifestListAdapter.clear();
+                            manifestListAdapter.notifyDataSetChanged();
 
 
                         } catch (JSONException e) {

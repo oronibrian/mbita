@@ -6,15 +6,13 @@ import com.activeandroid.annotation.Table;
 
 @Table(name = "Seats")
 
-public class seats extends Model {
+public class Seat extends Model {
 
-    @Column(name = "seater")
-    public String seater;
 
     @Column(name = "name")
     public String name;
 
-    public seats() {
+    public Seat() {
         super();
     }
 }

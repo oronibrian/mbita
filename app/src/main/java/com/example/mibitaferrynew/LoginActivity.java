@@ -4,8 +4,10 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -13,11 +15,13 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.activeandroid.ActiveAndroid;
+import com.activeandroid.query.Delete;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -34,14 +38,15 @@ import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Adapters.FerryRouteCardArrayAdapter;
 import com.example.mibitaferrynew.Model.Routes;
 import com.example.mibitaferrynew.TableModel.RefferenceNumber;
+import com.example.mibitaferrynew.TableModel.Seat;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -56,8 +61,13 @@ public class LoginActivity extends AppCompatActivity {
     Dialog dialog;
     ProgressDialog progressDialog;
     MyApplication app;
+    ArrayList<String> list_of_seats;
     private FerryRouteCardArrayAdapter cardArrayAdapter;
     private ListView listView;
+
+    private int progressStatus = 0;
+    private Handler handler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,32 +102,80 @@ public class LoginActivity extends AppCompatActivity {
 
         loadFerryRoutesandSeats();
 
+        new Delete().from(Seat.class).execute();
+
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String selected = String.valueOf(listView.indexOfChild(view));
 
-                String Mbita = "1";
-                String mfangano = "2";
-
-                String luanda_kotiono = "3";
+                TextView textView = view.findViewById(R.id.route);
+                textView.setVisibility(View.GONE);
 
 
-                if (selected.equals("1")) {
+                TextView textView2 = view.findViewById(R.id.from_id);
+                textView2.setVisibility(View.GONE);
+
+
+                TextView textView3 = view.findViewById(R.id.to_id);
+                textView3.setVisibility(View.GONE);
+
+
+                textView3.setVisibility(View.GONE);
+
+                String route = textView.getText().toString();
+                String from_id = textView2.getText().toString();
+                String to_id = textView3.getText().toString();
+
+                saveRefferences();
+
+
+
+                Log.e("Route", route);
+                Log.e("to_id", to_id);
+                Log.e("from_id", from_id);
+
+
+                app.setRoute(route);
+
+
+                String Mbita = "Mbita";
+                String mfangano = "Mfangano";
+
+                String luanda_kotiono = "Luanda Kotieno";
+
+
+                if (selected.equals("0")) {
                     app.setTo(mfangano);
                     app.setFrom(Mbita);
-                } else if (selected.equals("2")) {
+
+                    app.setTo_id(to_id);
+                    app.setFrom_id(from_id);
+
+                } else if (selected.equals("1")) {
                     app.setTo(Mbita);
                     app.setFrom(mfangano);
 
-                } else if (selected.equals("3")) {
+                    app.setTo_id(to_id);
+                    app.setFrom_id(from_id);
+
+                } else if (selected.equals("2")) {
                     app.setTo(luanda_kotiono);
                     app.setFrom(Mbita);
 
-                } else if (selected.equals("4")) {
+                    app.setTo_id(to_id);
+                    app.setFrom_id(from_id);
+
+
+                } else if (selected.equals("3")) {
                     app.setTo(Mbita);
                     app.setFrom(luanda_kotiono);
+
+                    app.setTo_id(to_id);
+                    app.setFrom_id(from_id);
+
 
                 }
 
@@ -141,16 +199,6 @@ public class LoginActivity extends AppCompatActivity {
                     public void onClick(View v) {
                         login();
 
-                        new Thread(new Runnable() {
-                            public void run() {
-                                try {
-                                    Thread.sleep(10000);
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                                progressDialog.dismiss();
-                            }
-                        }).start();
                     }
 
 
@@ -207,6 +255,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                 app.setLogged_user(first_name + " " + last_name);
                                 app.setPhone_num(phone_num);
+
+
+                                loadTickets();
 
 
                                 Log.d("log in ", first_name);
@@ -286,7 +337,6 @@ public class LoginActivity extends AppCompatActivity {
                                     String refs = jsonObject1.getString("name");
                                     String id = jsonObject1.getString("id");
 
-
                                     Log.e("Refs", String.valueOf(refs));
                                     reff_number_object = new RefferenceNumber();
                                     reff_number_object.name = refs;
@@ -300,7 +350,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
 
                                 ActiveAndroid.setTransactionSuccessful();
-                                Toast.makeText(getApplicationContext(), "Data Inserted successfully", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getApplicationContext(), "References Loaded successfully", Toast.LENGTH_SHORT).show();
 
                             } finally {
                                 ActiveAndroid.endTransaction();
@@ -360,7 +410,6 @@ public class LoginActivity extends AppCompatActivity {
         params.put("travel_date", app.getTravel_date());
 
 
-
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.POST, urls.allferyapiUrl, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -375,39 +424,24 @@ public class LoginActivity extends AppCompatActivity {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     String ferry_route = jsonObject1.getString("route");
 
+                                    String travel_from = jsonObject1.getString("from");
+                                    String travel_to = jsonObject1.getString("to");
+
+                                    String from_id = jsonObject1.getString("travel_from_id");
+                                    String to_id = jsonObject1.getString("travel_to_id");
+
+
                                     String name = ferry_route.substring(8);
 
 
-                                    Log.d("Ferry Routes: ", ferry_route);
+                                    Log.e("Ferry Routes: ", ferry_route);
 
-                                    Routes card = new Routes(name);
+                                    Routes card = new Routes(name, travel_from, travel_to, ferry_route, from_id, to_id);
 
                                     cardArrayAdapter.add(card);
 
-                                    loadTickets();
-
-//
-//                                    JSONArray products = jsonObject1.getJSONArray("seats");
-//                                    for (int x = 0; x < products.length(); x++) {
-//
-//                                        JSONObject jsonObjectseats = jsonArray.getJSONObject(i);
-//                                        String seatname = jsonObjectseats.getString("seater");
-//
-//                                        String seater = jsonObjectseats.getString("name");
-//
-//                                        com.example.mibitaferrynew.TableModel.seats seats = new seats();
-//                                        seats.name = seatname;
-//                                        seats.seater = seater;
-//                                        seats.save();
-//
-//                                        Log.e("Seater",seatname);
-//
-//                                    }
-
 
                                 }
-
-
 
 
                             } else {
@@ -464,8 +498,8 @@ public class LoginActivity extends AppCompatActivity {
         params.put("username", "emuswailit");
         params.put("api_key", "c8e254c0adbe4b2623ff85567027d78d4cc066357627e284d4b4a01b159d97a7");
         params.put("action", "SearchSchedule");
-        params.put("travel_from", app.getFrom());
-        params.put("travel_to", app.getTo());
+        params.put("travel_from", app.getFrom_id());
+        params.put("travel_to", app.getTo_id());
         params.put("travel_date", app.getTravel_date());
         params.put("hash", "1FBEAD9B-D9CD-400D-ADF3-F4D0E639CEE0");
 
@@ -476,39 +510,41 @@ public class LoginActivity extends AppCompatActivity {
 
                         if (response.getInt("response_code") == 0) {
 
-                            saveRefferences();
 
                             JSONArray jsonArray = response.getJSONArray("bus");
-                            JSONArray jsonArrayPrice = response.getJSONObject("bus").getJSONArray("price");
+
+                            for (int cnt = 0; cnt < jsonArray.length(); cnt++) {
+                                JSONObject jsonObj = null;
+                                jsonObj = jsonArray.getJSONObject(cnt);
 
 
-                            String myString = response.getJSONObject("bus").getJSONObject("price").getString("name");
+                                JSONArray jsonArrSubCat = jsonObj.getJSONArray("seats");
+                                if (jsonArrSubCat != null && jsonArrSubCat.length() > 0) {
 
+                                    for (int subCnt = 0; subCnt < jsonArrSubCat.length(); subCnt++) {
+                                        JSONObject jsonObjSubCategory = jsonArrSubCat.getJSONObject(subCnt);
 
-                            for (int i = 0; i < jsonArray.length(); i++) {
-                                JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                seats = jsonObject1.getString("total_seats");
+                                        Log.e("Seater", jsonObjSubCategory.getString("seater"));
+                                        Log.e("Seat", jsonObjSubCategory.getString("name"));
 
+                                        list_of_seats = new ArrayList<String>(Arrays.asList(jsonObjSubCategory.getString("name").split(",")));
+                                        Log.e("Seat List", list_of_seats.toString());
 
-                                Log.i("Count", String.valueOf(seats));
-
-                                // Inserting Contacts
-                                Log.d("Insert: ", "Inserting ..");
-
-
+                                    }
+                                }
                             }
 
 
-                            Log.d("Price Data: ", myString);
+                            //Save first 500 tickets
+                                for (int n = 0; n < 500; n++) {
 
-                            try {
-                                FileWriter file = new FileWriter(Environment.getExternalStorageState());
-                                file.write(String.valueOf(jsonArrayPrice));
-                                file.flush();
-                                file.close();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                                    Seat seat = new Seat();
+                                    seat.name = list_of_seats.get(n);
+                                    seat.save();
+
+                                }
+
+
 
 
                         } else {

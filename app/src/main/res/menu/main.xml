@@ -12,6 +12,6 @@
         android:title="Manifest"
         app:showAsAction="ifRoom" />
 
-    <item android:id="@+id/help"
+    <item android:id="@+id/id_logout"
         android:title="Logout" />
 </menu>

@@ -27,6 +27,9 @@ public class MyApplication extends Application {
 
     String otherprice;
     String Othername;
+    String Route;
+
+    String to_id,from_id;
 
 
     @Override
@@ -37,8 +40,34 @@ public class MyApplication extends Application {
         ActiveAndroid.initialize(this);
     }
 
+
+    public String getTo_id() {
+        return to_id;
+    }
+
+    public void setTo_id(String to_id) {
+        this.to_id = to_id;
+    }
+
+    public String getFrom_id() {
+        return from_id;
+    }
+
+    public void setFrom_id(String from_id) {
+        this.from_id = from_id;
+    }
+
     public String getOthername() {
         return Othername;
+    }
+
+
+    public String getRoute() {
+        return Route;
+    }
+
+    public void setRoute(String route) {
+        Route = route;
     }
 
     public void setOthername(String othername) {

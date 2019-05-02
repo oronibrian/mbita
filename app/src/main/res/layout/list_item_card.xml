@@ -1,28 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:descendantFocusability="beforeDescendants"
     android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:descendantFocusability="beforeDescendants">
+    android:paddingRight="15dp">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/card_background_selector"
+        android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingTop="20dp"
-        android:paddingBottom="20dp"
         android:paddingRight="20dp"
-        android:background="@drawable/card_background_selector">
+        android:paddingBottom="20dp">
 
         <TextView
             android:id="@+id/line1"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:text="Text line 1"
             android:textAlignment="center"
-            android:textSize="20sp"
-            android:text="Text line 1"/>
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/route"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/from_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/to_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone" />
     </LinearLayout>
 </FrameLayout>

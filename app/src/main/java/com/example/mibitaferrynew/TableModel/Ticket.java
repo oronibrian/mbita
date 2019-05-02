@@ -21,6 +21,9 @@ public class Ticket extends Model {
     @Column(name = "reference")
     public String ref_no;
 
+    @Column(name = "seat_no")
+    public String seat_no;
+
     public Ticket() {
         super();
     }

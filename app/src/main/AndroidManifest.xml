@@ -36,7 +36,7 @@
             android:value="5" />
         <meta-data
             android:name="AA_MODELS"
-            android:value=".TableModel.RefferenceNumber, .TableModel.Ticket" />
+            android:value=".TableModel.RefferenceNumber, .TableModel.Ticket,.TableModel.Seat" />
 
         <activity
             android:name=".MainActivity"
