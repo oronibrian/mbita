@@ -1193,6 +1193,102 @@ public class MainActivity extends AppCompatActivity
 
 
 
+        //----------------------------------------Big Truck--------------------------
+
+        String big_truck_keyword="Big Truck";
+
+        List<Ticket> big_truck = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, big_truck_keyword).orderBy("date ASC").execute();
+
+        int big_truck_count = big_truck.size();
+        int big_truck_cost = big_truck_count * 2320;
+
+
+
+
+
+        //----------------------------------------Child --------------------------
+
+        String child_keyword="Child";
+
+        List<Ticket> child = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, child_keyword).orderBy("date ASC").execute();
+
+        int child_count = child.size();
+        int child_count_cost = child_count * 50;
+
+
+
+        //----------------------------------------Luggage --------------------------
+
+        String luggage_keyword="Luggage";
+
+        List<Ticket> luggage = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, luggage_keyword).orderBy("date ASC").execute();
+
+        int luggage_count = luggage.size();
+        int luggage_count_cost = luggage_count * 60;
+
+
+
+
+
+        //----------------------------------------Motor Cycle --------------------------
+
+        String motor_keyword="Motor Cycle";
+
+        List<Ticket> motor = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, motor_keyword).orderBy("date ASC").execute();
+
+        int motor_count = motor.size();
+        int motor_count_cost = motor_count * 250;
+
+
+
+
+
+        //----------------------------------------Other --------------------------
+
+        String other_keyword="Other";
+
+        List<Ticket> other = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, other_keyword).orderBy("date ASC").execute();
+
+        int other_count = other.size();
+        int other_count_cost = motor_count * 20;
+
+
+
+        //----------------------------------------Saloon car --------------------------
+
+        String Saloon_keyword="Saloon Car";
+
+        List<Ticket> saloon_car = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Saloon_keyword).orderBy("date ASC").execute();
+
+        int saloon_count = saloon_car.size();
+        int saloon_count_count_cost = saloon_count * 930;
+
+
+
+
+        //----------------------------------------Small Animal --------------------------
+
+        String Small_animal_keyword="Small Animal";
+
+        List<Ticket> small_animal = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Small_animal_keyword).orderBy("date ASC").execute();
+
+        int small_anima_count = small_animal.size();
+        int small_animal_count_cost = small_anima_count * 200;
+
+
+
+        //----------------------------------------Small Truck --------------------------
+
+        String Small_truck_keyword="Small Truck";
+
+        List<Ticket> small_truck= new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Small_truck_keyword).orderBy("date ASC").execute();
+
+        int small_truck_count = small_truck.size();
+        int small_truck_count_cost = small_truck_count * 1740;
+
+
+
+
         Log.e("Adults",String.valueOf(count));
         Log.e("adult_cost",String.valueOf(adult_cost));
 
