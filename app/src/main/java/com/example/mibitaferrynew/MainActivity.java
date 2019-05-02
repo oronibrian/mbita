@@ -1060,12 +1060,10 @@ public class MainActivity extends AppCompatActivity
 
             }
 
-
             if (chkStationWagon.isChecked()) {
-                print.printText("Station Wagon " + "  " + stationWagonnum + "   " + stationWagonnum * 1160);
+                print.printText("Station Wagon " + "  " + stationWagonnum + "    " + stationWagonnum * 1160);
 
             }
-
 
             if (chkTuktuk.isChecked()) {
                 print.printText("Tuk Tuk " + "        " + tuktuknum + "    " + tuktuknum * 500);
@@ -1082,7 +1080,6 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
-
 
     @Override
     public void onBackPressed() {
@@ -1305,7 +1302,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(adults.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1313,7 +1310,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(adults.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1339,7 +1336,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(big_animal.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1347,7 +1344,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(big_animal.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1372,7 +1369,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(big_truck.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1380,7 +1377,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(big_truck.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1405,7 +1402,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(luggage.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1413,7 +1410,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(luggage.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1438,7 +1435,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(saloon_car.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1446,7 +1443,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(saloon_car.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1471,7 +1468,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(small_truck.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1479,7 +1476,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(small_truck.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1504,7 +1501,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(tuk_tuk.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1512,7 +1509,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(tuk_tuk.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1539,7 +1536,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(child.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1547,7 +1544,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(child.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1608,7 +1605,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(other.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1616,7 +1613,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(other.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1642,7 +1639,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(small_animal.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1650,7 +1647,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(small_animal.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1676,7 +1673,7 @@ public class MainActivity extends AppCompatActivity
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(station_wagon.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1684,7 +1681,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(station_wagon.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
