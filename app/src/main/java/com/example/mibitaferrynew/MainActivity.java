@@ -30,17 +30,22 @@ import com.activeandroid.query.Delete;
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
 import com.android.volley.AuthFailureError;
+import com.android.volley.Cache;
+import com.android.volley.Network;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
 import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.BasicNetwork;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Model.Adult;
@@ -992,7 +997,7 @@ public class MainActivity extends AppCompatActivity
             print.printText("Total: " + total + " ksh");
 
             print.printText("Ticket Ref: " + ref);
-            print.printText("Route: "+app.getFrom() +" "+app.getTo());
+            print.printText("Route: " + app.getFrom() + " " + app.getTo());
 
             print.printText("Item      Quantity    Cost\n");
 
@@ -1106,8 +1111,8 @@ public class MainActivity extends AppCompatActivity
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }else if(id==R.id.id_logout){
-            startActivity(new Intent(this,LoginActivity.class));
+        } else if (id == R.id.id_logout) {
+            startActivity(new Intent(this, LoginActivity.class));
             this.finish();
         }
 
@@ -1168,12 +1173,11 @@ public class MainActivity extends AppCompatActivity
         JSONArray ticket_items = new JSONArray();
 
 
-
         // Querying Items from db and create object;
 
 
         //----------------------------------------Adult--------------------------
-        String adult_keyword="Adult";
+        String adult_keyword = "Adult";
 
         List<Ticket> adults = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, adult_keyword).orderBy("date ASC").execute();
 
@@ -1183,7 +1187,7 @@ public class MainActivity extends AppCompatActivity
 
         //----------------------------------------Big Animal--------------------------
 
-        String big_animal_keyword="Big Animal";
+        String big_animal_keyword = "Big Animal";
 
         List<Ticket> big_animal = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, big_animal_keyword).orderBy("date ASC").execute();
 
@@ -1192,7 +1196,7 @@ public class MainActivity extends AppCompatActivity
 
         //----------------------------------------Station Wagon--------------------------
 
-        String station_wagon_keyword="Station Wagon";
+        String station_wagon_keyword = "Station Wagon";
 
         List<Ticket> station_wagon = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, station_wagon_keyword).orderBy("date ASC").execute();
 
@@ -1201,7 +1205,7 @@ public class MainActivity extends AppCompatActivity
 
         //----------------------------------------Tuk Tuk--------------------------
 
-        String tuk_tuk_keyword="Tuk Tuk";
+        String tuk_tuk_keyword = "Tuk Tuk";
 
         List<Ticket> tuk_tuk = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, tuk_tuk_keyword).orderBy("date ASC").execute();
 
@@ -1210,7 +1214,7 @@ public class MainActivity extends AppCompatActivity
 
         //----------------------------------------Big Truck--------------------------
 
-        String big_truck_keyword="Big Truck";
+        String big_truck_keyword = "Big Truck";
 
         List<Ticket> big_truck = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, big_truck_keyword).orderBy("date ASC").execute();
 
@@ -1218,12 +1222,9 @@ public class MainActivity extends AppCompatActivity
         int big_truck_cost = big_truck_count * 2320;
 
 
-
-
-
         //----------------------------------------Child --------------------------
 
-        String child_keyword="Child";
+        String child_keyword = "Child";
 
         List<Ticket> child = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, child_keyword).orderBy("date ASC").execute();
 
@@ -1231,10 +1232,9 @@ public class MainActivity extends AppCompatActivity
         int child_count_cost = child_count * 50;
 
 
-
         //----------------------------------------Luggage --------------------------
 
-        String luggage_keyword="Luggage";
+        String luggage_keyword = "Luggage";
 
         List<Ticket> luggage = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, luggage_keyword).orderBy("date ASC").execute();
 
@@ -1242,12 +1242,9 @@ public class MainActivity extends AppCompatActivity
         int luggage_count_cost = luggage_count * 60;
 
 
-
-
-
         //----------------------------------------Motor Cycle --------------------------
 
-        String motor_keyword="Motor Cycle";
+        String motor_keyword = "Motor Cycle";
 
         List<Ticket> motor = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, motor_keyword).orderBy("date ASC").execute();
 
@@ -1255,12 +1252,9 @@ public class MainActivity extends AppCompatActivity
         int motor_count_cost = motor_count * 250;
 
 
-
-
-
         //----------------------------------------Other --------------------------
 
-        String other_keyword="Other";
+        String other_keyword = "Other";
 
         List<Ticket> other = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, other_keyword).orderBy("date ASC").execute();
 
@@ -1268,10 +1262,9 @@ public class MainActivity extends AppCompatActivity
         int other_count_cost = motor_count * 20;
 
 
-
         //----------------------------------------Saloon car --------------------------
 
-        String Saloon_keyword="Saloon Car";
+        String Saloon_keyword = "Saloon Car";
 
         List<Ticket> saloon_car = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Saloon_keyword).orderBy("date ASC").execute();
 
@@ -1279,11 +1272,9 @@ public class MainActivity extends AppCompatActivity
         int saloon_count_count_cost = saloon_count * 930;
 
 
-
-
         //----------------------------------------Small Animal --------------------------
 
-        String Small_animal_keyword="Small Animal";
+        String Small_animal_keyword = "Small Animal";
 
         List<Ticket> small_animal = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Small_animal_keyword).orderBy("date ASC").execute();
 
@@ -1291,27 +1282,24 @@ public class MainActivity extends AppCompatActivity
         int small_animal_count_cost = small_anima_count * 200;
 
 
-
         //----------------------------------------Small Truck --------------------------
 
-        String Small_truck_keyword="Small Truck";
+        String Small_truck_keyword = "Small Truck";
 
-        List<Ticket> small_truck= new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Small_truck_keyword).orderBy("date ASC").execute();
+        List<Ticket> small_truck = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Small_truck_keyword).orderBy("date ASC").execute();
 
         int small_truck_count = small_truck.size();
         int small_truck_count_cost = small_truck_count * 1740;
 
 
+        Log.e("Adults", String.valueOf(count));
+        Log.e("adult_cost", String.valueOf(adult_cost));
 
 
-        Log.e("Adults",String.valueOf(count));
-        Log.e("adult_cost",String.valueOf(adult_cost));
+        Log.e("big_animal_count", String.valueOf(big_animal_count));
+        Log.e("big_animal_adult_cost", String.valueOf(big_animal_cost));
 
-
-        Log.e("big_animal_count",String.valueOf(big_animal_count));
-        Log.e("big_animal_adult_cost",String.valueOf(big_animal_cost));
-
-        if(adults.size()>0) {
+        if (adults.size() > 0) {
             for (int i = 0; i < adults.size(); i++) {
 
                 obj = new JSONObject();
@@ -1333,7 +1321,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(adult_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", count);
+                    obj.put("quantity", String.valueOf(count));
                     obj.put("item_name", "Adult - Standard - 150.00");
 
                     ticket_items.put(obj);
@@ -1345,7 +1333,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        if(big_animal.size()>0) {
+        if (big_animal.size() > 0) {
             for (int i = 0; i < big_animal.size(); i++) {
 
                 obj = new JSONObject();
@@ -1367,7 +1355,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(big_animal_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", big_animal_count);
+                    obj.put("quantity", String.valueOf(big_animal_count));
                     obj.put("item_name", "Big Animal - Standard - 300.00");
 
                     ticket_items.put(obj);
@@ -1378,7 +1366,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-        if(big_truck.size()>0) {
+        if (big_truck.size() > 0) {
             for (int i = 0; i < big_truck.size(); i++) {
 
                 obj = new JSONObject();
@@ -1400,7 +1388,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(big_truck_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", big_truck_count);
+                    obj.put("quantity", String.valueOf(big_truck_count));
                     obj.put("item_name", "Big Truck - Standard - 2320.00");
 
                     ticket_items.put(obj);
@@ -1411,7 +1399,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-        if(luggage.size()>0) {
+        if (luggage.size() > 0) {
             for (int i = 0; i < luggage.size(); i++) {
 
                 obj = new JSONObject();
@@ -1433,7 +1421,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(luggage_count_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", luggage_count);
+                    obj.put("quantity", String.valueOf(luggage_count));
                     obj.put("item_name", "Luggage - Standard - 60.00");
 
                     ticket_items.put(obj);
@@ -1444,7 +1432,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-        if(saloon_car.size()>0) {
+        if (saloon_car.size() > 0) {
             for (int i = 0; i < saloon_car.size(); i++) {
 
                 obj = new JSONObject();
@@ -1466,7 +1454,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(saloon_count_count_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", saloon_count);
+                    obj.put("quantity", String.valueOf(saloon_count));
                     obj.put("item_name", "Saloon Car - Standard - 930.00");
 
                     ticket_items.put(obj);
@@ -1477,7 +1465,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-        if(small_truck.size()>0) {
+        if (small_truck.size() > 0) {
             for (int i = 0; i < small_truck.size(); i++) {
 
                 obj = new JSONObject();
@@ -1499,7 +1487,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(small_truck_count_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", small_truck_count);
+                    obj.put("quantity", String.valueOf(small_truck_count));
                     obj.put("item_name", "Small Truck - Standard - 1740.00");
 
                     ticket_items.put(obj);
@@ -1510,7 +1498,7 @@ public class MainActivity extends AppCompatActivity
             }
 
         }
-        if(tuk_tuk.size()>0) {
+        if (tuk_tuk.size() > 0) {
             for (int i = 0; i < tuk_tuk.size(); i++) {
 
                 obj = new JSONObject();
@@ -1532,7 +1520,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(tuk_tuk_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", tuk_tuk_count);
+                    obj.put("quantity", String.valueOf(tuk_tuk_count));
                     obj.put("item_name", "Tuk Tuk - Standard - 500.00");
 
                     ticket_items.put(obj);
@@ -1545,7 +1533,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        if(child.size()>0) {
+        if (child.size() > 0) {
             for (int i = 0; i < child.size(); i++) {
 
                 obj = new JSONObject();
@@ -1567,7 +1555,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(child_count_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", child_count);
+                    obj.put("quantity", String.valueOf(child_count));
                     obj.put("item_name", "Child - Standard - 50.00");
 
                     ticket_items.put(obj);
@@ -1579,13 +1567,13 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        if(motor.size()>0) {
+        if (motor.size() > 0) {
             for (int i = 0; i < motor.size(); i++) {
 
                 obj = new JSONObject();
 
                 try {
-                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
+                    obj.put("passenger_name", String.valueOf(motor.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
@@ -1593,7 +1581,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
                     obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
+                    obj.put("selected_seat", String.valueOf(motor.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1601,7 +1589,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(motor_count_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", motor_count);
+                    obj.put("quantity", String.valueOf(motor_count));
                     obj.put("item_name", "Motor Cycle - Standard - 250.00");
 
                     ticket_items.put(obj);
@@ -1614,7 +1602,7 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        if(other.size()>0) {
+        if (other.size() > 0) {
             for (int i = 0; i < other.size(); i++) {
 
                 obj = new JSONObject();
@@ -1636,7 +1624,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(other_count_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", other_count);
+                    obj.put("quantity", String.valueOf(other_count));
                     obj.put("item_name", "Other - Standard - 0.00");
 
                     ticket_items.put(obj);
@@ -1648,7 +1636,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        if(small_animal.size()>0) {
+        if (small_animal.size() > 0) {
             for (int i = 0; i < small_animal.size(); i++) {
 
                 obj = new JSONObject();
@@ -1670,7 +1658,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(small_animal_count_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", small_anima_count);
+                    obj.put("quantity",String.valueOf(small_anima_count));
                     obj.put("item_name", "Small Animal - Standard - 200.00");
 
                     ticket_items.put(obj);
@@ -1682,7 +1670,7 @@ public class MainActivity extends AppCompatActivity
 
         }
 
-        if(station_wagon.size()>0) {
+        if (station_wagon.size() > 0) {
             for (int i = 0; i < station_wagon.size(); i++) {
 
                 obj = new JSONObject();
@@ -1704,7 +1692,7 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(station_wagon_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", station_wagon_count);
+                    obj.put("quantity", String.valueOf(station_wagon_count));
                     obj.put("item_name", "Station Wagon - Standard - 1160.00");
 
                     ticket_items.put(obj);
@@ -1717,7 +1705,21 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-        RequestQueue batchreserve = Volley.newRequestQueue(MainActivity.this);
+//        RequestQueue batchreserve = Volley.newRequestQueue(MainActivity.this);
+
+        RequestQueue batchreserve;
+
+// Instantiate the cache
+        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
+
+// Set up the network to use HttpURLConnection as the HTTP client.
+        Network network = new BasicNetwork(new HurlStack());
+
+// Instantiate the RequestQueue with the cache and network.
+        batchreserve = new RequestQueue(cache, network);
+
+// Start the queue
+        batchreserve.start();
 
 
         JSONObject postparams = new JSONObject();
@@ -1744,7 +1746,7 @@ public class MainActivity extends AppCompatActivity
                         if (response.getInt("response_code") == 0) {
                             JSONArray message = response.getJSONArray("ticket_message");
 
-                            new Delete().from(Ticket.class).where("ref_no = ?", refno).execute();
+                            new Delete().from(Ticket.class).where("reference = ?", refno).execute();
 
 
                             for (int i = 0; i < message.length(); i++) {
@@ -1808,6 +1810,22 @@ public class MainActivity extends AppCompatActivity
         }
 
 
+        req.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+
+            }
+        });
         batchreserve.add(req);
 
 
