@@ -1119,7 +1119,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.search_tickets_id) {
             startActivity(new Intent(getApplicationContext(), SearchTicketActivity.class));
         } else if (id == R.id.manifest_id) {
@@ -1191,7 +1190,23 @@ public class MainActivity extends AppCompatActivity
         int big_animal_count = big_animal.size();
         int big_animal_cost = big_animal_count * 300;
 
+        //----------------------------------------Station Wagon--------------------------
 
+        String station_wagon_keyword="Station Wagon";
+
+        List<Ticket> station_wagon = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, station_wagon_keyword).orderBy("date ASC").execute();
+
+        int station_wagon_count = station_wagon.size();
+        int station_wagon_cost = station_wagon_count * 1160;
+
+        //----------------------------------------Tuk Tuk--------------------------
+
+        String tuk_tuk_keyword="Tuk Tuk";
+
+        List<Ticket> tuk_tuk = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, tuk_tuk_keyword).orderBy("date ASC").execute();
+
+        int tuk_tuk_count = tuk_tuk.size();
+        int tuk_tuk_cost = tuk_tuk_count * 500;
 
         Log.e("Adults",String.valueOf(count));
         Log.e("adult_cost",String.valueOf(adult_cost));
