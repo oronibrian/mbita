@@ -261,7 +261,6 @@ public class SearchTicketActivity extends AppCompatActivity {
                             MyTripsArrayAdapter tripsArrayAdapter = new MyTripsArrayAdapter(SearchTicketActivity.this, mytripsDetails);
 
                             mytripslistView.setAdapter(tripsArrayAdapter);
-                            tripsArrayAdapter.clear();
                             tripsArrayAdapter.notifyDataSetChanged();
 
 
