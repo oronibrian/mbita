@@ -199,8 +199,27 @@ public class MainActivity extends AppCompatActivity
         btnprocess.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                processAndSave();
-                print();
+
+                if(chkAdult.isChecked() ||
+                        chkBigAnumal.isChecked()
+                       ||chkBigTruck.isChecked()||
+                        chkLuggage.isChecked()||
+                        chkMotorCycle.isChecked()
+                        ||chkChild.isChecked()||
+                        chkOther.isChecked()||
+                        chkSaloonCar.isChecked()
+                        ||chkSmallAnimal.isChecked()||
+                        chkStationWagon.isChecked()||chkSmallTruck.isChecked()||chkTuktuk.isChecked()){
+                    print();
+                    processAndSave();
+
+
+                }else {
+
+                    Toast.makeText(getApplicationContext(), "Can't process an empty ticket", Toast.LENGTH_SHORT).show();
+                }
+
+
 
             }
         });
