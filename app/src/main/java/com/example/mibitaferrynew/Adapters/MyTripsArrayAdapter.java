@@ -30,53 +30,27 @@ public class MyTripsArrayAdapter extends ArrayAdapter<MytripsDetails> {
 
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.my_trip_list, parent, false);
+                    R.layout.manifest_list_item, parent, false);
         }
 
         MytripsDetails mytripsDetails = getItem(position);
 
-        TextView nameTextView = listItemView.findViewById(R.id.routeTextView);
-
-        nameTextView.setText(mytripsDetails.getTravel_from());
-
-        TextView numberTextView = listItemView.findViewById(R.id.travel_date);
-
-        numberTextView.setText(mytripsDetails.getReference_number());
 
 
-        TextView fromTextView = listItemView.findViewById(R.id.manifestavilableseats);
+        TextView numberTextView = listItemView.findViewById(R.id.type_list_item);
+
+        numberTextView.setText(mytripsDetails.getTravel_from());
+
+
+        TextView fromTextView = listItemView.findViewById(R.id.number_list_item);
 
         fromTextView.setText(mytripsDetails.getTravel_date());
 
 
-        TextView tooTextView = listItemView.findViewById(R.id.too);
+        TextView tooTextView = listItemView.findViewById(R.id.amount_list_item);
 
         tooTextView.setText(mytripsDetails.getTravel_to());
 
-
-
-        TextView seateTextView = listItemView.findViewById(R.id.seatsbooked);
-
-        seateTextView.setText(mytripsDetails.getAmount());
-
-
-
-//        TextView passengenameTextView = listItemView.findViewById(R.id.passengername);
-//
-//        passengenameTextView.setText(mytripsDetails.getName());
-//
-//
-//        TextView phoneTextView = listItemView.findViewById(R.id.phonenum);
-//
-//        phoneTextView.setText(mytripsDetails.getPhone());
-//
-//        TextView issuedTextView = listItemView.findViewById(R.id.issuedon);
-//
-//        issuedTextView.setText(mytripsDetails.getDate_issued());
-//
-//        TextView seatTextView = listItemView.findViewById(R.id.seat);
-//
-//        seatTextView.setText(mytripsDetails.getVehicle_name());
 
         return listItemView;
     }

@@ -111,8 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 String selected = String.valueOf(listView.indexOfChild(view));
 
-                TextView textView = view.findViewById(R.id.route);
-                textView.setVisibility(View.GONE);
+                TextView textView = view.findViewById(R.id.line1);
 
 
                 TextView textView2 = view.findViewById(R.id.from_id);
@@ -120,9 +119,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 TextView textView3 = view.findViewById(R.id.to_id);
-                textView3.setVisibility(View.GONE);
-
-
                 textView3.setVisibility(View.GONE);
 
                 String route = textView.getText().toString();
@@ -256,12 +252,12 @@ public class LoginActivity extends AppCompatActivity {
                                 app.setLogged_user(first_name + " " + last_name);
                                 app.setPhone_num(phone_num);
 
+                                progressDialog.dismiss();
 
                                 loadTickets();
 
 
                                 Log.d("log in ", first_name);
-                                progressDialog.dismiss();
 
 
                                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
@@ -269,6 +265,8 @@ public class LoginActivity extends AppCompatActivity {
 
                             } else {
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+
 
                             }
 
@@ -431,12 +429,9 @@ public class LoginActivity extends AppCompatActivity {
                                     String to_id = jsonObject1.getString("travel_to_id");
 
 
-                                    String name = ferry_route.substring(8);
-
-
                                     Log.e("Ferry Routes: ", ferry_route);
 
-                                    Routes card = new Routes(name, travel_from, travel_to, ferry_route, from_id, to_id);
+                                    Routes card = new Routes(ferry_route, travel_from, travel_to, ferry_route, from_id, to_id);
 
                                     cardArrayAdapter.add(card);
 
@@ -527,7 +522,9 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.e("Seater", jsonObjSubCategory.getString("seater"));
                                         Log.e("Seat", jsonObjSubCategory.getString("name"));
 
-                                        list_of_seats = new ArrayList<String>(Arrays.asList(jsonObjSubCategory.getString("name").split(",")));
+                                        String string_seats=jsonObjSubCategory.getString("name").replaceAll("\\s+","");
+
+                                        list_of_seats = new ArrayList<String>(Arrays.asList(string_seats.split(",")));
                                         Log.e("Seat List", list_of_seats.toString());
 
                                     }

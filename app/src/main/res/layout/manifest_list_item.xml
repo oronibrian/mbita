@@ -8,6 +8,7 @@
         android:id="@+id/type_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
         android:hint="type" />
 
     <TextView

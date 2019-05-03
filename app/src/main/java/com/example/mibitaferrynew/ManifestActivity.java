@@ -2,13 +2,13 @@ package com.example.mibitaferrynew;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.telecom.Call;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -31,9 +31,12 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.congfandi.simpledatepicker.Picker;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Adapters.ManifestListAdapter;
+import com.example.mibitaferrynew.Adapters.MyTripsArrayAdapter;
 import com.example.mibitaferrynew.Model.Manifests;
+import com.example.mibitaferrynew.Model.MytripsDetails;
 import com.example.mibitaferrynew.TableModel.Ticket;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.nbbse.printapi.Printer;
@@ -56,39 +59,44 @@ public class ManifestActivity extends AppCompatActivity {
     TextView tetxadult, txtbiganimals, textbig_truck, txtchildren;
     TextView txtluggage, txtmotorcycle, txtother, txtsalooncar;
     TextView texttuktuk, txtstationwagon, txtsmalltruck, txtsmallanimals;
-    LinearLayout linearLayout,online_layout;
+    LinearLayout linearLayout, online_layout;
     FloatingActionButton btnmanifestprint;
     int manifest_total_cost;
     int cost_1, biganimal_cost, biga_truck_cost, child_cost, luggae_cost, bike_cost, other_cost, saloon_car_cost,
             tuktuk_cost, station_wagon_cost, small_truck_cost, small_animal_cost;
     int count, big_count, small_truck_count, small_animal_count, child_count, tuktuk_count,
-            big_truck_count, bikecount, luggage_count, saloon_car_count, station_wagon_count,other_count;
-    private RadioGroup radioGroup;
-
+            big_truck_count, bikecount, luggage_count, saloon_car_count, station_wagon_count, other_count;
     MyApplication app;
-
     ProgressDialog progressDialog;
     String dbDate, today;
     ArrayList<Manifests> mytripsDetails;
     ManifestListAdapter manifestListAdapter;
-
-
-
     ListView mytripslistView;
+    int items = 0;
+    private RadioGroup radioGroup;
 
 
 
+    ArrayList<MytripsDetails> mytripsDetails_online;
+    MyTripsArrayAdapter myTripsArrayAdapter;
 
-    int  items=0;
+    ListView mytripslistView_online;
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manifest);
 
 
-        app=(MyApplication) getApplication();
+        app = (MyApplication) getApplication();
 
         btnlocal = findViewById(R.id.btnmanifestdate);
+
+        mytripsDetails = new ArrayList<Manifests>();
+
+        mytripsDetails_online = new ArrayList<MytripsDetails>();
 
         tetxadult = findViewById(R.id.tetxadult);
         txtbiganimals = findViewById(R.id.txtbiganimals);
@@ -106,8 +114,6 @@ public class ManifestActivity extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         today = dateFormat.format(new Date());
 
-        mytripslistView = (ListView) findViewById(R.id.manifest_list_items);
-
 
         texttuktuk = findViewById(R.id.texttuktuk);
         txtstationwagon = findViewById(R.id.txtstationwagon);
@@ -116,38 +122,15 @@ public class ManifestActivity extends AppCompatActivity {
 
 
         linearLayout = findViewById(R.id.linearLayout_local);
-        online_layout = findViewById(R.id.online_layout);
-
 
 
         linearLayout.setVisibility(View.GONE);
-        online_layout.setVisibility(View.GONE);
-
         radioGroup = findViewById(R.id.radiogroup);
-        btnsetdate = findViewById(R.id.btnmanifestdate);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        btnsetdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(ManifestActivity.this,
-                        (datePicker, year1, month1, day) -> btnsetdate.setText(day + "-" + month1 + "-" + year1), year, month, dayOfMonth);
 
-                today = btnsetdate.getText().toString();
-                online_Cloud();
-
-
-                datePickerDialog.show();
-
-
-            }
-        });
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -157,15 +140,12 @@ public class ManifestActivity extends AppCompatActivity {
 //                        showInventoryList();
                         loadLocalManifest();
                         linearLayout.setVisibility(View.VISIBLE);
-                        online_layout.setVisibility(View.GONE);
 
                         break;
                     case R.id.online:
                         // do operations specific to this selection
 
-                        online_Cloud();
-                        online_layout.setVisibility(View.VISIBLE);
-                        linearLayout.setVisibility(View.GONE);
+                        startActivity(new Intent(ManifestActivity.this,Onlinemanifest.class));
 
                         break;
 
@@ -286,7 +266,7 @@ public class ManifestActivity extends AppCompatActivity {
                 .where(" Ticket_type= ?", "Other")
                 .orderBy("Ticket_type ASC");
 
-       other_count = from_other.count();
+        other_count = from_other.count();
         other_cost = other_count * (Integer.valueOf(app.getOtherprice()));
 
         Log.e("Other", String.valueOf(other_cost));
@@ -373,7 +353,7 @@ public class ManifestActivity extends AppCompatActivity {
 
 
         if (Build.MODEL.equals("MobiPrint")) {
-             items = cost_1
+            items = cost_1
                     + big_count
                     + big_truck_count
                     + child_count
@@ -445,8 +425,7 @@ public class ManifestActivity extends AppCompatActivity {
     }
 
 
-
-    public  void online_Cloud(){
+    public void online_Cloud_today() {
 
 
         progressDialog = ProgressDialog.show(this, "Loading Manifest", "Please Wait...", true);
@@ -462,23 +441,22 @@ public class ManifestActivity extends AppCompatActivity {
         params.put("route", app.getRoute());
 
 
-
-                JsonObjectRequest req = new JsonObjectRequest(urls.apiUrl, new JSONObject(params),
+        JsonObjectRequest req = new JsonObjectRequest(urls.apiUrl, new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
 
                             if (response.getInt("response_code") == 0) {
-                                JSONArray jsonArray = response.getJSONArray("bus");
+                                JSONArray jsonArray = response.getJSONArray("tickets");
                                 Log.i("Response:", jsonArray.toString());
                                 progressDialog.dismiss();
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
-                                    String car_name = jsonObject1.getString("route");
-                                    String travel_from = jsonObject1.getString("total_seats");
-                                    String travel_to = jsonObject1.getString("seats_available");
+                                    String car_name = jsonObject1.getString("reg_number");
+                                    String travel_from = jsonObject1.getString("travel_from");
+                                    String travel_to = jsonObject1.getString("travel_to");
 
 
                                     mytripsDetails.add(new Manifests(car_name, travel_from, travel_to));
@@ -496,8 +474,8 @@ public class ManifestActivity extends AppCompatActivity {
 
                             mytripslistView.setAdapter(manifestListAdapter);
 
-                            manifestListAdapter.clear();
-                            manifestListAdapter.notifyDataSetChanged();
+//                            manifestListAdapter.clear();
+//                            manifestListAdapter.notifyDataSetChanged();
 
 
                         } catch (JSONException e) {
@@ -548,9 +526,185 @@ public class ManifestActivity extends AppCompatActivity {
         batchreserve.add(req);
 
 
-
     }
 
+//    private void getManifestClick() {
+//
+//        Log.e("Route",app.getRoute());
+//
+//        progressDialog = ProgressDialog.show(this, "Loading Manifest", "Please Wait...", true);
+//
+//
+//        RequestQueue batchreserve = Volley.newRequestQueue(ManifestActivity.this);
+//
+//        HashMap<String, String> params = new HashMap<String, String>();
+//        params.put("username", "rWIv7GWzSp");
+//        params.put("api_key","831b238c5cd73308520e38bbc6c1774f470a89e96d07a5bb6bcac3b86456f889");
+//        params.put("route", "Ferry 1: Mbita - Mfangano");
+//        params.put("action", "PassengerManifest");
+//        params.put("travel_date", "02-05-2019");
+//
+//        JsonObjectRequest req = new JsonObjectRequest(urls.apiUrl, new JSONObject(params),
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        try {
+//
+//                            if (response.getInt("response_code") == 0) {
+//                                JSONArray jsonArray = response.getJSONArray("tickets");
+//                                Log.i("Response:", jsonArray.toString());
+//                                progressDialog.dismiss();
+//                                for (int i = 0; i < jsonArray.length(); i++) {
+//                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+//                                    String car_name = jsonObject1.getString("reference_number");
+//                                    String travel_from = jsonObject1.getString("travel_from");
+//                                    String travel_to = jsonObject1.getString("travel_to");
+//
+//
+//                                    mytripsDetails.add(new Manifests(car_name, travel_from, travel_to));
+//
+//                                }
+//
+//
+//                            } else {
+//
+//                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+//                                progressDialog.dismiss();
+//
+//                            }
+//                            manifestListAdapter = new ManifestListAdapter(ManifestActivity.this, mytripsDetails);
+//
+//                            mytripslistView.setAdapter(manifestListAdapter);
+//
+//
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                            progressDialog.dismiss();
+//
+//                        }
+//                    }
+//                }, new Response.ErrorListener() {
+//            @Override
+//            public void onErrorResponse(VolleyError error) {
+//                progressDialog.dismiss();
+//
+//                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//
+//                } else if (error instanceof AuthFailureError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                } else if (error instanceof ServerError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                } else if (error instanceof NetworkError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                } else if (error instanceof ParseError) {
+//                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        }) {
+//            @Override
+//            public String getBodyContentType() {
+//                return "application/x-www-form-urlencoded; charset=utf-8";
+//            }
+//
+//
+//        };
+//
+//        batchreserve.add(req);
+//
+//    }
 
+
+
+    private void getManifestClick() {
+
+        Log.e("Route",app.getRoute());
+
+        progressDialog = ProgressDialog.show(this, "Loading Manifest", "Please Wait...", true);
+
+
+        RequestQueue batchreserve = Volley.newRequestQueue(ManifestActivity.this);
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("username", "rWIv7GWzSp");
+        params.put("api_key","831b238c5cd73308520e38bbc6c1774f470a89e96d07a5bb6bcac3b86456f889");
+        params.put("route", "Ferry 1: Mbita - Mfangano");
+        params.put("action", "PassengerManifest");
+        params.put("travel_date", "02-05-2019");
+
+        JsonObjectRequest req = new JsonObjectRequest(urls.apiUrl, new JSONObject(params),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+
+                            if (response.getInt("response_code") == 0) {
+                                JSONArray jsonArray = response.getJSONArray("tickets");
+                                Log.i("Response:", jsonArray.toString());
+                                progressDialog.dismiss();
+                                for (int i = 0; i < jsonArray.length(); i++) {
+                                    JSONObject jsonObject1 = jsonArray.getJSONObject(i);
+                                    String car_name = jsonObject1.getString("reference_number");
+                                    String travel_from = jsonObject1.getString("travel_from");
+                                    String travel_to = jsonObject1.getString("travel_to");
+
+
+                                    Log.e("Car",car_name);
+
+
+                                    mytripsDetails_online.add(new MytripsDetails(car_name, travel_from, travel_to,travel_from,travel_from));
+
+                                }
+
+
+                            } else {
+
+                                Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+
+                            }
+                            myTripsArrayAdapter = new MyTripsArrayAdapter(ManifestActivity.this, mytripsDetails_online);
+
+                            mytripslistView_online.setAdapter(manifestListAdapter);
+
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            progressDialog.dismiss();
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                progressDialog.dismiss();
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+
+                } else if (error instanceof AuthFailureError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ServerError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof NetworkError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                } else if (error instanceof ParseError) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }) {
+            @Override
+            public String getBodyContentType() {
+                return "application/x-www-form-urlencoded; charset=utf-8";
+            }
+
+
+        };
+
+        batchreserve.add(req);
+
+    }
 
 }

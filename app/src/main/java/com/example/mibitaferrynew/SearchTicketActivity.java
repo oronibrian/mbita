@@ -90,7 +90,7 @@ public class SearchTicketActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Search Ticket");
 
 
-        mytripslistView = findViewById(R.id.mytriplistview);
+        mytripslistView = findViewById(R.id.mytriplistview_id);
 
         mytripsDetails = new ArrayList<MytripsDetails>();
 
@@ -135,35 +135,17 @@ public class SearchTicketActivity extends AppCompatActivity {
 
                 String Selected_payment_type = String.valueOf(mytripslistView.getSelectedItemPosition());
 
-                TextView textView = (TextView) view.findViewById(R.id.seatsbooked);
-                textView.setVisibility(View.GONE);
-                String ref = textView.getText().toString();
-
-                TextView amounttxt = (TextView) view.findViewById(R.id.textView2);
-                String amoumt = amounttxt.getText().toString();
-
-                amounttxt.setVisibility(View.GONE);
-
-                TextView vehicletxt = (TextView) view.findViewById(R.id.routeTextView);
-                String vehicle = vehicletxt.getText().toString();
-                textView.setVisibility(View.GONE);
+//
 
 
-                TextView tootxt = (TextView) view.findViewById(R.id.too);
+                TextView tootxt = (TextView) view.findViewById(R.id.ref_no);
                 String too = tootxt.getText().toString();
                 tootxt.setVisibility(View.GONE);
 
 
-                TextView fromtxt = (TextView) view.findViewById(R.id.manifestavilableseats);
+                TextView fromtxt = (TextView) view.findViewById(R.id.amount_id);
                 String from = fromtxt.getText().toString();
                 fromtxt.setVisibility(View.GONE);
-
-                TextView departuretxt = (TextView) view.findViewById(R.id.travel_date);
-                String departure = departuretxt.getText().toString();
-
-
-                TextView passengernametxt = (TextView) view.findViewById(R.id.passengername);
-                String passengername = passengernametxt.getText().toString();
 
 
                 TextView phonetxt = (TextView) view.findViewById(R.id.phonenum);
@@ -183,14 +165,14 @@ public class SearchTicketActivity extends AppCompatActivity {
                     print.printText("..........Mbita,KENYA..........");
                     print.printText("......Passenger Details.........");
 
-                    print.printText("Name: " + departure);
+                    print.printText("Name: " + phonenum);
                     print.printText("Ref No:" + too);
                     print.printText("Seat:" + seat);
                     print.printText("Fare: Ksh." + from);
 
                     print.printText("................................");
                     print.printText("Route:" + too + " " + from);
-                    print.printText("Travel Date: " + departure);
+                    print.printText("Travel Date: " + issuedon);
                     print.printText("................................");
                     print.printText("Issued On :" +formattedDate);
                     print.printText("Issued by :" + app.getLogged_user());
@@ -355,8 +337,6 @@ public class SearchTicketActivity extends AppCompatActivity {
         MyTripsArrayAdapter tripsArrayAdapter = new MyTripsArrayAdapter(SearchTicketActivity.this, mytripsDetails);
 
         mytripslistView.setAdapter(tripsArrayAdapter);
-        tripsArrayAdapter.clear();
-        tripsArrayAdapter.notifyDataSetChanged();
 
 
 

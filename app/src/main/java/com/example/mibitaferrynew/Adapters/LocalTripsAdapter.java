@@ -8,7 +8,6 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.mibitaferrynew.Model.MytripsDetails;
-import com.example.mibitaferrynew.MyApplication;
 import com.example.mibitaferrynew.R;
 
 import java.util.ArrayList;
@@ -23,6 +22,7 @@ public class LocalTripsAdapter extends ArrayAdapter<MytripsDetails> {
     }
 
 
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Check if the existing view is being reused, otherwise inflate the view
@@ -35,48 +35,27 @@ public class LocalTripsAdapter extends ArrayAdapter<MytripsDetails> {
 
         MytripsDetails mytripsDetails = getItem(position);
 
-        TextView nameTextView = listItemView.findViewById(R.id.routeTextView);
 
-        nameTextView.setText(mytripsDetails.getTravel_from());
+        TextView numberTextView = listItemView.findViewById(R.id.phonenum);
 
-        TextView numberTextView = listItemView.findViewById(R.id.travel_date);
-
-        numberTextView.setText(mytripsDetails.getReference_number());
-
-
-        TextView fromTextView = listItemView.findViewById(R.id.manifestavilableseats);
-
-        fromTextView.setText(mytripsDetails.getTravel_date());
+        if (mytripsDetails != null) {
+            numberTextView.setText(mytripsDetails.getTravel_from());
+        }
 
 
-        TextView tooTextView = listItemView.findViewById(R.id.too);
+        TextView fromTextView = listItemView.findViewById(R.id.amount_id);
 
-        tooTextView.setText(mytripsDetails.getTravel_to());
-
-
-
-        TextView seateTextView = listItemView.findViewById(R.id.seatsbooked);
-
-        seateTextView.setText(mytripsDetails.getAmount());
+        if (mytripsDetails != null) {
+            fromTextView.setText(mytripsDetails.getTravel_date());
+        }
 
 
+        TextView tooTextView = listItemView.findViewById(R.id.ref_no);
 
-//        TextView passengenameTextView = listItemView.findViewById(R.id.passengername);
-//
-//        passengenameTextView.setText(mytripsDetails.getName());
-//
-//
-//        TextView phoneTextView = listItemView.findViewById(R.id.phonenum);
-//
-//        phoneTextView.setText(mytripsDetails.getPhone());
-//
-//        TextView issuedTextView = listItemView.findViewById(R.id.issuedon);
-//
-//        issuedTextView.setText(mytripsDetails.getDate_issued());
-//
-//        TextView seatTextView = listItemView.findViewById(R.id.seat);
-//
-//        seatTextView.setText(mytripsDetails.getVehicle_name());
+        if (mytripsDetails != null) {
+            tooTextView.setText(mytripsDetails.getTravel_to());
+        }
+
 
         return listItemView;
     }

@@ -46,6 +46,7 @@ import com.android.volley.toolbox.BasicNetwork;
 import com.android.volley.toolbox.DiskBasedCache;
 import com.android.volley.toolbox.HurlStack;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Model.Adult;
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity
 
     Ticket ticket;
     Adult adult;
-    String date = new SimpleDateFormat("dd-MM-yyy", Locale.getDefault()).format(new Date());
+    String date = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
 
     ElegantNumberButton btnadult, btnBigAnumal, btnBigTruck, btnchild, btnLuggage, btnMotorCycle,
             btnOther, btnSaloonCar, btnSmallAnimal, btnSmallTruck, btnStationWagon, btnTuktuk;
@@ -117,10 +118,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-
         showRefsList();
-
-
         txtadlt = findViewById(R.id.text_view);
         txtbiganiamal = findViewById(R.id.text_view_big_animal);
         txtbigtruck = findViewById(R.id.text_view_bg_truck);
@@ -135,6 +133,12 @@ public class MainActivity extends AppCompatActivity
         txttuktuk = findViewById(R.id.text_view_tuktuk);
         btnprocess = findViewById(R.id.btnprocess);
         txtseats = findViewById(R.id.txtseats);
+
+
+        Log.e("phone", app.getPhone_num());
+        Log.e("To city", app.getTo_id());
+        Log.e("From City", app.getFrom_id());
+
 
 
         List<RefferenceNumber> items = new Select().from(RefferenceNumber.class).orderBy("name ASC").limit(1).execute();
@@ -183,16 +187,11 @@ public class MainActivity extends AppCompatActivity
         //Adult ********************************************
 
         chkAdult = findViewById(R.id.chkAdult);
-        chkAdult.setOnClickListener(v -> {
-            if (((CheckBox) v).isChecked()) {
 
-                int cost = 150;
-                adult = new Adult("Adult", "", cost);
+        if(adultnum<=0){
+            chkAdult.setEnabled(false);
 
-
-            } else {
-            }
-        });
+        }
 
 
         btnadult = findViewById(R.id.btnadult);
@@ -204,6 +203,12 @@ public class MainActivity extends AppCompatActivity
             Log.d("", String.format("oldValue: %d   newValue: %d", oldValue, newValue));
 
             adultnum = newValue;
+            chkAdult.setEnabled(true);
+
+            if(newValue<=0){
+                chkAdult.setEnabled(false);
+
+            }
 
 
         });
@@ -638,6 +643,9 @@ public class MainActivity extends AppCompatActivity
         ///End Tuk Tuk--------------------
 
 
+
+
+
     }
 
 
@@ -651,8 +659,10 @@ public class MainActivity extends AppCompatActivity
         ActiveAndroid.beginTransaction();
         try {
 
+
             if (chkAdult.isChecked()) {
                 String seat_no = null;
+
 
                 for (int x = 0; x < adultnum; x++) {
                     List<Seat> items = new Select().from(Seat.class).orderBy("name ASC").limit(1).execute();
@@ -957,7 +967,6 @@ public class MainActivity extends AppCompatActivity
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
-
                     ticket.save();
                     new Delete().from(Seat.class).where("name = ?", seat_no).execute();
 
@@ -968,6 +977,7 @@ public class MainActivity extends AppCompatActivity
             ActiveAndroid.setTransactionSuccessful();
             Toast.makeText(getApplicationContext(), "Tickets saved successfully", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, MainActivity.class));
+            finish();
 
 
         } finally {
@@ -1181,6 +1191,8 @@ public class MainActivity extends AppCompatActivity
         int count = adults.size();
         int adult_cost = count * 150;
 
+//        Log.e("Name",String.valueOf(adults.get(0).ticket_type));
+
 
         //----------------------------------------Big Animal--------------------------
 
@@ -1297,20 +1309,22 @@ public class MainActivity extends AppCompatActivity
         Log.e("big_animal_adult_cost", String.valueOf(big_animal_cost));
 
         if (adults.size() > 0) {
-            for (int i = 0; i < adults.size(); i++) {
 
+            for (int i = 0; i < adults.size(); i++) {
                 obj = new JSONObject();
 
+
                 try {
-                    obj.put("passenger_name", String.valueOf(adults.get(i).ticket_type));
+
+                    obj.put("passenger_name", String.valueOf(list2.get(i).ticket_type));
                     obj.put("phone_number", app.getPhone_num());
                     obj.put("id_number", "31947982");
                     obj.put("from_city", app.getFrom_id());
                     obj.put("to_city", app.getTo_id());
                     obj.put("travel_date", app.getTravel_date());
                     obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(adults.get(i).seat_no));
+                    obj.put("seater", "3500");
+                    obj.put("selected_seat", String.valueOf(list2.get(i).seat_no));
                     obj.put("selected_ticket_type", "8");
                     obj.put("payment_method", "1");
                     obj.put("email_address", "brianoroni6@gmail.com");
@@ -1318,405 +1332,382 @@ public class MainActivity extends AppCompatActivity
                     obj.put("served_by", app.getLogged_user());
                     obj.put("amount_charged", String.valueOf(adult_cost));
                     obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(count));
+                    obj.put("quantity",count);
                     obj.put("item_name", "Adult - Standard - 150.00");
 
                     ticket_items.put(obj);
+
+
                 } catch (JSONException e) {
                     throw new RuntimeException(e);
                 }
 
+
+
+                Log.e("Passengername", String.valueOf(adults.get(i).ticket_type));
+                Log.e("Seat", String.valueOf(adults.get(i).seat_no));
             }
+
 
         }
 
-        if (big_animal.size() > 0) {
-            for (int i = 0; i < big_animal.size(); i++) {
+//        if (big_animal.size() > 0) {
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(big_animal.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(big_animal.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(big_animal_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(big_animal_count));
+//                    obj.put("item_name", "Big Animal - Standard - 300.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//        }
+//        if (big_truck.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(big_truck.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(big_truck.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(big_truck_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(big_truck_count));
+//                    obj.put("item_name", "Big Truck - Standard - 2320.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//
+//        }
+//        if (luggage.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(luggage.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(luggage.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(luggage_count_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(luggage_count));
+//                    obj.put("item_name", "Luggage - Standard - 60.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//
+//        }
+//        if (saloon_car.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(saloon_car.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(saloon_car.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(saloon_count_count_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(saloon_count));
+//                    obj.put("item_name", "Saloon Car - Standard - 930.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//
+//        }
+//        if (small_truck.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(small_truck.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(small_truck.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(small_truck_count_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(small_truck_count));
+//                    obj.put("item_name", "Small Truck - Standard - 1740.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//
+//
+//            }
+//
+//        }
+//        if (tuk_tuk.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(tuk_tuk.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(tuk_tuk.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(tuk_tuk_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(tuk_tuk_count));
+//                    obj.put("item_name", "Tuk Tuk - Standard - 500.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//
+//        }
+//
+//        if (child.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(child.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(child.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(child_count_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(child_count));
+//                    obj.put("item_name", "Child - Standard - 50.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//        }
+//
+//        if (motor.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(motor.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(motor.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(motor_count_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(motor_count));
+//                    obj.put("item_name", "Motor Cycle - Standard - 250.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//        }
+//
+//
+//        if (other.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(other.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(other.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(other_count_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(other_count));
+//                    obj.put("item_name", "Other - Standard - 0.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//
+//        }
+//
+//        if (small_animal.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(small_animal.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(small_animal.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(small_animal_count_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity",String.valueOf(small_anima_count));
+//                    obj.put("item_name", "Small Animal - Standard - 200.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//        }
+//
+//        if (station_wagon.size() > 0) {
+//
+//                obj = new JSONObject();
+//
+//                try {
+//                    obj.put("passenger_name", String.valueOf(station_wagon.get(0).ticket_type));
+//                    obj.put("phone_number", app.getPhone_num());
+//                    obj.put("id_number", "31947982");
+//                    obj.put("from_city", app.getFrom_id());
+//                    obj.put("to_city", app.getTo_id());
+//                    obj.put("travel_date", app.getTravel_date());
+//                    obj.put("selected_vehicle", "3");
+//                    obj.put("seater", "491");
+//                    obj.put("selected_seat", String.valueOf(station_wagon.get(0).seat_no));
+//                    obj.put("selected_ticket_type", "8");
+//                    obj.put("payment_method", "1");
+//                    obj.put("email_address", "brianoroni6@gmail.com");
+//                    obj.put("insurance_charge", "");
+//                    obj.put("served_by", app.getLogged_user());
+//                    obj.put("amount_charged", String.valueOf(station_wagon_cost));
+//                    obj.put("reference_number", refno);
+//                    obj.put("quantity", String.valueOf(station_wagon_count));
+//                    obj.put("item_name", "Station Wagon - Standard - 1160.00");
+//
+//                    ticket_items.put(obj);
+//                } catch (JSONException e) {
+//                    throw new RuntimeException(e);
+//                }
+//
+//
+//        }
 
-                obj = new JSONObject();
 
-                try {
-                    obj.put("passenger_name", String.valueOf(big_animal.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(big_animal.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(big_animal_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(big_animal_count));
-                    obj.put("item_name", "Big Animal - Standard - 300.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-        if (big_truck.size() > 0) {
-            for (int i = 0; i < big_truck.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(big_truck.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(big_truck.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(big_truck_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(big_truck_count));
-                    obj.put("item_name", "Big Truck - Standard - 2320.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-        if (luggage.size() > 0) {
-            for (int i = 0; i < luggage.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(luggage.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(luggage.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(luggage_count_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(luggage_count));
-                    obj.put("item_name", "Luggage - Standard - 60.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-        if (saloon_car.size() > 0) {
-            for (int i = 0; i < saloon_car.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(saloon_car.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(saloon_car.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(saloon_count_count_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(saloon_count));
-                    obj.put("item_name", "Saloon Car - Standard - 930.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-        if (small_truck.size() > 0) {
-            for (int i = 0; i < small_truck.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(small_truck.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(small_truck.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(small_truck_count_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(small_truck_count));
-                    obj.put("item_name", "Small Truck - Standard - 1740.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-        if (tuk_tuk.size() > 0) {
-            for (int i = 0; i < tuk_tuk.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(tuk_tuk.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(tuk_tuk.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(tuk_tuk_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(tuk_tuk_count));
-                    obj.put("item_name", "Tuk Tuk - Standard - 500.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-
-
-        if (child.size() > 0) {
-            for (int i = 0; i < child.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(child.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(child.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(child_count_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(child_count));
-                    obj.put("item_name", "Child - Standard - 50.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-
-        if (motor.size() > 0) {
-            for (int i = 0; i < motor.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(motor.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(motor.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(motor_count_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(motor_count));
-                    obj.put("item_name", "Motor Cycle - Standard - 250.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-
-
-        if (other.size() > 0) {
-            for (int i = 0; i < other.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(other.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(other.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(other_count_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(other_count));
-                    obj.put("item_name", "Other - Standard - 0.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-
-        if (small_animal.size() > 0) {
-            for (int i = 0; i < small_animal.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(small_animal.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(small_animal.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(small_animal_count_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity",String.valueOf(small_anima_count));
-                    obj.put("item_name", "Small Animal - Standard - 200.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-
-        if (station_wagon.size() > 0) {
-            for (int i = 0; i < station_wagon.size(); i++) {
-
-                obj = new JSONObject();
-
-                try {
-                    obj.put("passenger_name", String.valueOf(station_wagon.get(i).ticket_type));
-                    obj.put("phone_number", app.getPhone_num());
-                    obj.put("id_number", "31947982");
-                    obj.put("from_city", app.getFrom_id());
-                    obj.put("to_city", app.getTo_id());
-                    obj.put("travel_date", app.getTravel_date());
-                    obj.put("selected_vehicle", "3");
-                    obj.put("seater", "491");
-                    obj.put("selected_seat", String.valueOf(station_wagon.get(i).seat_no));
-                    obj.put("selected_ticket_type", "8");
-                    obj.put("payment_method", "1");
-                    obj.put("email_address", "brianoroni6@gmail.com");
-                    obj.put("insurance_charge", "");
-                    obj.put("served_by", app.getLogged_user());
-                    obj.put("amount_charged", String.valueOf(station_wagon_cost));
-                    obj.put("reference_number", refno);
-                    obj.put("quantity", String.valueOf(station_wagon_count));
-                    obj.put("item_name", "Station Wagon - Standard - 1160.00");
-
-                    ticket_items.put(obj);
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-
-        }
-
-
-//        RequestQueue batchreserve = Volley.newRequestQueue(MainActivity.this);
-
-        RequestQueue batchreserve;
-
-// Instantiate the cache
-        Cache cache = new DiskBasedCache(getCacheDir(), 1024 * 1024); // 1MB cap
-
-// Set up the network to use HttpURLConnection as the HTTP client.
-        Network network = new BasicNetwork(new HurlStack());
-
-// Instantiate the RequestQueue with the cache and network.
-        batchreserve = new RequestQueue(cache, network);
 
 // Start the queue
-        batchreserve.start();
+        RequestQueue requestQueue = Volley.newRequestQueue(MainActivity.this);
 
 
         JSONObject postparams = new JSONObject();
@@ -1823,7 +1814,7 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-        batchreserve.add(req);
+        requestQueue.add(req);
 
 
     }

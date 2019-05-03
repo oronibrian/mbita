@@ -18,7 +18,8 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ManifestActivity"></activity>
+        <activity android:name=".Onlinemanifest"></activity>
+        <activity android:name=".ManifestActivity" />
         <activity android:name=".SearchTicketActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
