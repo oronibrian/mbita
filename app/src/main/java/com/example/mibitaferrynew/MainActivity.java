@@ -231,6 +231,10 @@ public class MainActivity extends AppCompatActivity
 
         btnBigAnumal = findViewById(R.id.btnBigAnumal);
         chkBigAnumal = findViewById(R.id.chkBigAnumal);
+        if(biganimalnum<=0){
+            chkBigAnumal.setEnabled(false);
+
+        }
 
 
         btnBigAnumal.setOnClickListener((ElegantNumberButton.OnClickListener) view -> {
@@ -241,6 +245,10 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
 
             biganimalnum = newValue;
+            if(newValue<=0){
+                chkBigAnumal.setEnabled(false);
+
+            }
 
         });
 
@@ -263,6 +271,10 @@ public class MainActivity extends AppCompatActivity
         /// Big Truck------------------------------------------------------------
 
         chkBigTruck = findViewById(R.id.chkBigTruck);
+        if(bigtrucknum<=0){
+            chkBigTruck.setEnabled(false);
+
+        }
 
         btnBigTruck = findViewById(R.id.btnBigTruck);
         btnBigTruck.setOnClickListener((ElegantNumberButton.OnClickListener) view -> {
@@ -273,6 +285,10 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
 
             bigtrucknum = newValue;
+            if(newValue<=0){
+                chkBigTruck.setEnabled(false);
+
+            }
 
         });
         chkBigTruck.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -293,6 +309,10 @@ public class MainActivity extends AppCompatActivity
 
 
         chkChild = findViewById(R.id.chkChild);
+        if(childnum<=0){
+            chkChild.setEnabled(false);
+
+        }
 
         btnchild = findViewById(R.id.btnchild);
         btnchild.setOnClickListener((ElegantNumberButton.OnClickListener) view -> {
@@ -303,6 +323,10 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
 
             childnum = newValue;
+            if(newValue<=0){
+                chkChild.setEnabled(false);
+
+            }
 
         });
         chkChild.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -324,6 +348,10 @@ public class MainActivity extends AppCompatActivity
 ///Luggage ------------------------------------
 
         chkLuggage = findViewById(R.id.chkLuggage);
+        if(luggagenum<=0){
+            chkLuggage.setEnabled(false);
+
+        }
         btnLuggage = findViewById(R.id.btnluggage);
         btnLuggage.setOnClickListener((ElegantNumberButton.OnClickListener) view -> {
 
@@ -333,6 +361,10 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
 
             luggagenum = newValue;
+            if(newValue<=0){
+                chkLuggage.setEnabled(false);
+
+            }
 
         });
         chkLuggage.setOnCheckedChangeListener((buttonView, isChecked) -> {
@@ -350,6 +382,10 @@ public class MainActivity extends AppCompatActivity
 
         ////MotorCycle---------------------
         chkMotorCycle = findViewById(R.id.chkMotor_cycle);
+        if(motorCyclenum<=0){
+            chkMotorCycle.setEnabled(false);
+
+        }
 
         btnMotorCycle = findViewById(R.id.btnmotor_cycle);
         btnMotorCycle.setOnClickListener((ElegantNumberButton.OnClickListener) view ->
@@ -363,6 +399,10 @@ public class MainActivity extends AppCompatActivity
         {
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
             motorCyclenum = newValue;
+            if(newValue<=0){
+                chkMotorCycle.setEnabled(false);
+
+            }
 
         });
         chkMotorCycle.setOnCheckedChangeListener((buttonView, isChecked) ->
@@ -382,6 +422,10 @@ public class MainActivity extends AppCompatActivity
 
         ////Others---------------------
         chkOther = findViewById(R.id.chkOther);
+        if(othernum<=0){
+            chkOther.setEnabled(false);
+
+        }
 
         btnOther = findViewById(R.id.btnOther);
         btnOther.setOnClickListener(new ElegantNumberButton.OnClickListener() {
@@ -396,6 +440,10 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 othernum = newValue;
+                if(newValue<=0){
+                    chkOther.setEnabled(false);
+
+                }
 
             }
         });
@@ -458,6 +506,10 @@ public class MainActivity extends AppCompatActivity
 
         ////SaloonCar---------------------
         chkSaloonCar = findViewById(R.id.chkSalooncar);
+        if(saloonCarnum<=0){
+            chkSaloonCar.setEnabled(false);
+
+        }
 
         btnSaloonCar = findViewById(R.id.btnSalooncar);
         btnSaloonCar.setOnClickListener(new ElegantNumberButton.OnClickListener() {
@@ -472,6 +524,10 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 saloonCarnum = newValue;
+                if(newValue<=0){
+                    chkSaloonCar.setEnabled(false);
+
+                }
 
             }
         });
@@ -494,6 +550,10 @@ public class MainActivity extends AppCompatActivity
         ////Small Animal---------------------
 
         chkSmallAnimal = findViewById(R.id.chkSmallAnimal);
+        if(smallAnimalnum<=0){
+            chkSmallAnimal.setEnabled(false);
+
+        }
 
         btnSmallAnimal = findViewById(R.id.btnSmallAnimal);
         btnSmallAnimal.setOnClickListener(new ElegantNumberButton.OnClickListener() {
@@ -508,6 +568,10 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 smallAnimalnum = newValue;
+                if(newValue<=0){
+                    chkSmallAnimal.setEnabled(false);
+
+                }
 
             }
         });
@@ -528,6 +592,10 @@ public class MainActivity extends AppCompatActivity
 
         ////Small Truck---------------------
         chkSmallTruck = findViewById(R.id.chksmalltruck);
+        if(smallTrucknum<=0){
+            chkSmallTruck.setEnabled(false);
+
+        }
 
         btnSmallTruck = findViewById(R.id.btnsmalltruck);
         btnSmallTruck.setOnClickListener(new ElegantNumberButton.OnClickListener() {
@@ -542,6 +610,10 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 smallTrucknum = newValue;
+                if(newValue<=0){
+                    chkSmallTruck.setEnabled(false);
+
+                }
 
             }
         });
@@ -561,7 +633,12 @@ public class MainActivity extends AppCompatActivity
         ///End Small Truck--------------------
 
         ////Station Wagon---------------------
+
         chkStationWagon = findViewById(R.id.chkstaionwagon);
+        if(stationWagonnum<=0){
+            chkStationWagon.setEnabled(false);
+
+        }
         btnStationWagon = findViewById(R.id.btnstaionwagon);
         btnStationWagon.setOnClickListener(new ElegantNumberButton.OnClickListener() {
             @Override
@@ -575,6 +652,10 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 stationWagonnum = newValue;
+                if(newValue<=0){
+                    chkStationWagon.setEnabled(false);
+
+                }
 
             }
         });
@@ -594,9 +675,11 @@ public class MainActivity extends AppCompatActivity
 
         ///End Station Wagon--------------------
         ////TukTuk---------------------
-        chkTuktuk =
+        chkTuktuk = findViewById(R.id.chktuktuk);
+        if(tuktuknum<=0){
+            chkTuktuk.setEnabled(false);
 
-                findViewById(R.id.chktuktuk);
+        }
         chkTuktuk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -624,6 +707,10 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 tuktuknum = newValue;
+                if(newValue<=0){
+                    chkTuktuk.setEnabled(false);
+
+                }
 
             }
         });
