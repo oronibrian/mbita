@@ -1,6 +1,5 @@
 package com.example.mibitaferrynew;
 
-import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Build;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioGroup;
@@ -31,7 +29,6 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.congfandi.simpledatepicker.Picker;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Adapters.ManifestListAdapter;
 import com.example.mibitaferrynew.Adapters.MyTripsArrayAdapter;
@@ -47,7 +44,6 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
