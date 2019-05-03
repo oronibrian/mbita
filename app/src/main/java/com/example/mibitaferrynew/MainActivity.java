@@ -245,6 +245,7 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
 
             biganimalnum = newValue;
+            chkBigAnumal.setEnabled(true);
             if(newValue<=0){
                 chkBigAnumal.setEnabled(false);
 
@@ -285,6 +286,7 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
 
             bigtrucknum = newValue;
+            chkBigTruck.setEnabled(true);
             if(newValue<=0){
                 chkBigTruck.setEnabled(false);
 
@@ -323,6 +325,7 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
 
             childnum = newValue;
+            chkChild.setEnabled(true);
             if(newValue<=0){
                 chkChild.setEnabled(false);
 
@@ -361,6 +364,7 @@ public class MainActivity extends AppCompatActivity
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
 
             luggagenum = newValue;
+            chkLuggage.setEnabled(true);
             if(newValue<=0){
                 chkLuggage.setEnabled(false);
 
@@ -399,6 +403,8 @@ public class MainActivity extends AppCompatActivity
         {
             Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
             motorCyclenum = newValue;
+            chkMotorCycle.setEnabled(true);
+
             if(newValue<=0){
                 chkMotorCycle.setEnabled(false);
 
@@ -440,6 +446,7 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 othernum = newValue;
+                chkOther.setEnabled(true);
                 if(newValue<=0){
                     chkOther.setEnabled(false);
 
@@ -524,6 +531,7 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 saloonCarnum = newValue;
+                chkSaloonCar.setEnabled(true);
                 if(newValue<=0){
                     chkSaloonCar.setEnabled(false);
 
@@ -568,6 +576,7 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 smallAnimalnum = newValue;
+                chkSmallAnimal.setEnabled(true);
                 if(newValue<=0){
                     chkSmallAnimal.setEnabled(false);
 
@@ -610,6 +619,7 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 smallTrucknum = newValue;
+                chkSmallTruck.setEnabled(true);
                 if(newValue<=0){
                     chkSmallTruck.setEnabled(false);
 
@@ -652,6 +662,7 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 stationWagonnum = newValue;
+                chkStationWagon.setEnabled(true);
                 if(newValue<=0){
                     chkStationWagon.setEnabled(false);
 
@@ -707,6 +718,7 @@ public class MainActivity extends AppCompatActivity
             public void onValueChange(ElegantNumberButton view, int oldValue, int newValue) {
                 Log.d(TAG, String.format("oldValue: %d   newValue: %d", oldValue, newValue));
                 tuktuknum = newValue;
+                chkTuktuk.setEnabled(true);
                 if(newValue<=0){
                     chkTuktuk.setEnabled(false);
 
