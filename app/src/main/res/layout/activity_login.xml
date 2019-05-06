@@ -8,7 +8,6 @@
     android:layout_marginTop="40dp"
     tools:context=".LoginActivity">
 
-
     <ListView
         android:id="@+id/card_listView"
         android:layout_width="match_parent"
@@ -17,5 +16,4 @@
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
         android:dividerHeight="10dp" />
-
 </LinearLayout>

@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(LoginActivity.this);
         progressDialog.setMessage("Loading...");
-        progressDialog.setTitle("Login In");
+        progressDialog.setTitle("Login");
         progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
         progressDialog.setCancelable(false);
 
@@ -174,7 +174,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 }
-
 
                 Toast.makeText(getApplicationContext(), app.getFrom() + "  " + app.getTo(), Toast.LENGTH_SHORT).show();
 

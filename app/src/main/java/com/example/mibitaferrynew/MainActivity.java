@@ -1188,7 +1188,7 @@ public class MainActivity extends AppCompatActivity
 
 
             if (chkOther.isChecked()) {
-                print.printText(app.getOthername() + "     " + othernum + "     " + othernum * (Integer.valueOf(app.getOtherprice())));
+                print.printText(app.getOthername() + "          " + othernum + "     " + othernum * (Integer.valueOf(app.getOtherprice())));
 
             }
 
