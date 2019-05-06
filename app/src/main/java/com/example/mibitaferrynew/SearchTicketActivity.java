@@ -138,24 +138,24 @@ public class SearchTicketActivity extends AppCompatActivity {
 //
 
 
-                TextView tootxt = (TextView) view.findViewById(R.id.ref_no);
+                TextView tootxt = (TextView) view.findViewById(R.id.type_list_item);
                 String too = tootxt.getText().toString();
                 tootxt.setVisibility(View.GONE);
 
 
-                TextView fromtxt = (TextView) view.findViewById(R.id.amount_id);
+                TextView fromtxt = (TextView) view.findViewById(R.id.amount_list_item);
                 String from = fromtxt.getText().toString();
                 fromtxt.setVisibility(View.GONE);
 
 
-                TextView phonetxt = (TextView) view.findViewById(R.id.phonenum);
+                TextView phonetxt = (TextView) view.findViewById(R.id.number_list_item);
                 String phonenum = phonetxt.getText().toString();
 
-                TextView issuedtxt = (TextView) view.findViewById(R.id.issuedon);
+               /* TextView issuedtxt = (TextView) view.findViewById(R.id.issuedon);
                 String issuedon = issuedtxt.getText().toString();
 
                 TextView seattxt = (TextView) view.findViewById(R.id.seat);
-                String seat = seattxt.getText().toString();
+                String seat = seattxt.getText().toString();*/
 
 
                 if (Build.MODEL.equals("MobiPrint")) {
@@ -165,14 +165,14 @@ public class SearchTicketActivity extends AppCompatActivity {
                     print.printText("..........Mbita,KENYA..........");
                     print.printText("......Passenger Details.........");
 
-                    print.printText("Name: " + phonenum);
-                    print.printText("Ref No:" + too);
-                    print.printText("Seat:" + seat);
-                    print.printText("Fare: Ksh." + from);
+                    print.printText("Name: " + too);
+                    print.printText("Ref No:" + from);
+//                    print.printText("Seat:" + seat);
+                    print.printText("Fare: Ksh." + phonenum);
 
                     print.printText("................................");
-                    print.printText("Route:" + too + " " + from);
-                    print.printText("Travel Date: " + issuedon);
+                    print.printText("Route:" + app.getRoute());
+//                    print.printText("Travel Date: " + issuedon);
                     print.printText("................................");
                     print.printText("Issued On :" +formattedDate);
                     print.printText("Issued by :" + app.getLogged_user());

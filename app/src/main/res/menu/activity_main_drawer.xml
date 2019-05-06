@@ -18,6 +18,7 @@
             android:title="Payments" />
         <item
             android:id="@+id/search_payments_id"
+            android:icon="@drawable/ic_search_payments"
             android:title="Search Payments" />
 
 
