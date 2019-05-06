@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity
     TextView txtadlt, txtbiganiamal, txtbigtruck, txtchild, txtluggage, txtmotorcycle,
             txtother, txtsalooncar, txtsmallaminal, txtsmalltruck, txtstationwagon, txttuktuk;
 
+    TextView txtheadertxt;
+
 
     String ref;
     MyApplication app;
@@ -151,6 +153,8 @@ public class MainActivity extends AppCompatActivity
         btnprocess = findViewById(R.id.btnprocess);
         txtseats = findViewById(R.id.txtseats);
 
+        txtheadertxt=findViewById(R.id.txtheadertxt);
+
 
         Log.e("phone", app.getPhone_num());
         Log.e("To city", app.getTo_id());
@@ -172,6 +176,9 @@ public class MainActivity extends AppCompatActivity
         all_tickets = available_tickets.count();
 
         txtseats.setText(String.format("%s Tickets Remaining", String.valueOf(all_tickets)));
+
+        txtheadertxt.setText(String.format("%s\n%s", app.getLogged_user(), app.getPhone_num()));
+
 
 
         final List<Ticket> check = new Select().from(Ticket.class).orderBy("date ASC").execute();
