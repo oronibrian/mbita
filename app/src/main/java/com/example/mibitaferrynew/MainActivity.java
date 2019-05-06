@@ -791,10 +791,6 @@ public class MainActivity extends AppCompatActivity
 
     private void processAndSave() {
 
-        total = (adultnum * 150) + (biganimalnum * 300) + (bigtrucknum * 2320) + (childnum * 50)
-                + (luggagenum * 60) + (motorCyclenum * 250) + (saloonCarnum * 930) + (smallAnimalnum * 200) + (smallTrucknum * 1740)
-                + (stationWagonnum * 1160) + (tuktuknum * 500) + (othernum * Integer.valueOf(app.getOtherprice()));
-
 
         ActiveAndroid.beginTransaction();
         try {
@@ -1132,6 +1128,12 @@ public class MainActivity extends AppCompatActivity
 
     private void print() {
         String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+
+        total = (adultnum * 150) + (biganimalnum * 300) + (bigtrucknum * 2320) + (childnum * 50)
+                + (luggagenum * 60) + (motorCyclenum * 250) + (saloonCarnum * 930) + (smallAnimalnum * 200) + (smallTrucknum * 1740)
+                + (stationWagonnum * 1160) + (tuktuknum * 500) + (othernum * Integer.valueOf(app.getOtherprice()));
+
 
         if (Build.MODEL.equals("MobiPrint")) {
 
