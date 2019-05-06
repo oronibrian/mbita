@@ -95,7 +95,7 @@ public class MainActivity extends AppCompatActivity
     TextView txtadlt, txtbiganiamal, txtbigtruck, txtchild, txtluggage, txtmotorcycle,
             txtother, txtsalooncar, txtsmallaminal, txtsmalltruck, txtstationwagon, txttuktuk;
 
-    TextView txtheadertxt;
+    TextView headertext;
 
 
     String ref;
@@ -124,11 +124,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-
-
-
-
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -136,6 +131,11 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
+
+        View header = ((NavigationView)findViewById(R.id.nav_view)).getHeaderView(0);
+
+        headertext=header.findViewById(R.id.menutxt);
+        headertext.setText(String.format("%s\n%s", app.getLogged_user(),app.getPhone_num()));
 
         showRefsList();
         txtadlt = findViewById(R.id.text_view);
@@ -152,8 +152,6 @@ public class MainActivity extends AppCompatActivity
         txttuktuk = findViewById(R.id.text_view_tuktuk);
         btnprocess = findViewById(R.id.btnprocess);
         txtseats = findViewById(R.id.txtseats);
-
-        txtheadertxt=findViewById(R.id.txtheadertxt);
 
 
         Log.e("phone", app.getPhone_num());
@@ -177,7 +175,6 @@ public class MainActivity extends AppCompatActivity
 
         txtseats.setText(String.format("%s Tickets Remaining", String.valueOf(all_tickets)));
 
-        txtheadertxt.setText(String.format("%s\n%s", app.getLogged_user(), app.getPhone_num()));
 
 
 

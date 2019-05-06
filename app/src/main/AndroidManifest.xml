@@ -19,7 +19,14 @@
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".Onlinemanifest"></activity>
-        <activity android:name=".ManifestActivity" />
+        <activity android:name=".ManifestActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.mibitaferrynew.MainActivity" />
+
+        </activity>
+
         <activity android:name=".SearchTicketActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
