@@ -49,6 +49,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-jackson:2.2.0'
     implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     implementation 'com.github.congfandi:simpleDatePicker:Dateicker'
+    implementation 'cc.cloudist.acplibrary:library:1.2.1'
+
 
 //Materialx
     implementation 'com.balysv:material-ripple:1.0.2'                  // ripple effect
