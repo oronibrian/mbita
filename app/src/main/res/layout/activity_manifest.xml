@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
+    android:orientation="vertical"
     tools:context=".ManifestActivity">
 
 
@@ -11,11 +12,22 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Manifest"
+            android:textAlignment="center"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:textSize="20sp"
+            android:background="@color/colorPrimary"
+            android:layout_marginBottom="30dp"/>
 
         <RadioGroup
             android:id="@+id/radiogroup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_xmedium"
             android:orientation="horizontal">
 
             <RadioButton
@@ -46,385 +58,427 @@
         <!--android:id="@+id/list_mabtnmanifestdatenifest"-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="wrap_content" />-->
-
-
         <!-- A CardView that contains a TextView -->
 
 
-        <LinearLayout
-            android:id="@+id/linearLayout_local"
+        <ScrollView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="@color/overlay_light_60"
+            android:fadingEdgeLength="0dp"
+            android:fillViewport="true"
+            android:overScrollMode="never"
+            android:scrollbars="none">
 
-            <com.google.android.material.card.MaterialCardView
+            <LinearLayout
+                android:id="@+id/linearLayout_local"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:minHeight="70dp">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Adults"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="80dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/tetxadult"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
+                            android:text=" Adults "
+                            android:textAlignment="center"/>
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/tetxadult"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Big Animals"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="80dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtbiganimals"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Big Animals"
+                            android:textAlignment="center"/>
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/txtbiganimals"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Big Trucks"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="80dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textbig_truck"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Big Trucks"
+                            android:textAlignment="center"/>
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/textbig_truck"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Children"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="80dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtchildren"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
+                            android:text=" Children "
+                            android:textAlignment="center"/>
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/txtchildren"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Luggage"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="80dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtluggage"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
+                            android:text=" Luggage "
+                            android:textAlignment="center"/>
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/txtluggage"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="70dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Motor Cycle"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="70dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtmotorcycle"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_round_corners"
+                            android:text="Motor Cycle"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/txtmotorcycle"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="70dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Other"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="70dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtother"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_round_corners"
+                            android:text="Other"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/txtother"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="70dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Saloon Car"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="70dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtsalooncar"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_round_corners"
+                            android:text="Saloon Car"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/txtsalooncar"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="70dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Small Animals"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="70dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtsmallanimals"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_round_corners"
+                            android:text="Small Animals"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/txtsmallanimals"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="70dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Small Truck"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="70dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtsmalltruck"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_round_corners"
+                            android:text="Small Truck"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/txtsmalltruck"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="70dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Station Wagon"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="70dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/txtstationwagon"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_round_corners"
+                            android:text="Station Wagon"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/txtstationwagon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
+
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
 
 
-            <com.google.android.material.card.MaterialCardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="70dp">
-
-                <LinearLayout
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
-                    android:layout_height="70dp"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:minHeight="70dp">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/custom_round_corners"
-                        android:text="Tuk Tuk"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:layout_height="70dp"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/texttuktuk"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@android:color/background_dark"
-                        android:textSize="12sp"
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/custom_round_corners"
+                            android:text="Tuk Tuk"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                        />
-                </LinearLayout>
-            </com.google.android.material.card.MaterialCardView>
+                        <TextView
+                            android:id="@+id/texttuktuk"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="@android:color/background_dark"
+                            android:textSize="12sp"
 
+                            />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <include
+                    layout="@layout/utility_fab"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="bottom" />
+            </LinearLayout>
 
-            <include
-                layout="@layout/utility_fab"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="bottom" />
-
-
-        </LinearLayout>
+        </ScrollView>
 
 
     </LinearLayout>
-</ScrollView>
+</LinearLayout>

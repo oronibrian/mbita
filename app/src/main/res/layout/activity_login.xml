@@ -6,8 +6,19 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     android:layout_marginTop="40dp"
+    android:gravity="center"
     tools:context=".LoginActivity">
-
+    <com.google.android.material.chip.Chip
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.MaterialComponents.Chip"
+        android:textColor="#ffffff"
+        android:layout_marginBottom="20dp"
+        app:chipBackgroundColor="@color/colorPrimary"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:text="Kindly Choose your Route"
+        android:textAlignment="center"/>
     <ListView
         android:id="@+id/card_listView"
         android:layout_width="match_parent"

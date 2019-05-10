@@ -59,6 +59,7 @@ import com.example.mibitaferrynew.Model.Adult;
 import com.example.mibitaferrynew.TableModel.RefferenceNumber;
 import com.example.mibitaferrynew.TableModel.Seat;
 import com.example.mibitaferrynew.TableModel.Ticket;
+import com.google.android.material.chip.Chip;
 import com.google.android.material.navigation.NavigationView;
 import com.nbbse.printapi.Printer;
 
@@ -96,6 +97,7 @@ public class MainActivity extends AppCompatActivity
             txtother, txtsalooncar, txtsmallaminal, txtsmalltruck, txtstationwagon, txttuktuk;
 
     TextView headertext;
+    Chip txtseats;
 
 
     String ref;
@@ -104,7 +106,7 @@ public class MainActivity extends AppCompatActivity
 
 
     int total, all_tickets;
-    TextView txtseats;
+   //TextView txtseats;
 
     ConnectivityChangeReceiver broadcastObserver = new ConnectivityChangeReceiver();
 
@@ -151,7 +153,9 @@ public class MainActivity extends AppCompatActivity
         txtstationwagon = findViewById(R.id.text_view_station_wagon);
         txttuktuk = findViewById(R.id.text_view_tuktuk);
         btnprocess = findViewById(R.id.btnprocess);
+
         txtseats = findViewById(R.id.txtseats);
+
 
 
         Log.e("phone", app.getPhone_num());
@@ -1266,6 +1270,9 @@ public class MainActivity extends AppCompatActivity
             return true;
         } else if (id == R.id.id_logout) {
             startActivity(new Intent(this, LoginActivity.class));
+            this.finish();
+        }else if (id == R.id.menumanifest) {
+            startActivity(new Intent(this, ManifestActivity.class));
             this.finish();
         }
 

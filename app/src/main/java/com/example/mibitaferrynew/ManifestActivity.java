@@ -124,12 +124,11 @@ public class ManifestActivity extends AppCompatActivity {
         linearLayout.setVisibility(View.GONE);
         radioGroup = findViewById(R.id.radiogroup);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        /*getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Manifest");
-
+        getSupportActionBar().setTitle("Manifest");*/
 
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {

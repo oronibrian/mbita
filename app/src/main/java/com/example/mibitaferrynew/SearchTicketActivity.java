@@ -83,13 +83,6 @@ public class SearchTicketActivity extends AppCompatActivity {
 
         app=(MyApplication) getApplication();
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Search Ticket");
-
-
         mytripslistView = findViewById(R.id.mytriplistview_id);
 
         mytripsDetails = new ArrayList<MytripsDetails>();
@@ -125,8 +118,6 @@ public class SearchTicketActivity extends AppCompatActivity {
                 search_local();
             }
         });
-
-
 
 
         mytripslistView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

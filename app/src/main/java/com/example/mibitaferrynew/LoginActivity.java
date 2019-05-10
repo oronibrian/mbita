@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -179,8 +180,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 dialog = new Dialog(context);
-                dialog.setContentView(R.layout.login_dialog);
-                dialog.setTitle("      Account Login");
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setContentView(R.layout.activity_login_card_overlap);
+//                dialog.setTitle("      Account Login");
 
 
                 username = dialog.findViewById(R.id.editTextusername);
