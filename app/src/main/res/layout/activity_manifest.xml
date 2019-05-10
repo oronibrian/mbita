@@ -266,20 +266,27 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="70dp">
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="80dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/custom_round_corners"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
                             android:text="Motor Cycle"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textAlignment="center"/>
 
                         <TextView
                             android:id="@+id/txtmotorcycle"
@@ -295,20 +302,27 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="70dp">
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="80dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/custom_round_corners"
-                            android:text="Other"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
+                            android:text="  Other  "
+                            android:textAlignment="center"/>
 
                         <TextView
                             android:id="@+id/txtother"
@@ -325,20 +339,27 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="70dp">
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="80dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/custom_round_corners"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
                             android:text="Saloon Car"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textAlignment="center"/>
 
                         <TextView
                             android:id="@+id/txtsalooncar"
@@ -355,20 +376,27 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="70dp">
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="80dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/custom_round_corners"
-                            android:text="Small Animals"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Small Animal"
+                            android:textAlignment="center"/>
 
                         <TextView
                             android:id="@+id/txtsmallanimals"
@@ -385,20 +413,27 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="70dp">
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="80dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/custom_round_corners"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
                             android:text="Small Truck"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textAlignment="center"/>
 
                         <TextView
                             android:id="@+id/txtsmalltruck"
@@ -415,21 +450,27 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="70dp">
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="80dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/custom_round_corners"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
                             android:text="Station Wagon"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
+                            android:textAlignment="center"/>
                         <TextView
                             android:id="@+id/txtstationwagon"
                             android:layout_width="match_parent"
@@ -445,20 +486,27 @@
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:minHeight="70dp">
+                    android:minHeight="80dp"
+                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardCornerRadius="@dimen/spacing_middle"
+                    android:layout_margin="@dimen/spacing_xsmall">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        android:layout_height="80dp"
                         android:orientation="vertical">
 
-                        <TextView
-                            android:layout_width="match_parent"
+                        <com.google.android.material.chip.Chip
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:background="@drawable/custom_round_corners"
+                            style="@style/TextAppearance.MaterialComponents.Chip"
+                            android:textColor="#ffffff"
+                            android:layout_margin="4dp"
+                            app:chipBackgroundColor="@color/colorPrimary"
+                            android:textSize="20sp"
+                            android:layout_gravity="center_horizontal"
                             android:text="Tuk Tuk"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
+                            android:textAlignment="center"/>
 
                         <TextView
                             android:id="@+id/texttuktuk"
