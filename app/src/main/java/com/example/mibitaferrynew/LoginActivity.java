@@ -51,6 +51,9 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 
+import cc.cloudist.acplibrary.ACProgressConstant;
+import cc.cloudist.acplibrary.ACProgressFlower;
+
 public class LoginActivity extends AppCompatActivity {
 
 
@@ -68,6 +71,8 @@ public class LoginActivity extends AppCompatActivity {
 
     private int progressStatus = 0;
     private Handler handler = new Handler();
+    ACProgressFlower mProgress;
+
 
 
     @Override
@@ -104,6 +109,17 @@ public class LoginActivity extends AppCompatActivity {
         loadFerryRoutesandSeats();
 
         new Delete().from(Seat.class).execute();
+
+
+
+        mProgress = new ACProgressFlower.Builder(this)
+                .direction(ACProgressConstant.PIE_AUTO_UPDATE)
+                .themeColor(Color.WHITE)
+                .text("load..")
+                .fadeColor(Color.DKGRAY).build();
+
+        mProgress.show();
+
 
 
 
@@ -436,6 +452,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                     cardArrayAdapter.add(card);
 
+                                    mProgress.dismiss();
+
 
                                 }
 
@@ -443,6 +461,8 @@ public class LoginActivity extends AppCompatActivity {
                             } else {
 
                                 Toast.makeText(getApplicationContext(), response.getString("response_message"), Toast.LENGTH_SHORT).show();
+                                mProgress.dismiss();
+
 
                             }
 
