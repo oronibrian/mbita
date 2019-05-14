@@ -24,7 +24,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Text line 1"
-                android:textAlignment="center"
                 android:textSize="18sp" />
 
             <TextView

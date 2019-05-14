@@ -82,9 +82,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
-                    app:cardCornerRadius="@dimen/spacing_middle"
-                    android:layout_margin="@dimen/spacing_xsmall">
+                    app:cardElevation="@dimen/spacing_medium"
+                    app:cardCornerRadius="@dimen/spacing_middle">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -119,7 +118,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -156,7 +155,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -193,7 +192,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -230,7 +229,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -267,7 +266,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -303,7 +302,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -340,7 +339,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -377,7 +376,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -414,7 +413,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -451,7 +450,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 
@@ -487,7 +486,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="80dp"
-                    app:cardElevation="@dimen/spacing_middle"
+                    app:cardElevation="@dimen/spacing_medium"
                     app:cardCornerRadius="@dimen/spacing_middle"
                     android:layout_margin="@dimen/spacing_xsmall">
 

@@ -8,9 +8,8 @@
         app:showAsAction="never" />
 
     <item android:id="@+id/menumanifest"
-        android:icon="@drawable/ic_manifest"
         android:title="Manifest"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 
     <item android:id="@+id/id_logout"
         android:title="Logout" />

@@ -111,16 +111,12 @@ public class LoginActivity extends AppCompatActivity {
         new Delete().from(Seat.class).execute();
 
 
-
         mProgress = new ACProgressFlower.Builder(this)
                 .direction(ACProgressConstant.PIE_AUTO_UPDATE)
-                .themeColor(Color.WHITE)
-                .text("load..")
+                .themeColor(Color.BLUE)
+//                .text("load..")
                 .fadeColor(Color.DKGRAY).build();
-
         mProgress.show();
-
-
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

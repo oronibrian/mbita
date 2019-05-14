@@ -6,8 +6,45 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".Onlinemanifest">
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <com.google.android.material.button.MaterialButton
+        <include layout="@layout/toolbar" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!--<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Online Manifest"
+        android:textAlignment="center"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="20sp"
+        android:background="@color/colorPrimary"
+        android:layout_marginBottom="30dp"/>-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+
+        android:orientation="horizontal">
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnmanifestdate"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/bg_color"
+            android:text="set date"
+            app:cornerRadius="@dimen/spacing_xxlarge"
+            android:textAlignment="center"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+   <!-- <com.google.android.material.button.MaterialButton
         android:id="@+id/btnmanifestdate"
         style="@style/Widget.MaterialComponents.Button"
         android:layout_width="match_parent"
@@ -15,7 +52,7 @@
         android:layout_marginTop="12dp"
         android:background="@color/colorPrimaryDark"
         android:text="set date" />
-
+-->
 
     <ListView
         android:id="@+id/online_manifest_listview"
