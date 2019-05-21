@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.widget.NestedScrollView;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
@@ -57,6 +59,7 @@ public class ManifestActivity extends AppCompatActivity {
     TextView txtluggage, txtmotorcycle, txtother, txtsalooncar;
     TextView texttuktuk, txtstationwagon, txtsmalltruck, txtsmallanimals;
     LinearLayout linearLayout, online_layout;
+    NestedScrollView nestedScrollView;
     FloatingActionButton btnmanifestprint;
     int manifest_total_cost;
     int cost_1, biganimal_cost, biga_truck_cost, child_cost, luggae_cost, bike_cost, other_cost, saloon_car_cost,
@@ -71,6 +74,7 @@ public class ManifestActivity extends AppCompatActivity {
     ListView mytripslistView;
     int items = 0;
     private RadioGroup radioGroup;
+    Toolbar Toolbar;
 
 
 
@@ -88,6 +92,10 @@ public class ManifestActivity extends AppCompatActivity {
 
 
         app = (MyApplication) getApplication();
+
+        Toolbar = findViewById(R.id.toolbarmanifest);
+        setSupportActionBar(Toolbar);
+        getSupportActionBar().setTitle("Manifest");
 
         btnlocal = findViewById(R.id.btnmanifestdate);
 

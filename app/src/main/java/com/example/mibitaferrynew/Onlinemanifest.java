@@ -12,6 +12,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
@@ -51,6 +52,7 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
 
 
     Button  btnsetdate;
+    Toolbar mActionBarToolbar;
 
 
     @Override
@@ -60,9 +62,15 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
 
         app = (MyApplication) getApplication();
 
+
+        mActionBarToolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(mActionBarToolbar);
+        getSupportActionBar().setTitle("Online Manifest");
+
         mytripsDetails = new ArrayList<MytripsDetails>();
 
         mytripslistView = findViewById(R.id.online_manifest_listview);
+
 
         btnsetdate=findViewById(R.id.btnmanifestdate);
 

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.activeandroid.query.From;
 import com.activeandroid.query.Select;
@@ -70,6 +71,8 @@ public class SearchTicketActivity extends AppCompatActivity {
     private ArrayList<String> employeeItems;
     private ArrayAdapter employeeItemsAdapter;
 
+    Toolbar Toolbar;
+
     Date c = Calendar.getInstance().getTime();
 
     SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
@@ -82,6 +85,10 @@ public class SearchTicketActivity extends AppCompatActivity {
         setContentView(R.layout.activity_search_ticket);
 
         app=(MyApplication) getApplication();
+
+        Toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(Toolbar);
+        getSupportActionBar().setTitle("Search Ticket");
 
         mytripslistView = findViewById(R.id.mytriplistview_id);
 

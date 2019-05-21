@@ -109,10 +109,10 @@
                     <com.cepheuen.elegantnumberbutton.view.ElegantNumberButton
                         android:id="@+id/btnadult"
                         android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
+                        android:layout_height="wrap_content"
                         android:layout_weight="1.9"
                         android:gravity="center_horizontal|left"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
@@ -162,7 +162,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
                         android:gravity="center_horizontal|left"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
@@ -216,7 +216,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
                         android:gravity="center_horizontal|left"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
@@ -272,7 +272,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
                         android:gravity="center_horizontal|start"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
@@ -324,7 +324,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
@@ -378,7 +378,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
@@ -432,7 +432,7 @@
                        android:layout_height="match_parent"
                        android:layout_centerHorizontal="true"
                        android:layout_weight="1.9"
-                       android:padding="@dimen/activity_horizontal_margin"
+                       android:padding="@dimen/spacing_xmedium"
                        app:backGroundColor="@color/colorPrimary"
                        app:textSize="14sp" />
 
@@ -483,7 +483,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
@@ -532,7 +532,7 @@
             android:layout_height="match_parent"
             android:layout_centerHorizontal="true"
             android:layout_weight="1.9"
-            android:padding="@dimen/activity_horizontal_margin"
+            android:padding="@dimen/spacing_xmedium"
             app:backGroundColor="@color/colorPrimary"
             app:textSize="14sp" />
 
@@ -583,7 +583,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
@@ -633,7 +633,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
@@ -683,7 +683,7 @@
                         android:layout_height="match_parent"
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
-                        android:padding="@dimen/activity_horizontal_margin"
+                        android:padding="@dimen/spacing_xmedium"
                         app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 

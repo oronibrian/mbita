@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context=".Onlinemanifest">
+
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -13,16 +14,6 @@
         <include layout="@layout/toolbar" />
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!--<TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Online Manifest"
-        android:textAlignment="center"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:textSize="20sp"
-        android:background="@color/colorPrimary"
-        android:layout_marginBottom="30dp"/>-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -60,4 +51,12 @@
         android:layout_height="match_parent"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
+
+
+    <include
+        layout="@layout/utility_fab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"/>
+
 </LinearLayout>
