@@ -1289,7 +1289,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.manifest_id) {
             startActivity(new Intent(getApplicationContext(), ManifestActivity.class));
         } else if (id == R.id.payments_id) {
-//            startActivity(new Intent(getApplicationContext(), PaymentsActivity.class));
+            startActivity(new Intent(getApplicationContext(), SubmitPaymentActivity.class));
         } else if (id == R.id.search_payments_id) {
 //            startActivity(new Intent(getApplicationContext(), SearchPaymentsActivity.class));
         }

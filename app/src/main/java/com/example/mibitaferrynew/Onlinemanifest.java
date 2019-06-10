@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +30,8 @@ import com.congfandi.simpledatepicker.Picker;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Adapters.MyTripsArrayAdapter;
 import com.example.mibitaferrynew.Model.MytripsDetails;
+import com.example.mibitaferrynew.utils.Tools;
+import com.google.android.material.button.MaterialButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -51,7 +54,7 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
     String dbDate;
 
 
-    Button  btnsetdate;
+    MaterialButton  btnsetdate;
     Toolbar mActionBarToolbar;
 
 
@@ -72,14 +75,14 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
         mytripslistView = findViewById(R.id.online_manifest_listview);
 
 
-        btnsetdate=findViewById(R.id.btnmanifestdate);
+       btnsetdate=findViewById(R.id.btnmanifestdate);
 
-
-        btnsetdate.setOnClickListener(new View.OnClickListener() {
+        ((MaterialButton)findViewById(R.id.btnmanifestdate)).setOnClickListener(new View.OnClickListener() {
+//       btnsetdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                new Picker().show(getSupportFragmentManager(), null);
+                dialogDatePickerDark((MaterialButton)v);
+//                new Picker().show(getSupportFragmentManager(), null);
 
 
             }
@@ -87,7 +90,33 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
 
     }
 
-
+    private void dialogDatePickerDark(final MaterialButton bt) {
+        Calendar cur_calender = Calendar.getInstance();
+        com.wdullaer.materialdatetimepicker.date.DatePickerDialog datePicker = com.wdullaer.materialdatetimepicker.date.DatePickerDialog.newInstance(
+                new com.wdullaer.materialdatetimepicker.date.DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(com.wdullaer.materialdatetimepicker.date.DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, monthOfYear);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        long date_ship_millis = calendar.getTimeInMillis();
+                        ((MaterialButton) findViewById(R.id.btnmanifestdate)).setText(Tools.getFormattedDateSimple(date_ship_millis));
+                    }
+                },
+                cur_calender.get(Calendar.YEAR),
+                cur_calender.get(Calendar.MONTH),
+                cur_calender.get(Calendar.DAY_OF_MONTH)
+        );
+        //set dark theme
+        datePicker.setThemeDark(true);
+        datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
+        datePicker.setCancelColor(getResources().getColor(R.color.grey_900));
+        datePicker.setOkColor(getResources().getColor(R.color.grey_900));
+        datePicker.setMinDate(cur_calender);
+        datePicker.show(getSupportFragmentManager(), "Datepickerdialog");
+//        datePicker.show(getFragmentManager(), "Datepickerdialog");
+    }
     private void getManifestClick() {
 
         Log.e("Route", app.getRoute());
@@ -120,14 +149,12 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
                                     String travel_from = jsonObject1.getString("travel_from");
                                     String travel_to = jsonObject1.getString("travel_to");
 
-
                                     Log.e("Car", car_name);
-
 
                                     mytripsDetails.add(new MytripsDetails(car_name, travel_from, travel_to, travel_from, travel_from));
 
-                                }
 
+                                }
 
                             } else {
 
@@ -135,7 +162,9 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
                                 progressDialog.dismiss();
 
                             }
+
                             manifestListAdapter = new MyTripsArrayAdapter(Onlinemanifest.this, mytripsDetails);
+
 
                             mytripslistView.setAdapter(manifestListAdapter);
                             manifestListAdapter.notifyDataSetChanged();
@@ -196,7 +225,6 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
 
         btnsetdate.setText(dateString);
         dbDate = btnsetdate.getText().toString();
-
 
 
 

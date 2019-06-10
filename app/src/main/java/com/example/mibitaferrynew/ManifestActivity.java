@@ -98,9 +98,7 @@ public class ManifestActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Manifest");
 
         btnlocal = findViewById(R.id.btnmanifestdate);
-
         mytripsDetails = new ArrayList<Manifests>();
-
         mytripsDetails_online = new ArrayList<MytripsDetails>();
 
         tetxadult = findViewById(R.id.tetxadult);

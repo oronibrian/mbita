@@ -114,7 +114,8 @@ public class LoginActivity extends AppCompatActivity {
         mProgress = new ACProgressFlower.Builder(this)
                 .direction(ACProgressConstant.PIE_AUTO_UPDATE)
                 .themeColor(Color.BLUE)
-//                .text("load..")
+               .text("loading routes...")
+                .textSize(22)
                 .fadeColor(Color.DKGRAY).build();
         mProgress.show();
 
@@ -152,7 +153,6 @@ public class LoginActivity extends AppCompatActivity {
 
                 String Mbita = "Mbita";
                 String mfangano = "Mfangano";
-
                 String luanda_kotiono = "Luanda Kotieno";
 
 

@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="50dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:text="Item" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+
+            android:text="Yesterday" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:text="Today" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+            android:text="Received" />
+
+        <TextView
+            android:id="@+id/txtreceived_yesterday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="4dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:text="0.00" />
+
+        <TextView
+            android:id="@+id/txtreceived_today"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="4dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:text="0.00" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+
+            android:text="Banked" />
+
+        <TextView
+            android:id="@+id/txtbanked_yesterday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:gravity="center_horizontal"
+            android:text="0.00" />
+
+        <TextView
+            android:id="@+id/txtbanked_today"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="4dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:text="0.00" />
+    </TableRow>
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:background="@color/colorPrimary"
+            android:padding="4dp"
+            android:gravity="center_horizontal"
+            android:text="Due" />
+
+        <TextView
+            android:id="@+id/txtdue_yesterday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:gravity="center_horizontal"
+            android:text="0.00" />
+
+        <TextView
+            android:id="@+id/txtdue_today"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:padding="4dp"
+            android:layout_weight="2"
+            android:gravity="center_horizontal"
+            android:text="0.00" />
+    </TableRow>
+
+
+    <TableRow>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:background="@color/colorPrimary"
+            android:gravity="center_horizontal"
+            android:padding="4dp"
+            android:text="Short" />
+
+        <TextView
+            android:id="@+id/txtshort_yesterday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:gravity="center_horizontal"
+            android:text="0.00" />
+
+        <TextView
+            android:id="@+id/txtshort_today"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:gravity="center_horizontal"
+            android:text="0.00" />
+    </TableRow>
+
+    <TableRow
+        android:layout_width="fill_parent"
+        android:layout_height="44dp"
+        >
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="350dp"
+            android:layout_height="44dp"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary" />
+    </TableRow>
+
+
+    <TableRow>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_margin="10dp"
+            android:background="@color/colorPrimary"
+            android:text="Submit" />
+    </TableRow>
+</TableLayout>
