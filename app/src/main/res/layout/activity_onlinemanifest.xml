@@ -30,6 +30,7 @@
             android:layout_marginLeft="8dp"
             android:background="@drawable/bg_color"
             android:text="set date"
+            android:layout_marginTop="30dp"
             app:cornerRadius="@dimen/spacing_xxlarge"
             android:textAlignment="center"
             android:textColor="#ffffff" />
