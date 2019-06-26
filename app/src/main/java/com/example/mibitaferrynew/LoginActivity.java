@@ -113,7 +113,7 @@ public class LoginActivity extends AppCompatActivity {
 
         mProgress = new ACProgressFlower.Builder(this)
                 .direction(ACProgressConstant.PIE_AUTO_UPDATE)
-                .themeColor(Color.CYAN)
+                .themeColor(Color.BLUE)
                .text("loading routes.")
                 .textSize(22)
                 .fadeColor(Color.DKGRAY).build();

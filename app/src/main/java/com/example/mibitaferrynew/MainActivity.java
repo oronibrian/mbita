@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         txttuktuk = findViewById(R.id.text_view_tuktuk);
         btnprocess = findViewById(R.id.btnprocess);
 
-        txtseats = findViewById(R.id.txtseats);
+//        txtseats = findViewById(R.id.txtseats);
 
 
 
@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity
 
         all_tickets = available_tickets.count();
 
-        txtseats.setText(String.format("%s Tickets Remaining", String.valueOf(all_tickets)));
+//        txtseats.setText(String.format("%s Tickets Remaining", String.valueOf(all_tickets)));
 
 
 

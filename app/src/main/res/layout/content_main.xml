@@ -7,37 +7,39 @@
     android:layout_margin="4dp"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <com.google.android.material.chip.Chip
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/TextAppearance.MaterialComponents.Chip"
             android:id="@+id/txtseats"
-            android:textColor="#ffffff"
+            android:textColor="@color/grey_60"
+            android:layout_gravity="center_horizontal"
             android:layout_margin="4dp"
-            app:chipBackgroundColor="@color/colorPrimaryDark"
+            app:chipBackgroundColor="@color/grey_20"
             android:textSize="20sp"
             android:gravity="center"
             android:text=" Remaining Tickets"
             android:textAlignment="center"/>
 
-    </LinearLayout>
+    </LinearLayout>-->
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_middle"
         android:padding="4dp"
-
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnupdate"
             style="@style/Widget.MaterialComponents.Button"
             android:layout_width="0dp"
+            android:padding="@dimen/spacing_middle"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginRight="4dp"
@@ -54,6 +56,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_marginLeft="4dp"
+            android:padding="@dimen/spacing_middle"
             app:cornerRadius="@dimen/spacing_xxlarge"
             android:background="@color/colorPrimaryDark"
             android:text="Process"
@@ -81,7 +84,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="@dimen/spacing_small"
                 app:cardCornerRadius="@dimen/spacing_small"
                 android:layout_margin="@dimen/spacing_small">
 
@@ -102,7 +104,7 @@
                         android:gravity="center_vertical"
                         android:padding="@dimen/activity_horizontal_margin"
                         android:text="Adult"
-                        android:textColor="@color/HeaderText"
+                        android:textColor="@color/grey_60"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -113,7 +115,6 @@
                         android:layout_weight="1.9"
                         android:gravity="center_horizontal|left"
                         android:padding="@dimen/spacing_xmedium"
-                        app:backGroundColor="@color/colorPrimaryDark"
                         app:textSize="14sp" />
 
                     <CheckBox
@@ -131,7 +132,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="@dimen/spacing_small"
                 app:cardCornerRadius="@dimen/spacing_small"
                 android:layout_margin="@dimen/spacing_small"
                 >
@@ -151,7 +151,7 @@
                         android:layout_weight="1"
                         android:padding="@dimen/activity_horizontal_margin"
                         android:text="Big Animal"
-                        android:textColor="@color/HeaderText"
+                        android:textColor="@color/grey_60"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -184,7 +184,6 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardElevation="@dimen/spacing_small"
                 app:cardCornerRadius="@dimen/spacing_small"
                 android:layout_margin="@dimen/spacing_small">
 
@@ -684,7 +683,7 @@
                         android:layout_centerHorizontal="true"
                         android:layout_weight="1.9"
                         android:padding="@dimen/spacing_xmedium"
-                        app:backGroundColor="@color/colorPrimaryDark"
+                        app:backGroundColor="@color/colorPrimary"
                         app:textSize="14sp" />
 
 

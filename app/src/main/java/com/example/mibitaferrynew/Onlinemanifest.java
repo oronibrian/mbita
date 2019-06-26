@@ -113,7 +113,6 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
         datePicker.setAccentColor(getResources().getColor(R.color.colorPrimary));
         datePicker.setCancelColor(getResources().getColor(R.color.grey_900));
         datePicker.setOkColor(getResources().getColor(R.color.grey_900));
-        datePicker.setMinDate(cur_calender);
         datePicker.show(getSupportFragmentManager(), "Datepickerdialog");
 //        datePicker.show(getFragmentManager(), "Datepickerdialog");
     }
@@ -225,7 +224,6 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
 
         btnsetdate.setText(dateString);
         dbDate = btnsetdate.getText().toString();
-
 
 
         getManifestClick();
