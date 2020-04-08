@@ -18,6 +18,13 @@
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
         tools:ignore="GoogleAppIndexingWarning">
+
+        <provider
+            android:name="com.activeandroid.content.ContentProvider"
+            android:authorities="${applicationId}"
+            android:exported="false" />
+
+
         <activity android:name=".Onlinemanifest"></activity>
         <activity android:name=".ManifestActivity">
 

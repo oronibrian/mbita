@@ -17,9 +17,12 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +30,7 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.NotificationCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -77,6 +81,15 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "Number";
+    String[] paymentmethods = {"Cash", "MPESA"};
+    String[] PaymentNames = {"Cash", "mpesa", "wallet"};
+
+    int payment_id;
+
+    Spinner paymentmethod;
+    CardView paymentcard;
+
+
 
     Ticket ticket;
     Adult adult;
@@ -121,6 +134,40 @@ public class MainActivity extends AppCompatActivity
         adult = new Adult("Adult", "", 0);
 
         app.setOtherprice("0");
+        paymentmethod = findViewById(R.id.paymentmethod);
+        paymentcard = findViewById(R.id.paymentcard);
+
+
+        ArrayAdapter ab = new ArrayAdapter(this, android.R.layout.simple_spinner_item, paymentmethods);
+        ab.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        paymentmethod.setAdapter(ab);
+        paymentmethod.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+
+                if (paymentmethod.getSelectedItem().toString().equalsIgnoreCase("Cash")) {
+
+                    Toast.makeText(getApplicationContext(), PaymentNames[0], Toast.LENGTH_SHORT).show();
+                    payment_id = 6;
+
+                } else {
+
+                    Toast.makeText(getApplicationContext(), PaymentNames[1], Toast.LENGTH_SHORT).show();
+                    payment_id = 3;
+
+
+                }
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 
 
@@ -204,6 +251,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
 
+
+
                 if(chkAdult.isChecked() ||
                         chkBigAnumal.isChecked()
                        ||chkBigTruck.isChecked()||
@@ -214,8 +263,11 @@ public class MainActivity extends AppCompatActivity
                         chkSaloonCar.isChecked()
                         ||chkSmallAnimal.isChecked()||
                         chkStationWagon.isChecked()||chkSmallTruck.isChecked()||chkTuktuk.isChecked()){
-                    print();
-                    processAndSave();
+                    paymentcard.setVisibility(View.VISIBLE);
+
+
+//                    print();
+//                    processAndSave();
 
 
                 }else {

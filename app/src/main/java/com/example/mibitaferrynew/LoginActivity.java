@@ -4,8 +4,6 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -59,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     String seats;
     EditText username, password;
     Dialog dialog;
-    ProgressDialog progressDialog;
+    ProgressDialog progressDialog, progressDialog2;
     MyApplication app;
     ArrayList<String> list_of_seats;
     private FerryRouteCardArrayAdapter cardArrayAdapter;
@@ -93,6 +91,12 @@ public class LoginActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
 
 
+        progressDialog2 = new ProgressDialog(LoginActivity.this);
+        progressDialog2.setMessage("Loading...");
+        progressDialog2.setTitle("Loading Routes");
+        progressDialog2.setProgressStyle(ProgressDialog.STYLE_SPINNER); // Progress Dialog Style Spinner
+        progressDialog2.setCancelable(false);
+
         listView = findViewById(R.id.card_listView);
 
         listView.addFooterView(new View(this));
@@ -103,7 +107,6 @@ public class LoginActivity extends AppCompatActivity {
         loadFerryRoutesandSeats();
 
         new Delete().from(Seat.class).execute();
-
 
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -126,7 +129,6 @@ public class LoginActivity extends AppCompatActivity {
                 String to_id = textView3.getText().toString();
 
                 saveRefferences();
-
 
 
                 Log.e("Route", route);
@@ -178,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), app.getFrom() + "  " + app.getTo(), Toast.LENGTH_SHORT).show();
 
 
-                dialog = new Dialog(context);
+                dialog = new Dialog(context, android.R.style.Theme_DeviceDefault_Light_DialogWhenLarge);
                 dialog.setContentView(R.layout.login_dialog);
                 dialog.setTitle("      Account Login");
 
@@ -395,6 +397,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void loadFerryRoutesandSeats() {
+        progressDialog2.show();
 
 
         RequestQueue ferryrequests = Volley.newRequestQueue(LoginActivity.this);
@@ -416,6 +419,8 @@ public class LoginActivity extends AppCompatActivity {
                             if (response.getInt("response_code") == 0) {
                                 JSONArray jsonArray = response.getJSONArray("bus");
                                 Log.i("Response:", jsonArray.toString());
+
+                                progressDialog2.dismiss();
 
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
@@ -521,7 +526,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Log.e("Seater", jsonObjSubCategory.getString("seater"));
                                         Log.e("Seat", jsonObjSubCategory.getString("name"));
 
-                                        String string_seats=jsonObjSubCategory.getString("name").replaceAll("\\s+","");
+                                        String string_seats = jsonObjSubCategory.getString("name").replaceAll("\\s+", "");
 
                                         list_of_seats = new ArrayList<String>(Arrays.asList(string_seats.split(",")));
                                         Log.e("Seat List", list_of_seats.toString());
@@ -532,15 +537,13 @@ public class LoginActivity extends AppCompatActivity {
 
 
                             //Save first 500 tickets
-                                for (int n = 0; n < 500; n++) {
+                            for (int n = 0; n < 500; n++) {
 
-                                    Seat seat = new Seat();
-                                    seat.name = list_of_seats.get(n);
-                                    seat.save();
+                                Seat seat = new Seat();
+                                seat.name = list_of_seats.get(n);
+                                seat.save();
 
-                                }
-
-
+                            }
 
 
                         } else {
