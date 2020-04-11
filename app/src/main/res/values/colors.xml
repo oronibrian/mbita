@@ -6,6 +6,7 @@
 
     <color name="colorText">#FFFFFF</color>
     <color name="HeaderText" tools:ignore="MissingDefaultResource">#000</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>
 

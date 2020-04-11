@@ -16,7 +16,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
@@ -70,10 +72,16 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
+
+
         setContentView(R.layout.activity_login);
 
 
         app = (MyApplication) getApplication();
+
+//        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar_top);
+//        setSupportActionBar(toolbar);
 
         String currentDate = new SimpleDateFormat("dd-MM-yyy").format(new Date());
 
@@ -128,16 +136,16 @@ public class LoginActivity extends AppCompatActivity {
                 String from_id = textView2.getText().toString();
                 String to_id = textView3.getText().toString();
 
+                TextView textView4 = view.findViewById(R.id.ferry_id);
+                String ferry_id = textView4.getText().toString();
+
                 saveRefferences();
 
 
-                Log.e("Route", route);
-                Log.e("to_id", to_id);
-                Log.e("from_id", from_id);
+
 
 
                 app.setRoute(route);
-
 
                 String Mbita = "Mbita";
                 String mfangano = "Mfangano";
@@ -151,28 +159,50 @@ public class LoginActivity extends AppCompatActivity {
 
                     app.setTo_id(to_id);
                     app.setFrom_id(from_id);
+                    app.setFerry_id(ferry_id);
+
+                    Log.e("Route", route);
+                    Log.e("to_id", to_id);
+                    Log.e("from_id", from_id);
+                    Log.e("ferry_id", ferry_id);
+
 
                 } else if (selected.equals("1")) {
                     app.setTo(Mbita);
                     app.setFrom(mfangano);
-
+                    app.setFerry_id(ferry_id);
                     app.setTo_id(to_id);
                     app.setFrom_id(from_id);
+
+                    Log.e("Route", route);
+                    Log.e("to_id", to_id);
+                    Log.e("from_id", from_id);
+                    Log.e("ferry_id", ferry_id);
 
                 } else if (selected.equals("2")) {
                     app.setTo(luanda_kotiono);
                     app.setFrom(Mbita);
-
+                    app.setFerry_id(ferry_id);
                     app.setTo_id(to_id);
                     app.setFrom_id(from_id);
+
+                    Log.e("Route", route);
+                    Log.e("to_id", to_id);
+                    Log.e("from_id", from_id);
+                    Log.e("ferry_id", ferry_id);
 
 
                 } else if (selected.equals("3")) {
                     app.setTo(Mbita);
                     app.setFrom(luanda_kotiono);
-
+                    app.setFerry_id(ferry_id);
                     app.setTo_id(to_id);
                     app.setFrom_id(from_id);
+
+                    Log.e("Route", route);
+                    Log.e("to_id", to_id);
+                    Log.e("from_id", from_id);
+                    Log.e("ferry_id", ferry_id);
 
 
                 }
@@ -180,9 +210,14 @@ public class LoginActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), app.getFrom() + "  " + app.getTo(), Toast.LENGTH_SHORT).show();
 
 
-                dialog = new Dialog(context, android.R.style.Theme_DeviceDefault_Light_DialogWhenLarge);
+                dialog = new Dialog(context, android.R.style.Theme_DeviceDefault_Light_NoActionBar_Fullscreen);
                 dialog.setContentView(R.layout.login_dialog);
                 dialog.setTitle("      Account Login");
+
+                TextView selected_route=dialog.findViewById(R.id.selected_route);
+
+                selected_route.setText(route);
+
 
 
                 username = dialog.findViewById(R.id.editTextusername);
@@ -232,14 +267,14 @@ public class LoginActivity extends AppCompatActivity {
             progressDialog.show();
             RequestQueue reserverequestQueue = Volley.newRequestQueue(LoginActivity.this);
             HashMap<String, String> params = new HashMap<String, String>();
-            params.put("username", "rWIv7GWzSp");
-            params.put("api_key", "831b238c5cd73308520e38bbc6c1774f470a89e96d07a5bb6bcac3b86456f889");
-            params.put("action", "UserLogin");
-            params.put("clerk_username", email);
-            params.put("clerk_password", pass);
+            params.put("developer_username", "rWIv7GWzSp");
+            params.put("developer_api_key", "831b238c5cd73308520e38bbc6c1774f470a89e96d07a5bb6bcac3b86456f889");
+            params.put("action", "userlogin");
+            params.put("username", email);
+            params.put("password", pass);
 
 
-            JsonObjectRequest req = new JsonObjectRequest(urls.apiUrl, new JSONObject(params),
+            JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, urls.login, new JSONObject(params),
                     response -> {
                         try {
 
@@ -248,10 +283,18 @@ public class LoginActivity extends AppCompatActivity {
                                 String last_name = response.getString("last_name");
 
                                 String phone_num = response.getString("phone_number");
+                                String company_name = response.getString("company_name");
+                                String api_key = response.getString("api_key");
+                                String company_apis_url = response.getString("company_apis_url");
+
+                                String id_number = response.getString("id_number");
+
 
 
                                 app.setLogged_user(first_name + " " + last_name);
                                 app.setPhone_num(phone_num);
+                                app.setCompany_apis_url(company_apis_url);
+                                app.setId_number(id_number);
 
                                 progressDialog.dismiss();
 
@@ -274,6 +317,8 @@ public class LoginActivity extends AppCompatActivity {
 
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            progressDialog.dismiss();
+
                         }
                     }, new Response.ErrorListener() {
                 @Override
@@ -425,6 +470,7 @@ public class LoginActivity extends AppCompatActivity {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject jsonObject1 = jsonArray.getJSONObject(i);
                                     String ferry_route = jsonObject1.getString("route");
+                                    String feery_id = jsonObject1.getString("id");
 
                                     String travel_from = jsonObject1.getString("from");
                                     String travel_to = jsonObject1.getString("to");
@@ -435,7 +481,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Log.e("Ferry Routes: ", ferry_route);
 
-                                    Routes card = new Routes(ferry_route, travel_from, travel_to, ferry_route, from_id, to_id);
+                                    Routes card = new Routes(feery_id,ferry_route, travel_from, travel_to, ferry_route, from_id, to_id);
 
                                     cardArrayAdapter.add(card);
 

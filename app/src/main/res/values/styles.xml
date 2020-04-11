@@ -66,4 +66,9 @@
         <item name="colorPrimary">?attr/colorAccent</item>
     </style>
 
+
+    <style name="ToolbarSubtitleAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Subtitle">
+        <item name="android:textSize">14sp</item>
+    </style>
+
 </resources>

@@ -14,8 +14,12 @@ public class MyApplication extends Application {
     String pasword;
     String api_key;
     String Hash_key;
+    String ferry_id;
+    String payment_method;
 
     String Travel_date;
+    String company_apis_url;
+    String id_number;
 
 
     private String name;
@@ -27,9 +31,9 @@ public class MyApplication extends Application {
 
     String otherprice;
     String Othername;
-    String Route;
+    String Route,yournamberyournamber;
 
-    String to_id,from_id;
+    String to_id,from_id,refno,mpesanumber;
 
 
     @Override
@@ -40,6 +44,62 @@ public class MyApplication extends Application {
         ActiveAndroid.initialize(this);
     }
 
+    public String getId_number() {
+        return id_number;
+    }
+
+    public void setId_number(String id_number) {
+        this.id_number = id_number;
+    }
+
+    public String getCompany_apis_url() {
+        return company_apis_url;
+    }
+
+    public void setCompany_apis_url(String company_apis_url) {
+        this.company_apis_url = company_apis_url;
+    }
+
+    public String getFerry_id() {
+        return ferry_id;
+    }
+
+    public void setFerry_id(String ferry_id) {
+        this.ferry_id = ferry_id;
+    }
+
+    public String getRefno() {
+        return refno;
+    }
+
+    public void setRefno(String refno) {
+        this.refno = refno;
+    }
+
+    public String getYournamberyournamber() {
+        return yournamberyournamber;
+    }
+
+    public void setYournamberyournamber(String yournamberyournamber) {
+        this.yournamberyournamber = yournamberyournamber;
+    }
+
+
+    public String getMpesanumber() {
+        return mpesanumber;
+    }
+
+    public void setMpesanumber(String mpesanumber) {
+        this.mpesanumber = mpesanumber;
+    }
+
+    public String getPayment_method() {
+        return payment_method;
+    }
+
+    public void setPayment_method(String payment_method) {
+        this.payment_method = payment_method;
+    }
 
     public String getTo_id() {
         return to_id;

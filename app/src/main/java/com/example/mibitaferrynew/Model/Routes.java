@@ -2,19 +2,29 @@ package com.example.mibitaferrynew.Model;
 
 public class Routes {
 
-    String name;
+    String name,ferry_id;
     String ferry_route;
-    String to,from;
-    String to_id,from_id;
+    String to, from;
+    String to_id, from_id;
 
 
-    public Routes(String name, String ferry_route, String to, String from, String to_id, String from_id) {
+    public Routes(String ferry_id,String name, String ferry_route, String to, String from, String from_id, String to_id) {
+        this.ferry_id=ferry_id;
         this.name = name;
         this.ferry_route = ferry_route;
         this.to = to;
         this.from = from;
-        this.to_id = to_id;
         this.from_id = from_id;
+        this.to_id = to_id;
+
+    }
+
+    public String getFerry_id() {
+        return ferry_id;
+    }
+
+    public void setFerry_id(String ferry_id) {
+        this.ferry_id = ferry_id;
     }
 
     public String getTo_id() {

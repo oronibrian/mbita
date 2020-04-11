@@ -96,7 +96,7 @@ public class Onlinemanifest extends AppCompatActivity implements DatePickerDialo
         params.put("action", "PassengerManifest");
         params.put("travel_date", dbDate);
 
-        JsonObjectRequest req = new JsonObjectRequest(urls.apiUrl, new JSONObject(params),
+        JsonObjectRequest req = new JsonObjectRequest(app.getCompany_apis_url(), new JSONObject(params),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {

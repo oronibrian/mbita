@@ -9,12 +9,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:textColor="@color/white"
         android:hint="type" />
 
     <TextView
         android:id="@+id/number_list_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textColor="@color/white"
+
         android:hint="number" />
 
     <TextView

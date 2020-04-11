@@ -50,5 +50,6 @@ dependencies {
     implementation 'com.michaelpardo:activeandroid:3.1.0-SNAPSHOT'
     implementation 'com.github.congfandi:simpleDatePicker:Dateicker'
 
+    implementation 'com.simmorsal.library:concealer_nested_scroll_view:2.0.0'
 
 }
