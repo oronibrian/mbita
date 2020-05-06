@@ -61,6 +61,7 @@ import com.example.mibitaferrynew.TableModel.Seat;
 import com.example.mibitaferrynew.TableModel.Ticket;
 import com.example.mibitaferrynew.service.AlarmReceiver;
 import com.google.android.material.navigation.NavigationView;
+import com.mobiwire.CSAndroidGoLib.CsPrinter;
 import com.nbbse.printapi.Printer;
 
 import org.json.JSONArray;
@@ -72,6 +73,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+
+import static com.activeandroid.Cache.getContext;
+import static com.mobiwire.CSAndroidGoLib.CsPrinter.printEndLine;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -103,6 +107,8 @@ public class MainActivity extends AppCompatActivity
     TextView headertext;
     String ref;
     MyApplication app;
+    Printer print;
+
     String refno;
     int total, all_tickets;
     TextView txtseats;
@@ -128,6 +134,7 @@ public class MainActivity extends AppCompatActivity
         app.setOtherprice("0");
         paymentmethod = findViewById(R.id.paymentmethod);
         paymentcard = findViewById(R.id.paymentcard);
+        print = Printer.getInstance();
 
 
         confirmtransProgress = new ProgressDialog(this);
@@ -286,7 +293,7 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     //Show disconnected screen
                 }
-                batch_reserve();
+//                batch_reserve();
 
             }
         }, 200000);  //the time is in miliseconds
@@ -1967,8 +1974,7 @@ public class MainActivity extends AppCompatActivity
 
                             }
 
-//                            printMpesaTicket(source_name, source_account_number, trasaction_id, amount);
-                            print();
+                            printMpesaTicket(source_name, source_account_number, trasaction_id, amount);
 
 
                         } else {
@@ -2467,11 +2473,98 @@ public class MainActivity extends AppCompatActivity
             print.printBitmap(getResources().openRawResource(R.raw.payment_methods_old));
             print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
             print.printEndLine();
-        } else {
-            Toast.makeText(this, "printer not supported", Toast.LENGTH_SHORT).show();
+        } else if (Build.MODEL.equals("MP4") || Build.MODEL.equals("MP3_Plus")) {
+
+
+            Toast.makeText(getContext(), "Printing", Toast.LENGTH_SHORT).show();
+
+            CsPrinter printer = new CsPrinter();
+            printer.addTextToPrint("     ------Mbita Ferry Services-----     ", null, 40, true, false, 1);
+            printer.addTextToPrint("         Mbita,KENYA      ", null, 20, true, false, 1);
+            printer.addTextToPrint("Date: " + app.getTravel_date(), null, 20, true, false, 1);
+
+
+            CsPrinter csPrinter = printer;
+
+
+
+            csPrinter.addTextToPrint("Issued On :" + currentDateandTime, null, 25, true, false, 0);
+            csPrinter.addTextToPrint("Served By :" + app.getLogged_user(), null, 25, true, false, 0);
+
+            csPrinter.addBitmapFromRawToPrint(getContext(), R.raw.powered_by_mobiticket);
+            printEndLine();
+            printer.print(getContext());
+
 
         }
     }
+
+    private void printMpesaTicket(String name, String phone, String trasaction_id, String amount) {
+        String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+
+        if (Build.MODEL.equals("MobiPrint")) {
+
+
+            Toast.makeText(getApplicationContext(), "Mobiwire Printing Ticket", Toast.LENGTH_LONG).show();
+            print.printFormattedText();
+
+            print.printText("    ------Mbita Ferry Services-----     ");
+
+            print.printText("         Mbita,KENYA        ");
+            print.printText("                            ");
+
+
+            print.printText("Paid By: " + name);
+            print.printText("Phone no: " + phone);
+            print.printText("Transaction ID: " + trasaction_id);
+
+            print.printFormattedTextPrepare();
+            print.addString("Ref:" + app.getRefno(), 2, true);
+            print.printFormattedText();
+
+
+            print.printFormattedTextPrepare();
+            print.addString("Fare: " + amount + "/=", 2, true);
+            print.printFormattedText();
+
+
+            print.printText("Issued On: " + currentDateandTime);
+            print.printText("Served By: " + app.getLogged_user());
+
+
+            print.printBitmap(getResources().openRawResource(R.raw.powered_by_mobiticket));
+            print.printEndLine();
+
+        } else if (Build.MODEL.equals("MP4") || Build.MODEL.equals("MP3_Plus")) {
+
+
+            Toast.makeText(getApplicationContext(), "Printing", Toast.LENGTH_SHORT).show();
+
+            CsPrinter printer = new CsPrinter();
+            printer.addTextToPrint("     ------Mbita Ferry Services-----     ", null, 40, true, false, 1);
+            printer.addTextToPrint("         Nairobi,KENYA      ", null, 20, true, false, 1);
+
+
+            CsPrinter csPrinter = printer;
+
+            csPrinter.addTextToPrint("Fare: " + price + "/=", null, 40, true, false, 0);
+            csPrinter.addTextToPrint("Paid By: " + name, null, 40, true, true, 0);
+            csPrinter.addTextToPrint("Phone no: " + phone, null, 40, true, true, 0);
+            csPrinter.addTextToPrint("Transaction ID: " + trasaction_id, null, 40, true, true, 0);
+
+            csPrinter.addTextToPrint("Issued On: " + currentDateandTime, null, 25, true, false, 0);
+            csPrinter.addTextToPrint("Served By: " + app.getLogged_user(), null, 25, true, false, 0);
+            csPrinter.addBitmapFromRawToPrint(this, R.raw.powered_by_mobiticket);
+            printEndLine();
+            printer.print(this);
+
+        } else {
+            Toast.makeText(getApplicationContext(), "Printing Not supported", Toast.LENGTH_SHORT).show();
+
+
+        }
+    }
+
 
     @Override
     public void onBackPressed() {

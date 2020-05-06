@@ -63,7 +63,9 @@ public class FerryRouteCardArrayAdapter  extends ArrayAdapter<Routes> {
             viewHolder = (CardViewHolder)row.getTag();
         }
         Routes card = getItem(position);
-        viewHolder.line1.setText(card.getName());
+        String name=card.getName();
+        name=name.replaceAll("Ferry 1: ","");
+        viewHolder.line1.setText(name);
         viewHolder.route.setText(card.getFerry_route());
         viewHolder.to_id.setText(card.getTo_id());
         viewHolder.fro_id.setText(card.getFrom_id());

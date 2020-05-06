@@ -19,7 +19,7 @@
             android:id="@+id/icon"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            app:srcCompat="@drawable/mpesa" />
+            app:srcCompat="@drawable/mpesa1" />
 
     </LinearLayout>
 
@@ -29,13 +29,12 @@
         android:gravity="center_vertical|start"
         android:orientation="vertical"
         android:layout_gravity="center"
-        android:padding="50dp">
+        android:padding="10dp">
 
         <TextView
             android:id="@+id/mpesasms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:text="Message"
             android:layout_gravity="center"
             android:textAlignment="center"
