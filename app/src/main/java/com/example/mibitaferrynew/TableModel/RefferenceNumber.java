@@ -8,7 +8,6 @@ import com.activeandroid.query.Select;
 import java.util.List;
 
 @Table(name = "reference")
-
 public class RefferenceNumber extends Model {
     //The table consist only one field name
 

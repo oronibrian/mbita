@@ -20,8 +20,6 @@ public class MyApplication extends Application {
     String Travel_date;
     String company_apis_url;
     String id_number;
-
-
     private String name;
     private String Phone_num,car_name,remaining_seats;
     int no_passenges;

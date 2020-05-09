@@ -4,14 +4,18 @@ import android.app.AlarmManager;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
+import android.app.Service;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -56,13 +60,16 @@ import com.android.volley.toolbox.Volley;
 import com.cepheuen.elegantnumberbutton.view.ElegantNumberButton;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Model.Adult;
+import com.example.mibitaferrynew.TableModel.Price;
 import com.example.mibitaferrynew.TableModel.RefferenceNumber;
 import com.example.mibitaferrynew.TableModel.Seat;
 import com.example.mibitaferrynew.TableModel.Ticket;
 import com.example.mibitaferrynew.service.AlarmReceiver;
 import com.google.android.material.navigation.NavigationView;
+import com.mobiwire.CSAndroidGoLib.AndroidGoCSApi;
 import com.mobiwire.CSAndroidGoLib.CsPrinter;
 import com.nbbse.printapi.Printer;
+import com.sagereal.printer.PrinterInterface;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -74,6 +81,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import javax.net.ssl.SNIMatcher;
+
 import static com.activeandroid.Cache.getContext;
 import static com.mobiwire.CSAndroidGoLib.CsPrinter.printEndLine;
 
@@ -81,6 +90,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "Number";
+    public static PrinterInterface printInterfaceService;
     String[] paymentmethods = {"Cash", "MPESA"};
     String[] PaymentNames = {"Cash", "mpesa", "wallet"};
     Handler handler = new Handler();
@@ -108,11 +118,27 @@ public class MainActivity extends AppCompatActivity
     String ref;
     MyApplication app;
     Printer print;
-
+    CsPrinter mp4Printer;
     String refno;
     int total, all_tickets;
+    Price Adult_item, Big_item, Station_item, Tuk_item,
+            Big_Truck_item, Child_item, Luggage_item, Motor_item, Other_item, Saloon_item, Small_item, Small_Truck_item;
+
     TextView txtseats;
     ConnectivityChangeReceiver broadcastObserver = new ConnectivityChangeReceiver();
+    private ServiceConnection serviceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            android.util.Log.d("TestApp ", "aidl connect fail");
+            printInterfaceService = null;
+        }
+
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            android.util.Log.d("TestApp", "aidl connect success");
+            printInterfaceService = PrinterInterface.Stub.asInterface(service);
+        }
+    };
     private PendingIntent pendingIntent;
     private ProgressDialog confirmtransProgress, mProgress;
 
@@ -120,6 +146,14 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Build.MODEL.equals("MP4") || Build.MODEL.equals("MP3_Plus")) {
+            new AndroidGoCSApi(getApplicationContext());
+            mp4Printer = new CsPrinter();
+
+        }
+
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -214,7 +248,7 @@ public class MainActivity extends AppCompatActivity
         View header = ((NavigationView) findViewById(R.id.nav_view)).getHeaderView(0);
 
         headertext = header.findViewById(R.id.menutxt);
-        headertext.setText(String.format("%s\n%s", app.getLogged_user(), app.getPhone_num()));
+        headertext.setText(String.format("%s\n%s\n%s", app.getLogged_user(), app.getPhone_num(), app.getRoute()));
 
         showRefsList();
         txtadlt = findViewById(R.id.text_view);
@@ -261,6 +295,29 @@ public class MainActivity extends AppCompatActivity
             ref = items.get(i).name;
             Log.e("Ref Number", ref);
         }
+
+
+        new Delete().from(Price.class).where("name = ?", "Tuk Tuk - Standard - 250.00").execute();
+        List<Price> price_item = new Select().from(Price.class).execute();
+
+        Adult_item = new Select().from(Price.class).where("name = ?", "Adult - Standard - 150.00").executeSingle();
+        Big_item = new Select().from(Price.class).where("name = ?", "Big Animal - Standard - 300.00").executeSingle();
+
+        Station_item = new Select().from(Price.class).where("name = ?", "Station Wagon - Standard - 1160.00").executeSingle();
+        Tuk_item = new Select().from(Price.class).where("name = ?", "Tuk Tuk - Standard - 500.00").executeSingle();
+
+        Big_Truck_item = new Select().from(Price.class).where("name = ?", "Big Truck - Standard - 2320.00").executeSingle();
+
+        Child_item = new Select().from(Price.class).where("name = ?", "Child - Standard - 50.00").executeSingle();
+        Luggage_item = new Select().from(Price.class).where("name = ?", "Luggage - Standard - 60.00").executeSingle();
+        Motor_item = new Select().from(Price.class).where("name = ?", "Motor Cycle - Standard - 250.00").executeSingle();
+        Other_item = new Select().from(Price.class).where("name = ?", "Other - Standard - 0.00").executeSingle();
+        Saloon_item = new Select().from(Price.class).where("name = ?", "Saloon Car - Standard - 930.00").executeSingle();
+        Small_item = new Select().from(Price.class).where("name = ?", "Small Animal - Standard - 200.00").executeSingle();
+        Small_Truck_item = new Select().from(Price.class).where("name = ?", "Small Truck - Standard - 1740.00").executeSingle();
+
+        Log.e("Name", Adult_item.name);
+        Log.e("price", String.valueOf(Adult_item.cost));
 
 
         final List<Ticket> check = new Select().from(Ticket.class).orderBy("date ASC").execute();
@@ -1017,6 +1074,7 @@ public class MainActivity extends AppCompatActivity
 
         final List<Ticket> list2 = new Select().from(Ticket.class).where("reference= ?", refno).orderBy("Ticket_type ASC").execute();
 
+
         Log.e("List", list2.toString());
 
         JSONObject obj;
@@ -1032,7 +1090,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> adults = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, adult_keyword).orderBy("date ASC").execute();
 
         int count = adults.size();
-        int adult_cost = count * 150;
+        int adult_cost = (int) (count * (Adult_item.cost));
 
 //        Log.e("Name",String.valueOf(adults.get(0).ticket_type));
 
@@ -1044,7 +1102,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> big_animal = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, big_animal_keyword).orderBy("date ASC").execute();
 
         int big_animal_count = big_animal.size();
-        int big_animal_cost = big_animal_count * 300;
+        int big_animal_cost = (int) (big_animal_count * Big_item.cost);
 
         //----------------------------------------Station Wagon--------------------------
 
@@ -1053,7 +1111,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> station_wagon = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, station_wagon_keyword).orderBy("date ASC").execute();
 
         int station_wagon_count = station_wagon.size();
-        int station_wagon_cost = station_wagon_count * 1160;
+        int station_wagon_cost = (int) (station_wagon_count * Station_item.cost);
 
         //----------------------------------------Tuk Tuk--------------------------
 
@@ -1062,7 +1120,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> tuk_tuk = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, tuk_tuk_keyword).orderBy("date ASC").execute();
 
         int tuk_tuk_count = tuk_tuk.size();
-        int tuk_tuk_cost = tuk_tuk_count * 500;
+        int tuk_tuk_cost = (int) (tuk_tuk_count * Tuk_item.cost);
 
         //----------------------------------------Big Truck--------------------------
 
@@ -1071,17 +1129,18 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> big_truck = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, big_truck_keyword).orderBy("date ASC").execute();
 
         int big_truck_count = big_truck.size();
-        int big_truck_cost = big_truck_count * 2320;
+        int big_truck_cost = (int) (big_truck_count * Big_Truck_item.cost);
 
 
         //----------------------------------------Child --------------------------
 
         String child_keyword = "Child";
 
+
         List<Ticket> child = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, child_keyword).orderBy("date ASC").execute();
 
         int child_count = child.size();
-        int child_count_cost = child_count * 50;
+        int child_count_cost = (int) (child_count * Child_item.cost);
 
 
         //----------------------------------------Luggage --------------------------
@@ -1091,7 +1150,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> luggage = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, luggage_keyword).orderBy("date ASC").execute();
 
         int luggage_count = luggage.size();
-        int luggage_count_cost = luggage_count * 60;
+        int luggage_count_cost = (int) (luggage_count * Luggage_item.cost);
 
 
         //----------------------------------------Motor Cycle --------------------------
@@ -1101,7 +1160,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> motor = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, motor_keyword).orderBy("date ASC").execute();
 
         int motor_count = motor.size();
-        int motor_count_cost = motor_count * 250;
+        int motor_count_cost = (int) (motor_count * Motor_item.cost);
 
 
         //----------------------------------------Other --------------------------
@@ -1111,7 +1170,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> other = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, other_keyword).orderBy("date ASC").execute();
 
         int other_count = other.size();
-        int other_count_cost = motor_count * 20;
+        int other_count_cost = (int) (motor_count * Other_item.cost);
 
 
         //----------------------------------------Saloon car --------------------------
@@ -1121,7 +1180,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> saloon_car = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Saloon_keyword).orderBy("date ASC").execute();
 
         int saloon_count = saloon_car.size();
-        int saloon_count_count_cost = saloon_count * 930;
+        int saloon_count_count_cost = (int) (saloon_count * Saloon_item.cost);
 
 
         //----------------------------------------Small Animal --------------------------
@@ -1131,7 +1190,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> small_animal = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Small_animal_keyword).orderBy("date ASC").execute();
 
         int small_anima_count = small_animal.size();
-        int small_animal_count_cost = small_anima_count * 200;
+        int small_animal_count_cost = (int) (small_anima_count * Small_item.cost);
 
 
         //----------------------------------------Small Truck --------------------------
@@ -1141,7 +1200,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> small_truck = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Small_truck_keyword).orderBy("date ASC").execute();
 
         int small_truck_count = small_truck.size();
-        int small_truck_count_cost = small_truck_count * 1740;
+        int small_truck_count_cost = (int) (small_truck_count * Small_Truck_item.cost);
 
 
         Log.e("Adults", String.valueOf(count));
@@ -1322,7 +1381,7 @@ public class MainActivity extends AppCompatActivity
 
             try {
                 obj.put("passenger_name", String.valueOf(small_truck.get(0).ticket_type));
-                obj.put("phone_number",mpesanumber);
+                obj.put("phone_number", mpesanumber);
                 obj.put("id_number", app.getId_number());
                 obj.put("from_city", app.getFrom_id());
                 obj.put("to_city", app.getTo_id());
@@ -1797,7 +1856,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 dialog.cancel();
-                startActivity(new Intent(MainActivity.this,MainActivity.class));
+                startActivity(new Intent(MainActivity.this, MainActivity.class));
 
             }
         });
@@ -1809,6 +1868,7 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View v) {
 
                 searchMpesaTransaction(app.getRefno());
+
 //                dialog.cancel();
 
 
@@ -1949,7 +2009,7 @@ public class MainActivity extends AppCompatActivity
                         if (code.equals("0")) {
 
                             confirmtransProgress.dismiss();
-                            startActivity(new Intent(MainActivity.this,MainActivity.class));
+                            startActivity(new Intent(MainActivity.this, MainActivity.class));
 
                             String message = response.getString("response_message");
 
@@ -2048,7 +2108,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Adult";
-                    ticket.cost = 150;
+                    ticket.cost = (int) Adult_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2076,7 +2136,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Big Animal";
-                    ticket.cost = 300;
+                    ticket.cost = (int) Big_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2103,7 +2163,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Big Truck";
-                    ticket.cost = 2320;
+                    ticket.cost = (int) Big_Truck_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2129,7 +2189,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Child";
-                    ticket.cost = 50;
+                    ticket.cost = (int) Child_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2156,7 +2216,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Luggage";
-                    ticket.cost = 60;
+                    ticket.cost = (int) Luggage_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2182,7 +2242,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Motor Cycle";
-                    ticket.cost = 250;
+                    ticket.cost = (int) Motor_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2237,7 +2297,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Saloon Car";
-                    ticket.cost = 930;
+                    ticket.cost = (int) Saloon_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.save();
@@ -2260,7 +2320,7 @@ public class MainActivity extends AppCompatActivity
                     }
                     ticket = new Ticket();
                     ticket.ticket_type = "Small Animal";
-                    ticket.cost = 200;
+                    ticket.cost = (int) Small_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2287,7 +2347,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Small Truck";
-                    ticket.cost = 1740;
+                    ticket.cost = (int) Small_Truck_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2311,7 +2371,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Station Wagon";
-                    ticket.cost = 1160;
+                    ticket.cost = (int) Station_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2338,7 +2398,7 @@ public class MainActivity extends AppCompatActivity
 
                     ticket = new Ticket();
                     ticket.ticket_type = "Tuk Tuk";
-                    ticket.cost = 500;
+                    ticket.cost = (int) Tuk_item.cost;
                     ticket.date = date;
                     ticket.ref_no = ref;
                     ticket.seat_no = seat_no;
@@ -2352,10 +2412,10 @@ public class MainActivity extends AppCompatActivity
             ActiveAndroid.setTransactionSuccessful();
             Toast.makeText(getApplicationContext(), "Tickets saved successfully", Toast.LENGTH_SHORT).show();
 
-            if (payment_id==3){
+            if (payment_id == 3) {
                 MpesaDialog(ref);
 
-            }else {
+            } else {
                 print();
                 startActivity(new Intent(this, MainActivity.class));
                 finish();
@@ -2376,9 +2436,10 @@ public class MainActivity extends AppCompatActivity
         String currentDateandTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
 
-        total = (adultnum * 150) + (biganimalnum * 300) + (bigtrucknum * 2320) + (childnum * 50)
-                + (luggagenum * 60) + (motorCyclenum * 250) + (saloonCarnum * 930) + (smallAnimalnum * 200) + (smallTrucknum * 1740)
-                + (stationWagonnum * 1160) + (tuktuknum * 500) + (othernum * Integer.valueOf(app.getOtherprice()));
+        total = (int) ((adultnum * Adult_item.cost) + (biganimalnum * Big_item.cost) + (bigtrucknum * Big_Truck_item.cost) + (childnum * Child_item.cost)
+                        + (luggagenum * Luggage_item.cost) + (motorCyclenum * Motor_item.cost) + (saloonCarnum * Saloon_item.cost)
+                + (smallAnimalnum * Small_item.cost) + (smallTrucknum * Small_Truck_item.cost)
+                        + (stationWagonnum * Station_item.cost) + (tuktuknum * Tuk_item.cost) + (othernum * Integer.valueOf(app.getOtherprice())));
 
 
         if (Build.MODEL.equals("MobiPrint")) {
@@ -2401,36 +2462,36 @@ public class MainActivity extends AppCompatActivity
 
 
             if (chkAdult.isChecked()) {
-                print.printText("Adult" + "           " + adultnum + "    " + adultnum * 150);
+                print.printText("Adult" + "           " + adultnum + "    " + adultnum *  Big_item.cost);
 
             }
 
 
             if (chkBigAnumal.isChecked()) {
-                print.printText("Big Animal" + "      " + biganimalnum + "    " + biganimalnum * 300);
+                print.printText("Big Animal" + "      " + biganimalnum + "    " + biganimalnum * Big_Truck_item.cost);
 
             }
 
             if (chkBigTruck.isChecked()) {
-                print.printText("Big Truck" + "       " + bigtrucknum + "    " + bigtrucknum * 2320);
+                print.printText("Big Truck" + "       " + bigtrucknum + "    " + bigtrucknum * Big_Truck_item.cost);
 
             }
 
 
             if (chkChild.isChecked()) {
-                print.printText("Child " + "          " + childnum + "    " + childnum * 50);
+                print.printText("Child " + "          " + childnum + "    " + childnum * Child_item.cost);
 
             }
 
 
             if (chkLuggage.isChecked()) {
-                print.printText("Luggage " + "        " + luggagenum + "    " + luggagenum * 60);
+                print.printText("Luggage " + "        " + luggagenum + "    " + luggagenum * Luggage_item.cost);
 
             }
 
 
             if (chkMotorCycle.isChecked()) {
-                print.printText("Motor Cycle " + "    " + motorCyclenum + "    " + motorCyclenum * 250);
+                print.printText("Motor Cycle " + "    " + motorCyclenum + "    " + motorCyclenum * Motor_item.cost);
 
             }
 
@@ -2442,29 +2503,29 @@ public class MainActivity extends AppCompatActivity
 
 
             if (chkSaloonCar.isChecked()) {
-                print.printText("Salon Car " + "      " + saloonCarnum + "    " + saloonCarnum * 930);
+                print.printText("Salon Car " + "      " + saloonCarnum + "    " + saloonCarnum * Saloon_item.cost);
 
             }
 
 
             if (chkSmallAnimal.isChecked()) {
-                print.printText("Small Animal " + "   " + smallAnimalnum + "    " + smallAnimalnum * 200);
+                print.printText("Small Animal " + "   " + smallAnimalnum + "    " + smallAnimalnum * Small_item.cost);
 
             }
 
 
             if (chkSmallTruck.isChecked()) {
-                print.printText("Small Truck " + "    " + smallTrucknum + "    " + smallTrucknum * 1740);
+                print.printText("Small Truck " + "    " + smallTrucknum + "    " + smallTrucknum * Small_Truck_item.cost);
 
             }
 
             if (chkStationWagon.isChecked()) {
-                print.printText("Station Wagon " + "  " + stationWagonnum + "    " + stationWagonnum * 1160);
+                print.printText("Station Wagon " + "  " + stationWagonnum + "    " + stationWagonnum * Station_item.cost);
 
             }
 
             if (chkTuktuk.isChecked()) {
-                print.printText("Tuk Tuk " + "        " + tuktuknum + "    " + tuktuknum * 500);
+                print.printText("Tuk Tuk " + "        " + tuktuknum + "    " + tuktuknum * Tuk_item.cost);
 
             }
             print.printText("Issued On :" + currentDateandTime);
@@ -2477,16 +2538,94 @@ public class MainActivity extends AppCompatActivity
 
 
             Toast.makeText(getContext(), "Printing", Toast.LENGTH_SHORT).show();
+            total = (int) ((adultnum * Adult_item.cost) + (biganimalnum * Big_item.cost) + (bigtrucknum * Big_Truck_item.cost) + (childnum * Child_item.cost)
+                    + (luggagenum * Luggage_item.cost) + (motorCyclenum * Motor_item.cost) + (saloonCarnum * Saloon_item.cost)
+                    + (smallAnimalnum * Small_item.cost) + (smallTrucknum * Small_Truck_item.cost)
+                    + (stationWagonnum * Station_item.cost) + (tuktuknum * Tuk_item.cost) + (othernum * Integer.valueOf(app.getOtherprice())));
+
 
             CsPrinter printer = new CsPrinter();
-            printer.addTextToPrint("     ------Mbita Ferry Services-----     ", null, 40, true, false, 1);
+            printer.addTextToPrint("Mbita Ferry Services", null, 30, true, false, 1);
             printer.addTextToPrint("         Mbita,KENYA      ", null, 20, true, false, 1);
             printer.addTextToPrint("Date: " + app.getTravel_date(), null, 20, true, false, 1);
+
+            printer.addTextToPrint("Amount: " + total, null, 30, true, false, 1);
+
+            printer.addTextToPrint("Ticket Ref: " + ref,null, 30, true, false, 1);
+            printer.addTextToPrint("Route: " + app.getFrom() + " " + app.getTo(),null, 30, true, false, 1);
+
+            printer.addTextToPrint("Item      Quantity    Cost\n",null, 30, true, false, 1);
 
 
             CsPrinter csPrinter = printer;
 
+            if (chkAdult.isChecked()) {
+                csPrinter.addTextToPrint("Adult" + "             " + adultnum + "     " + adultnum * Adult_item.cost, null, 25, true, false, 0);
 
+            }
+
+
+            if (chkBigAnumal.isChecked()) {
+                csPrinter.addTextToPrint("Big Animal" + "        " + biganimalnum + "    " + biganimalnum * Big_item.cost, null, 25, true, false, 0);
+
+            }
+
+            if (chkBigTruck.isChecked()) {
+                csPrinter.addTextToPrint("Big Truck" + "       " + bigtrucknum + "    " + bigtrucknum * Big_Truck_item.cost, null, 25, true, false, 0);
+
+            }
+
+
+            if (chkChild.isChecked()) {
+                csPrinter.addTextToPrint("Child " + "          " + childnum + "    " + childnum * Child_item.cost, null, 25, true, false, 0);
+
+            }
+
+
+            if (chkLuggage.isChecked()) {
+                csPrinter.addTextToPrint("Luggage " + "        " + luggagenum + "    " + luggagenum * Luggage_item.cost, null, 25, true, false, 0);
+
+            }
+
+
+            if (chkMotorCycle.isChecked()) {
+                csPrinter.addTextToPrint("Motor Cycle " + "    " + motorCyclenum + "    " + motorCyclenum * Motor_item.cost, null, 25, true, false, 0);
+
+            }
+
+
+            if (chkOther.isChecked()) {
+                csPrinter.addTextToPrint(app.getOthername() + "          " + othernum + "     " + othernum * (Integer.valueOf(app.getOtherprice())), null, 25, true, false, 0);
+
+            }
+
+
+            if (chkSaloonCar.isChecked()) {
+                csPrinter.addTextToPrint("Salon Car " + "      " + saloonCarnum + "    " + saloonCarnum * Saloon_item.cost, null, 25, true, false, 0);
+
+            }
+
+
+            if (chkSmallAnimal.isChecked()) {
+                csPrinter.addTextToPrint("Small Animal " + "   " + smallAnimalnum + "    " + smallAnimalnum * Small_item.cost, null, 25, true, false, 0);
+
+            }
+
+
+            if (chkSmallTruck.isChecked()) {
+                csPrinter.addTextToPrint("Small Truck " + "    " + smallTrucknum + "    " + smallTrucknum * Small_Truck_item.cost, null, 25, true, false, 0);
+
+            }
+
+            if (chkStationWagon.isChecked()) {
+                csPrinter.addTextToPrint("Station Wagon " + "  " + stationWagonnum + "    " + stationWagonnum * Station_item.cost, null, 25, true, false, 0);
+
+            }
+
+            if (chkTuktuk.isChecked()) {
+                csPrinter.addTextToPrint("Tuk Tuk " + "        " + tuktuknum + "    " + tuktuknum * Tuk_item.cost, null, 25, true, false, 0);
+
+            }
 
             csPrinter.addTextToPrint("Issued On :" + currentDateandTime, null, 25, true, false, 0);
             csPrinter.addTextToPrint("Served By :" + app.getLogged_user(), null, 25, true, false, 0);
@@ -2540,17 +2679,18 @@ public class MainActivity extends AppCompatActivity
 
             Toast.makeText(getApplicationContext(), "Printing", Toast.LENGTH_SHORT).show();
 
+
             CsPrinter printer = new CsPrinter();
-            printer.addTextToPrint("     ------Mbita Ferry Services-----     ", null, 40, true, false, 1);
-            printer.addTextToPrint("         Nairobi,KENYA      ", null, 20, true, false, 1);
+            printer.addTextToPrint("  Mbita Ferry  Services  ", null, 40, true, false, 1);
+            printer.addTextToPrint("         Mbita,KENYA      ", null, 20, true, false, 1);
 
 
             CsPrinter csPrinter = printer;
 
-            csPrinter.addTextToPrint("Fare: " + price + "/=", null, 40, true, false, 0);
-            csPrinter.addTextToPrint("Paid By: " + name, null, 40, true, true, 0);
-            csPrinter.addTextToPrint("Phone no: " + phone, null, 40, true, true, 0);
-            csPrinter.addTextToPrint("Transaction ID: " + trasaction_id, null, 40, true, true, 0);
+            csPrinter.addTextToPrint("Fare: " + amount + "/=", null, 40, true, false, 0);
+            csPrinter.addTextToPrint("Paid By: " + name, null, 25, true, false, 0);
+            csPrinter.addTextToPrint("Phone no: " + phone, null, 25, true, false, 0);
+            csPrinter.addTextToPrint("Transaction ID: " + trasaction_id, null, 25, true, false, 0);
 
             csPrinter.addTextToPrint("Issued On: " + currentDateandTime, null, 25, true, false, 0);
             csPrinter.addTextToPrint("Served By: " + app.getLogged_user(), null, 25, true, false, 0);
@@ -2675,7 +2815,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> adults = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, adult_keyword).orderBy("date ASC").execute();
 
         int count = adults.size();
-        int adult_cost = count * 150;
+        int adult_cost = (int) (count * Adult_item.cost);
 
 //        Log.e("Name",String.valueOf(adults.get(0).ticket_type));
 
@@ -2687,7 +2827,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> big_animal = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, big_animal_keyword).orderBy("date ASC").execute();
 
         int big_animal_count = big_animal.size();
-        int big_animal_cost = big_animal_count * 300;
+        int big_animal_cost = (int) (big_animal_count * Big_item.cost);
 
         //----------------------------------------Station Wagon--------------------------
 
@@ -2696,7 +2836,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> station_wagon = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, station_wagon_keyword).orderBy("date ASC").execute();
 
         int station_wagon_count = station_wagon.size();
-        int station_wagon_cost = station_wagon_count * 1160;
+        int station_wagon_cost = (int) (station_wagon_count * Station_item.cost);
 
         //----------------------------------------Tuk Tuk--------------------------
 
@@ -2705,7 +2845,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> tuk_tuk = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, tuk_tuk_keyword).orderBy("date ASC").execute();
 
         int tuk_tuk_count = tuk_tuk.size();
-        int tuk_tuk_cost = tuk_tuk_count * 500;
+        int tuk_tuk_cost = (int) (tuk_tuk_count * Tuk_item.cost);
 
         //----------------------------------------Big Truck--------------------------
 
@@ -2714,7 +2854,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> big_truck = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, big_truck_keyword).orderBy("date ASC").execute();
 
         int big_truck_count = big_truck.size();
-        int big_truck_cost = big_truck_count * 2320;
+        int big_truck_cost = (int) (big_truck_count * Big_Truck_item.cost);
 
 
         //----------------------------------------Child --------------------------
@@ -2724,7 +2864,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> child = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, child_keyword).orderBy("date ASC").execute();
 
         int child_count = child.size();
-        int child_count_cost = child_count * 50;
+        int child_count_cost = (int) (child_count * Child_item.cost);
 
 
         //----------------------------------------Luggage --------------------------
@@ -2734,7 +2874,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> luggage = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, luggage_keyword).orderBy("date ASC").execute();
 
         int luggage_count = luggage.size();
-        int luggage_count_cost = luggage_count * 60;
+        int luggage_count_cost = (int) (luggage_count * Luggage_item.cost);
 
 
         //----------------------------------------Motor Cycle --------------------------
@@ -2744,7 +2884,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> motor = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, motor_keyword).orderBy("date ASC").execute();
 
         int motor_count = motor.size();
-        int motor_count_cost = motor_count * 250;
+        int motor_count_cost = (int) (motor_count * Motor_item.cost);
 
 
         //----------------------------------------Other --------------------------
@@ -2754,7 +2894,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> other = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, other_keyword).orderBy("date ASC").execute();
 
         int other_count = other.size();
-        int other_count_cost = motor_count * 20;
+        int other_count_cost = (int) (motor_count * Other_item.cost);
 
 
         //----------------------------------------Saloon car --------------------------
@@ -2764,7 +2904,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> saloon_car = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Saloon_keyword).orderBy("date ASC").execute();
 
         int saloon_count = saloon_car.size();
-        int saloon_count_count_cost = saloon_count * 930;
+        int saloon_count_count_cost = (int) (saloon_count * Saloon_item.cost);
 
 
         //----------------------------------------Small Animal --------------------------
@@ -2774,7 +2914,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> small_animal = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Small_animal_keyword).orderBy("date ASC").execute();
 
         int small_anima_count = small_animal.size();
-        int small_animal_count_cost = small_anima_count * 200;
+        int small_animal_count_cost = (int) (small_anima_count * Small_item.cost);
 
 
         //----------------------------------------Small Truck --------------------------
@@ -2784,7 +2924,7 @@ public class MainActivity extends AppCompatActivity
         List<Ticket> small_truck = new Select().from(Ticket.class).where("reference = ? AND Ticket_type = ?", refno, Small_truck_keyword).orderBy("date ASC").execute();
 
         int small_truck_count = small_truck.size();
-        int small_truck_count_cost = small_truck_count * 1740;
+        int small_truck_count_cost = (int) (small_truck_count * Small_Truck_item.cost);
 
 
         Log.e("Adults", String.valueOf(count));
@@ -3316,6 +3456,29 @@ public class MainActivity extends AppCompatActivity
         manager.notify(0, builder.build());
     }
 
+    private Intent getPrintIntent2() {
+        Intent aidlIntent = new Intent();
+        aidlIntent
+                .setAction("android.intent.action.START_PRINTER_SERVICE_AIDL");
+        aidlIntent.setPackage("com.sagereal.printer");
+        return aidlIntent;
+    }
+
+    @Override
+    protected void onStop() {
+        unbindService(serviceConnection);
+        super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        bindService(getPrintIntent2(), serviceConnection, Service.BIND_AUTO_CREATE);
+
+        super.onResume();
+
+
+    }
+
 
     public static class ConnectivityHelper {
         public static boolean isConnectedToNetwork(Context context) {
@@ -3331,6 +3494,5 @@ public class MainActivity extends AppCompatActivity
             return isConnected;
         }
     }
-
 
 }

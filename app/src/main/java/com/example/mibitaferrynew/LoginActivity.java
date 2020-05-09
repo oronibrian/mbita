@@ -16,12 +16,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.activeandroid.ActiveAndroid;
 import com.activeandroid.query.Delete;
+import com.activeandroid.query.Select;
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NoConnectionError;
@@ -37,6 +36,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.mibitaferrynew.API.urls;
 import com.example.mibitaferrynew.Adapters.FerryRouteCardArrayAdapter;
 import com.example.mibitaferrynew.Model.Routes;
+import com.example.mibitaferrynew.TableModel.Price;
 import com.example.mibitaferrynew.TableModel.RefferenceNumber;
 import com.example.mibitaferrynew.TableModel.Seat;
 
@@ -49,12 +49,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 public class LoginActivity extends AppCompatActivity {
 
 
     final Context context = this;
     RefferenceNumber reff_number_object;
+    Price price_Object;
+
     Button login;
     String seats;
     EditText username, password;
@@ -139,10 +142,12 @@ public class LoginActivity extends AppCompatActivity {
                 TextView textView4 = view.findViewById(R.id.ferry_id);
                 String ferry_id = textView4.getText().toString();
 
-                saveRefferences();
 
+                List<RefferenceNumber> items = new Select().from(RefferenceNumber.class).orderBy("name ASC").limit(1).execute();
+               if( items.size()<=10){
+                   saveRefferences();
 
-
+               }
 
 
                 app.setRoute(route);
@@ -214,10 +219,9 @@ public class LoginActivity extends AppCompatActivity {
                 dialog.setContentView(R.layout.login_dialog);
                 dialog.setTitle("      Account Login");
 
-                TextView selected_route=dialog.findViewById(R.id.selected_route);
+                TextView selected_route = dialog.findViewById(R.id.selected_route);
 
                 selected_route.setText(route);
-
 
 
                 username = dialog.findViewById(R.id.editTextusername);
@@ -288,7 +292,6 @@ public class LoginActivity extends AppCompatActivity {
                                 String company_apis_url = response.getString("company_apis_url");
 
                                 String id_number = response.getString("id_number");
-
 
 
                                 app.setLogged_user(first_name + " " + last_name);
@@ -364,7 +367,7 @@ public class LoginActivity extends AppCompatActivity {
         params.put("developer_username", "emuswailit");
         params.put("developer_api_key", "c8e254c0adbe4b2623ff85567027d78d4cc066357627e284d4b4a01b159d97a7");
         params.put("action", "batchgeneratereferencenumbers");
-        params.put("limit", "5");
+        params.put("limit", "300");
 
 
         JsonObjectRequest req = new JsonObjectRequest(Request.Method.PUT, urls.refGeneration, new JSONObject(params),
@@ -387,6 +390,7 @@ public class LoginActivity extends AppCompatActivity {
                                     reff_number_object.guid = id;
                                     //Saving name to sqlite database
                                     reff_number_object.save();
+
 
                                     //Displaying a toast message for successfull insertion
                                     Log.d("Saved", String.valueOf(i));
@@ -481,9 +485,25 @@ public class LoginActivity extends AppCompatActivity {
 
                                     Log.e("Ferry Routes: ", ferry_route);
 
-                                    Routes card = new Routes(feery_id,ferry_route, travel_from, travel_to, ferry_route, from_id, to_id);
+                                    Routes card = new Routes(feery_id, ferry_route, travel_from, travel_to, ferry_route, from_id, to_id);
 
                                     cardArrayAdapter.add(card);
+
+
+                                    JSONArray priceArray = jsonObject1.getJSONArray("price");
+                                    for (int x = 0; x < priceArray.length(); x++) {
+
+                                        JSONObject jsonObject2 = priceArray.getJSONObject(x);
+
+                                        String cost = jsonObject2.getString("cost");
+                                        String price_name = jsonObject2.getString("name");
+
+
+                                        price_Object = new Price();
+                                        price_Object.cost = Float.parseFloat(cost);
+                                        price_Object.name = price_name;
+                                        price_Object.save();
+                                    }
 
 
                                 }
